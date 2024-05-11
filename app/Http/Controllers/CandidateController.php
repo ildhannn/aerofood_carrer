@@ -122,7 +122,7 @@ class CandidateController extends Controller
                 //     return redirect()->back();
                 // }
                 if ($size > 500) {
-                    Alert::error('Opps', 'Ukuran file maks 500kb');
+                    Alert::error('Opps', 'Ukuran file maks 2MB');
                     return redirect()->back();
                 }else {
                     $folder = md5($candidate->candidate_id.'folder');
@@ -205,6 +205,9 @@ class CandidateController extends Controller
         $cities = City::all();
         $fields = Field::all();
 
+        $experience = CandidateExperience::get();
+        // dd($candidate);
+
         return view('candidate.experience', compact('candidate', 'provinces', 'cities', 'fields'));
     }
 
@@ -221,7 +224,13 @@ class CandidateController extends Controller
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         $inputs['candidate_id'] = $candidate->id;
-        $candidate->experiences()->save(CandidateExperience::create($inputs));
+
+        if($request->still_work === null) {
+            $candidate->experiences()->save(CandidateExperience::create($inputs));
+        } else {
+            $request->start_date;
+            $request->end_date;
+        }
 
         $candidate->updateExperience();
         return redirect()->route('candidate-experience');

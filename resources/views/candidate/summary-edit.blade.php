@@ -28,7 +28,7 @@
                                 <div class="col-md-12" style="padding-top: 10px;">
                                     <input id="photo" type="file" class="" name="photo"
                                         value="{{ Auth::user()->photo }}" placeholder="Photo" accept="image/*" max>
-                                    <i class="text-muted fs-12">Silahkan upload foto 3x4 Anda (<b>max. 500KB</b>)</i>
+                                    <i class="text-muted fs-12">Silahkan upload foto 3x4 Anda (<b>max. 2MB</b>)</i>
                                     @if ($errors->has('photo'))
                                         <span class="help-block">
                                             <strong class='text-danger'>{{ $errors->first('photo') }}</strong>
@@ -62,7 +62,7 @@
                             </label>
                             <div class="col-md-12">
                                 <input id="ktp" type="text" class="form-control" name="ktp"
-                                    value="{{ Auth::user()->ktp }}" required placeholder="No. KTP">
+                                    value="{{ Auth::user()->candidate->ktp }}" required placeholder="No. KTP" maxlength="16">
                                 @if ($errors->has('ktp'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('ktp') }}</strong>
@@ -76,7 +76,7 @@
                             </label>
                             <div class="col-md-12">
                                 <input id="npwp" type="text" class="form-control" name="npwp"
-                                    value="{{ Auth::user()->npwp }}" required placeholder="No. NPWP">
+                                    value="{{ Auth::user()->candidate->npwp }}" required placeholder="No. NPWP">
                                 @if ($errors->has('npwp'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('npwp') }}</strong>
@@ -90,7 +90,7 @@
                             </label>
                             <div class="col-md-12">
                                 <input id="bpjs" type="text" class="form-control" name="bpjs"
-                                    value="{{ Auth::user()->bpjs }}" required placeholder="No. BPJS Ketenagakerjaan">
+                                    value="{{ Auth::user()->candidate->bpjs }}" required placeholder="No. BPJS Ketenagakerjaan">
                                 @if ($errors->has('bpjs'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('bpjs') }}</strong>
@@ -118,7 +118,7 @@
                             </label>
                             <div class="col-md-12">
                                 <input id="phone" type="text" class="form-control" name="phone"
-                                    value="{{ Auth::user()->phone }}" required placeholder="Nomor Telepon">
+                                    value="{{ Auth::user()->candidate->phone }}" required placeholder="Nomor Telepon">
                                 @if ($errors->has('phone'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('phone') }}</strong>

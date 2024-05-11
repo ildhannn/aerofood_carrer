@@ -107,55 +107,5 @@
 
         });
 
-        var ckEditorID;
-
-        ckEditorID = 'other_info';
-
-        function fnConsolePrint() {
-            console.log(CKEDITOR.instances[ckEditorID].getData());
-        }
-        CKEDITOR.config.forcePasteAsPlainText = true;
-        CKEDITOR.replace(ckEditorID, {
-            toolbar: [{
-                    name: 'basicstyles',
-                    groups: ['basicstyles'],
-                    items: ['Bold', 'Italic', 'Underline', "-", 'TextColor', 'BGColor']
-                },
-                {
-                    name: 'styles',
-                    items: ['Format', 'Font', 'FontSize']
-                },
-                {
-                    name: 'scripts',
-                    items: ['Subscript', 'Superscript']
-                },
-                {
-                    name: 'justify',
-                    groups: ['blocks', 'align'],
-                    items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
-                },
-                {
-                    name: 'paragraph',
-                    groups: ['list', 'indent'],
-                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent']
-                },
-                {
-                    name: 'links',
-                    items: ['Link', 'Unlink']
-                },
-                {
-                    name: 'insert',
-                    items: ['Image']
-                },
-                {
-                    name: 'spell',
-                    items: ['jQuerySpellChecker']
-                },
-                {
-                    name: 'table',
-                    items: ['Table']
-                }
-            ],
-        })
     </script>
 @endpush

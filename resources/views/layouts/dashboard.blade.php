@@ -73,6 +73,7 @@
                     <li class="{{ $route == 'admin-dashboard' ? 'active' : ''}}"><a href="{{route('admin-dashboard')}}"><i class="fa fa-home"></i>Home</a></li>
                     <li class="{{ $route == 'dashboard-jobs' || $route == 'create-job' || $route == 'detail-job' ? 'active' : ''}}"><a href="{{route('dashboard-jobs')}}"><i class="fa fa-briefcase"></i>Lowongan</a></li>
                     <li class="{{ $route == 'dashboard-candidate' || $route == 'detail-candidate' ? 'active' : ''}}"><a href="{{route('dashboard-candidate')}}"><i class="fa fa-list-ul"></i>Kandidat</a></li>
+                    <li class="{{ $route == 'dashboard-keahlian' || $route == 'detail-keahlian' ? 'active' : ''}}"><a href="{{route('dashboard-keahlian')}}"><i class="fa fa-list-ul"></i>Keahlian</a></li>
                     <li class="{{ $route == 'dashboard-soal' || $route == 'dashboard-create-soal' ? 'active' : ''}}"><a href="{{route('dashboard-soal')}}"><i class="fa fa-list-ul"></i>Master Soal</a></li>
                     <li class="{{ $route == 'dashboard-profile' ? 'active' : ''}}"><a href="{{route('dashboard-profile')}}"><i class="fa fa-gear"></i>Profil</a></li>
                     @if(session('unit') == 1)
@@ -103,6 +104,7 @@
 	                    <li class="{{ $route == 'admin-dashboard' ? 'active' : ''}}"><a href="{{route('admin-dashboard')}}"><i class="fa fa-home"></i>&nbsp;&nbsp;Home</a></li>
 	                    <li class="{{ $route == 'dashboard-jobs' || $route == 'create-job' || $route == 'detail-job' ? 'active' : ''}}"><a href="{{route('dashboard-jobs')}}"><i class="fa fa-briefcase"></i>&nbsp;&nbsp;Lowongan</a></li>
 	                    <li class="{{ $route == 'dashboard-candidate' || $route == 'detail-candidate' ? 'active' : ''}}"><a href="{{route('dashboard-candidate')}}"><i class="fa fa-list-ul"></i>&nbsp;&nbsp;Kandidat</a></li>
+						<li class="{{ $route == 'dashboard-keahlian' || $route == 'detail-keahlian' ? 'active' : ''}}"><a href="{{route('dashboard-keahlian')}}"><i class="fa fa-list-ul"></i>Keahlian</a></li>
 						<li class="{{ $route == 'dashboard-soal' || $route == 'dashboard-create-soal' ? 'active' : ''}}"><a href="{{route('dashboard-soal')}}"><i class="fa fa-list-ul"></i>Master Soal</a></li>
 	                    <li class="{{ $route == 'dashboard-profile' ? 'active' : ''}}"><a href="{{route('dashboard-profile')}}"><i class="fa fa-gear"></i>&nbsp;&nbsp;Profil</a></li>
 	                    @if(session('unit') == 1)

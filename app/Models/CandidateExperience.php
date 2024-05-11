@@ -12,7 +12,7 @@ class CandidateExperience extends Model
 	    'company',
 	    'start_date',
 	    'end_date',
-		// still_work,
+		'still_work',
 	    'nationality',
 	    'aboard_location',
 	    'province_id',

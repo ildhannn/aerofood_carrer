@@ -49,6 +49,13 @@ Route::get('/admin-dashboard/candidateDataTable', 'AdminDashboardController@cand
 Route::get('/admin-dashboard/candidate/detail/{id}', 'AdminDashboardController@detailCandidate')->name('detail-candidate');
 Route::get('/admin-dashboard/data-candidate/{candidate_id}', 'CandidateController@getDataCandidate')->name('data-candidate');
 
+Route::get('/admin-dashboard/keahlian', 'AdminDashboardController@keahlian')->name('dashboard-keahlian');
+Route::get('/admin-dashboard/keahlian/create', 'AdminDashboardController@createkeahlian')->name('create-candidate-keahlian-admin');
+Route::post('/admin-dashboard/keahlian/create', 'AdminDashboardController@storekeahlian')->name('store-candidate-keahlian-admin');
+Route::get('/admin-dashboard/keahlian/edit/{id}', 'AdminDashboardController@editkeahlian')->name('edit-candidate-keahlian-admin');
+Route::post('/admin-dashboard/keahlian/edit/{id}', 'AdminDashboardController@updatekeahlian')->name('update-candidate-keahlian-admin');
+Route::post('/admin-dashboard/keahlian/delete/{id}', 'AdminDashboardController@deletekeahlian')->name('delete-candidate-keahlian-admin');
+
 Route::get('/admin-dashboard/profile', 'AdminDashboardController@profile')->name('dashboard-profile');
 Route::post('/admin-dashboard/profile', 'AdminDashboardController@changeProfile')->name('change-profile');
 

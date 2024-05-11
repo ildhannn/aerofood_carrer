@@ -13,10 +13,10 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Kualifikasi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Tingkat Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='qualification' name='qualification' required='required'>
-                                    <option value=''>Pilih Kualifikasi</option>
+                                    <option value=''>Pilih Tingkat Pendidikan</option>
                                     <option value='0'>SMA/Sederajat</option>
                                     <option value='1'>D1-D4</option>
                                     <option value='2'>S1-S3</option>
@@ -32,8 +32,8 @@
                             <label for='institute' class="col-md-12" style="font-weight:normal;">Nama Lembaga
                                 Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
-                                {{-- <input id="institute" type="text" class="form-control" name="institute" required
-                                    placeholder="Institusi"> --}}
+                                <input id="institute" type="text" class="form-control" name="institute" required
+                                    placeholder="Nama Lembaga Pendidikan">
 
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Nama Lembaga Pendidikan" id="institute" name="institute" required
@@ -127,7 +127,7 @@
                             <label for='info' class="col-md-12" style="font-weight:normal;">Info lain <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <textarea id="info" class="form-control" name="info" required
-                                    placeholder="Tulis prestasi, sertifikasi, dan lain sebagainya" rows=3></textarea>
+                                    placeholder="Tulis prestasi, sertifikasi, dan lain sebagainya" rows=3 maxlength="300"></textarea>
 
                                 @if ($errors->has('info'))
                                     <span class="help-block">

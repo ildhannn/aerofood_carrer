@@ -181,7 +181,6 @@
             </div>
 
             <div class="step-content" id='step-2' style='display: none'>
-
                 <div class="panel mar-b-0 pad-0">
                     <div class="container-fluid">
                         <div class="row">
@@ -425,8 +424,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 {{-- <div class="container-fluid">
                     <div class="row">
                         <div class="form-group col-md-6">
@@ -545,7 +542,6 @@
             </div>
 
             <div class="step-content" id='step-3' style='display: none'>
-
                 <div class="panel mar-b-0 pad-0">
                     <div class="container-fluid">
 
@@ -648,7 +644,6 @@
             </div>
 
             <div class="step-content" id='step-5' style='display: none'>
-
                 <div class="panel mar-b-0 pad-0">
                     <div class="container-fluid">
 
@@ -821,7 +816,6 @@
             </div>
 
             <div class="step-content" id='step-6' style='display: none'>
-
                 <div class="panel mar-b-0 pad-0">
                     <div class="container-fluid">
 

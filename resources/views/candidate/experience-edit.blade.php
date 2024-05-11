@@ -193,7 +193,7 @@
                             <label for='salary' class="col-md-12" style="font-weight:normal;">Gaji <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="salary" type="number" class="form-control" name="salary"
-                                    value="{{ $experience->salary }}" required placeholder="Gaji">
+                                    value="{{ $experience->salary }}" required placeholder="Gaji" minlength="0" maxlength="9999999">
 
                                 @if ($errors->has('salary'))
                                     <span class="help-block">

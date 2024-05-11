@@ -16,6 +16,7 @@ use App\Models\Job;
 use App\Models\Province;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Skill;
 use Yajra\Datatables\Datatables;
 
 use Illuminate\Support\Facades\DB;
@@ -168,6 +169,41 @@ class AdminDashboardController extends Controller
     public function detailCandidate($id){
         return view('dashboard/admin/detail-candidate');
     }
+
+    public function keahlian(){
+        $skill = Skill::all(); 
+        return view('dashboard/admin/skill', compact('skill'));
+    }
+    public function createkeahlian() {
+        return view('dashboard/admin/skill-create', compact('candidate', 'skills'));
+    }
+
+    public function storekeahlian(Request $request) {
+        Skill::create(['name' => $request->input('name')]);
+        return view('dashboard/admin/skill');
+    }
+
+    public function editkeahlian(Request $request, $id) {
+        $fields = Field::all();
+        $skill = Skill::findorfail($id);
+        return view('dashboard/admin/skill-edit', compact('skill', 'fields'));
+    }
+
+    public function updatekeahlian(Request $request, $id) {
+        $skill = Skill::findorfail($id);
+        $inputs = $request->all();
+        $skill->update($inputs);
+        return redirect()->route('dashboard-keahlian');
+    }
+
+    public function deletekeahlian($id) {
+        $skill = Skill::findorfail($id);
+        $skill->delete();
+        return redirect()->route('dashboard-keahlian');
+    }
+
+
+
     public function profile(){
         $user = Auth::user();
         $divitions = Divition::all();
@@ -175,7 +211,6 @@ class AdminDashboardController extends Controller
 
         return view('dashboard/admin/profile', compact('user', 'divitions', 'units'));
     }
-
     public function changeProfile(Request $request){
         $user = User::findorfail($request->user_id);
         $admin = $user->admin;
@@ -193,7 +228,6 @@ class AdminDashboardController extends Controller
 
         return redirect()->back();
     }
-
     public function changePassword(Request $request){
         $user = User::findorfail($request->id);
         $session = [];
@@ -257,8 +291,6 @@ class AdminDashboardController extends Controller
 
         return redirect()->route('dashboard-account');
     }
-
-
 
     public function age() {
         $db = DB::table('candidates')->whereNotNull('birth_date', )->orderBy('id', 'ASC')->get();

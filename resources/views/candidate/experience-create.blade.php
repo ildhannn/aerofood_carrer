@@ -3,8 +3,12 @@
 @section('profile-content')
     <div class="profile-section pad-0 minHeight">
         <div class="va-table width-100" style="padding:20px 20px 20px 20px;background:#dcdcdc;">
-            <div class="va-middle pad-b-1em-m ta-center-m"><h4 style=" margin:0px;"><i class="fa fa-briefcase"></i>&nbsp;PENGALAMAN KERJA</h4></div>
-            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{route('candidate-experience')}}" class='btn btn-success'><i class="fa fa-chevron-left" style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
+            <div class="va-middle pad-b-1em-m ta-center-m">
+                <h4 style=" margin:0px;"><i class="fa fa-briefcase"></i>&nbsp;PENGALAMAN KERJA</h4>
+            </div>
+            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{ route('candidate-experience') }}"
+                    class='btn btn-success'><i class="fa fa-chevron-left"
+                        style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
         </div>
         <div class="section-content" style="padding:20px 30px;margin:0px;">
             <form method="POST" action="{{ route('store-candidate-experience') }}" class='form-horizontal'>
@@ -12,7 +16,8 @@
                     <div class="col-md-6">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for='position' class="col-md-12" style="font-weight:normal;">Posisi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='position' class="col-md-12" style="font-weight:normal;">Posisi <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="position" type="text" class="form-control" name="position" required
                                     placeholder="Posisi">
@@ -26,7 +31,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='company' class="col-md-12" style="font-weight:normal;">Nama Perusahaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='company' class="col-md-12" style="font-weight:normal;">Nama Perusahaan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="company" type="text" class="form-control" name="company" required
                                     placeholder="Nama Perusahaan">
@@ -40,9 +46,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='start_date' class="col-md-12" style="font-weight:normal;">Waktu Mulai <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='still_work' class="col-md-12" style="font-weight:normal;">Masih Bekerja <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
-                                <input id="start_date" type="date" class="form-control" name="start_date" required
+                                <input type="checkbox" id="still_work" name="still_work" aria-label="Masih Bekerja">
+                                @if ($errors->has('still_work'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('still_work') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group" id="start_date">
+                            <label for='start_date' class="col-md-12" style="font-weight:normal;">Waktu Mulai <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <div class="col-md-12">
+                                <input id="start_date" type="date" class="form-control" name="start_date"
                                     placeholder="Waktu mulai">
 
                                 @if ($errors->has('start_date'))
@@ -53,10 +73,11 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for='end_date' class="col-md-12" style="font-weight:normal;">Waktu Berakhir <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                        <div class="form-group" id="end_date">
+                            <label for='end_date' class="col-md-12" style="font-weight:normal;">Waktu Berakhir <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
-                                <input id="end_date" type="date" class="form-control" name="end_date" required
+                                <input id="end_date" type="date" class="form-control" name="end_date"
                                     placeholder="Waktu berakhir">
 
                                 @if ($errors->has('end_date'))
@@ -83,7 +104,8 @@
                         @endif --}}
 
                         <div class="form-group">
-                            <label for="nationality" class="col-md-12" style="font-weight:normal;">Negara <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="nationality" class="col-md-12" style="font-weight:normal;">Negara <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='nationality' name='nationality'>
                                     <option value=''>Pilih Negara</option>
@@ -113,7 +135,8 @@
                     <div class="col-md-6">
 
                         <div class="form-group province">
-                            <label for='province' class="col-md-12" style="font-weight:normal;">Lokasi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='province' class="col-md-12" style="font-weight:normal;">Lokasi <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='province' name='province_id'>
                                     <option value=''>Pilih Provinsi</option>
@@ -149,7 +172,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Perusahaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Perusahaan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='field_id' name='field_id' required>
                                     <option value=''>Pilih Bidang Perusahaan</option>
@@ -167,10 +191,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='description' class="col-md-12" style="font-weight:normal;">Deskripsi Pekerjaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='description' class="col-md-12" style="font-weight:normal;">Deskripsi Pekerjaan
+                                <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
-                                <textarea id="description" class="form-control" name="description" required
-                                    placeholder="Deskripsi Pekerjaan"></textarea>
+                                <textarea id="description" class="form-control" name="description" required placeholder="Deskripsi Pekerjaan"></textarea>
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">
@@ -181,10 +205,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='salary' class="col-md-12" style="font-weight:normal;">Gaji <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='salary' class="col-md-12" style="font-weight:normal;">Gaji <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="salary" type="number" class="form-control" name="salary" required
-                                    placeholder="Gaji">
+                                    placeholder="Gaji" minlength="0" maxlength="9999999">
 
                                 @if ($errors->has('salary'))
                                     <span class="help-block">
@@ -193,6 +218,7 @@
                                 @endif
                             </div>
                         </div>
+
                         <div class="row mar-b-0">
                             <div class="col-md-12 text-right">
                                 <button class='btn btn-success' style="text-transform:uppercase;"><i
@@ -232,6 +258,19 @@
     </script>
     <script type="text/javascript">
         $(function() {
+
+            $("#still_work").change(function() {
+                if ($('#still_work').is(":checked")) {
+                    $('#start_date').hide();
+                    $('#start_date').val('')
+                    $('#end_date').hide();
+                    $('#end_date').val('')
+                } else {
+                    $('#start_date').show();
+                    $('#end_date').show();
+                }
+            });
+
             $('#province').on('change', function() {
                 var provinceId = $(this).val()
                 if (provinceId === '') {

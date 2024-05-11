@@ -24,6 +24,7 @@
             @else
                 {!! $candidate->other_info !!}
             @endif
+            <br>
 
             <label for="sosmed" class="form-label" style="margin-top: 20px">Sosial Media</label>
             <br>

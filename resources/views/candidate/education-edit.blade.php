@@ -14,11 +14,11 @@
                         <input type="hidden" name="id" value='{{ $education->id }}'>
 
                         <div class="form-group">
-                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Kualifikasi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Tingkat Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='qualification' name='qualification'
                                     required='required'>
-                                    <option value='' selected disabled>Pilih Kualifikasi</option>
+                                    <option value='' selected disabled>Pilih Tingkat Pendidikan</option>
                                     <option value='0' {{ $education->qualification == '0' ? 'selected' : '' }}>
                                         SMA/Sederajat</option>
                                     <option value='1' {{ $education->qualification == '1' ? 'selected' : '' }}>D1 -
@@ -37,13 +37,13 @@
                         </div>
                         <div class="form-group">
                             <label for='institute' class="col-md-12"
-                                style="font-weight:normal;">Institusi/Universitas <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                                style="font-weight:normal;">Nama Lembaga Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
-                                {{-- <input id="institute" type="text" class="form-control" name="institute"
-                                    value="{{ $education->institute }}" required placeholder="Institusi"> --}}
+                                <input id="institute" type="text" class="form-control" name="institute"
+                                    value="{{ $education->institute }}" required placeholder="Nama Lembaga Pendidikan">
 
-                                <textarea id="institute" class="form-control" name="institute" required placeholder="Nama Lembaga Pendidikan"
-                                    rows=5>{{ $education->institute }}</textarea>
+                                {{-- <textarea id="institute" class="form-control" name="institute" required placeholder="Nama Lembaga Pendidikan"
+                                    rows=5>{{ $education->institute }}</textarea> --}}
 
 
                                 @if ($errors->has('institute'))
