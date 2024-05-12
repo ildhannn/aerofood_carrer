@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\File;
-use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Mail;
-
-use Auth;
-
 use App\Mail\Applied;
 use App\Mail\Rejected;
 use App\Mail\Status;
-use App\Models\Candidate;
 use App\Models\Benefit;
+use App\Models\Candidate;
 use App\Models\City;
 use App\Models\EmploymentType;
 use App\Models\Field;
 use App\Models\FieldSpecialization;
 use App\Models\Job;
-use App\Models\JobInterview;
 use App\Models\Province;
 use App\Models\Pvi;
+use Auth;
+use Illuminate\Http\File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class JobController extends Controller
@@ -103,7 +98,7 @@ class JobController extends Controller
             'field_specialization_id' => (!empty($request->field_specialization_id) ? $request->field_specialization_id : 999),
             'created_by' => $user->id,
             'status' => $status,
-            'has_intelligence_test' => $request->has_intelligence_test,
+            // 'has_intelligence_test' => $request->has_intelligence_test,
         ]);
 
         // if ($request->hasFile('file')) {
@@ -154,24 +149,27 @@ class JobController extends Controller
 
         foreach ($request->step as $key => $step) {
             $job->steps()->attach($step, ['due_date' => $request->due_date[$key]]);
+            dd($request->due_date);
         }
 
-        $step_id = 3;
-        foreach ($request->interviewer as $interviewer) {
-            $job->interviews()->save(JobInterview::create([
-                'job_id' => $job->id,
-                'interviewer' => $interviewer,
-                'step_id' => $step_id
-            ]));
-            $step_id++;
-        }
+        // $due_date = $request->start_date < $request->end_date;
 
-        foreach ($request->pvi as $pvi) {
-            $job->pvis()->save(Pvi::create([
-                'job_id' => $job->id,
-                'question' => $pvi
-            ]));
-        }
+        // $step_id = 3;
+        // foreach ($request->interviewer as $interviewer) {
+        //     $job->interviews()->save(JobInterview::create([
+        //         'job_id' => $job->id,
+        //         'interviewer' => $interviewer,
+        //         'step_id' => $step_id
+        //     ]));
+        //     $step_id++;
+        // }
+
+        // foreach ($request->pvi as $pvi) {
+        //     $job->pvis()->save(Pvi::create([
+        //         'job_id' => $job->id,
+        //         'question' => $pvi
+        //     ]));
+        // }
 
         if ($job->status == 1) {
             return redirect()->route('detail-job', $job->id);
@@ -213,7 +211,7 @@ class JobController extends Controller
         ]);
 
         $newJob = $job->replicate()->fill([
-            'job_id' => md5($currentJob->title . date('Y-m-d h-m-s'))
+            'job_id' => md5($currentJob->title . date('Y-m-d h-m-s')),
         ]);
 
         $newJob->save();
@@ -237,7 +235,6 @@ class JobController extends Controller
         foreach ($newJob->step as $key => $step) {
             $job->steps()->attach($step, ['due_date' => $currentJob->due_date[$key]]);
         }
-
 
         return redirect()->route('dashboard-jobs')->with(compact('id', 'currentJob'));
     }
@@ -270,7 +267,6 @@ class JobController extends Controller
         if (!isset($inputs['has_intelligence_test'])) {
             $inputs['has_intelligence_test'] = null;
         }
-
 
         if ($request->hasFile('file')) {
             if ($request->file('file')->isValid()) {
@@ -334,12 +330,13 @@ class JobController extends Controller
     {
         $job = Job::findorfail($request->job_id);
         $candidate = Candidate::findorfail($request->candidate_id);
-        if ($request->matched == 1)
+        if ($request->matched == 1) {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => $request->step_id, 'status' => 2]);
-        elseif ($request->step_id == 3)
+        } elseif ($request->step_id == 3) {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => 8, 'status' => 0]);
-        else
+        } else {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => $request->step_id + 1, 'status' => 0]);
+        }
 
         if (($request->step_id == 0 && $request->matched != 1) || $request->step_id == 1) {
             Mail::to($candidate->user->email)->send(new Status($candidate, $job));
@@ -353,12 +350,13 @@ class JobController extends Controller
         $job = Job::findorfail($request->job_id);
         $candidate = Candidate::findorfail($request->candidate_id);
 
-        if ($request->shortlisted == 1)
+        if ($request->shortlisted == 1) {
             $job->candidates()->updateExistingPivot($candidate->id, ['status' => 55, 'progress' => $request->step_id]);
-        elseif ($request->matched == 1)
+        } elseif ($request->matched == 1) {
             $job->candidates()->updateExistingPivot($candidate->id, ['status' => 44, 'progress' => $request->step_id]);
-        else
+        } else {
             $job->candidates()->updateExistingPivot($candidate->id, ['status' => 33, 'progress' => $request->step_id]);
+        }
 
         Mail::to($candidate->user->email)->send(new Rejected($candidate, $job));
 

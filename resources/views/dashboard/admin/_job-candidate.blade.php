@@ -46,13 +46,13 @@
                                             href='#{{ $candidate->candidate_id }}'
                                             data-candidate='{{ $candidate->candidate_id }}'>{{ $candidate->user->name }}
                                         </a>
-										<div style="margin-top: 10px">
+                                        <div style="margin-top: 10px">
                                             @if ($candidate->age < $umurMin)
                                                 <span class="label label-warning">Usia belum mencukupi</span>
                                             @elseif($candidate->age > $umurMax)
                                                 <span class="label label-warning">Melebihi batas usia</span>
                                             @endif
-										</div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td>
