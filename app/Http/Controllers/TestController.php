@@ -279,5 +279,301 @@ class TestController extends Controller
 
         return redirect()->route('dashboard-soal');
     }
+
+    public function soalwb1(Request $request)
+    {
+        $soal1wb = DB::table('questions')->where('test_id', 1)->get();
+        foreach ($soal1wb as $soal1) {
+            $soal1_dt = DB::table('question_choices')->where('question_id', $soal1->id)->get();
+            $soalwb1[] = ([
+                'id_soal' => $soal1->id,
+                'id_test' => $soal1->test_id,
+                'pilihan1' => $soal1_dt[0],
+                'pilihan2' => $soal1_dt[1],
+            ]);
+        }
+        return view('dashboard/admin/soalwb1', compact('soalwb1'));
+    }
+
+    public function createSoalwb1()
+    {
+        $soal1wb = DB::table('questions')->orderBy('id', 'desc')->first();
+        return view('dashboard/admin/create-soalwb1', compact('soal1wb'));
+    }
+    public function storeSoalwb1(Request $request)
+    {
+        DB::table('questions')->insert([
+            'id' => $request->nomor_soal,
+            'test_id' => 1,
+            'question' => "",
+            'type' => 0,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan1,
+            'label' => $request->label1,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan2,
+            'label' => $request->label2,
+        ]);
+
+        $soal1wb = DB::table('questions')->where('test_id', 1)->get();
+        foreach ($soal1wb as $soal1) {
+            $soal1_dt = DB::table('question_choices')->where('question_id', $soal1->id)->get();
+            $soalwb1[] = ([
+                'id_soal' => $soal1->id,
+                'id_test' => $soal1->test_id,
+                'pilihan1' => $soal1_dt[0],
+                'pilihan2' => $soal1_dt[1],
+            ]);
+        }
+
+        return view('dashboard/admin/soalwb1', compact('soalwb1'));
+
+    }
+
+    public function editSoalwb1($id)
+    {
+        $soal = DB::table('question_choices')->where('question_id', $id)->get();
+        $soalwb1 = [
+            'id_soal' => $id,
+            'id1' => $soal[0]->id,
+            'pilihan1' => $soal[0]->choice,
+            'label1' => $soal[0]->label,
+            'id2' => $soal[1]->id,
+            'pilihan2' => $soal[1]->choice,
+            'label2' => $soal[1]->label,
+        ];
+        return view('dashboard/admin/edit-soalwb1', compact('soalwb1'));
+    }
+
+    public function changeSoalwb1(Request $request)
+    {
+        DB::table('question_choices')
+            ->where('id', $request->id1)
+            ->update(
+                [
+                    'choice' => $request->pilihan1,
+                    'label' => $request->label1,
+                ]
+            );
+
+        DB::table('question_choices')
+            ->where('id', $request->id2)
+            ->update(
+                [
+                    'choice' => $request->pilihan2,
+                    'label' => $request->label2,
+                ]
+            );
+
+        return redirect()->route('dashboard-soalwb1', $request->question_id);
+    }
+
+    public function deleteSoalwb1(Request $request)
+    {
+        $soal1wb = DB::table('question_choices')->where('question_id', $request->id)->delete();
+        $soalwb1 = DB::table('questions')->where('id', $request->id)->delete();
+
+        return redirect()->route('dashboard-soalwb1');
+    }
+
+    public function soalwb2(Request $request)
+    {
+        $soal2wb = DB::table('questions')->where('test_id', 2)->get();
+        foreach ($soal2wb as $soal2) {
+            $soal2_dt = DB::table('question_choices')->where('question_id', $soal2->id)->get();
+            $soalwb2[] = ([
+                'id_soal' => $soal2->id,
+                'id_test' => $soal2->test_id,
+                'pilihan1' => $soal2_dt[0],
+                'pilihan2' => $soal2_dt[1],
+            ]);
+        }
+        return view('dashboard/admin/soalwb2', compact('soalwb2'));
+    }
+
+    public function createSoalwb2()
+    {
+        $soal2wb = DB::table('questions')->orderBy('id', 'desc')->first();
+        return view('dashboard/admin/create-soalwb2', compact('soal2wb'));
+    }
+    public function storeSoalwb2(Request $request)
+    {
+        DB::table('questions')->insert([
+            'id' => $request->nomor_soal,
+            'test_id' => 2,
+            'question' => "",
+            'type' => 0,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan1,
+            'label' => $request->label1,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan2,
+            'label' => $request->label2,
+        ]);
+
+        $soal2wb = DB::table('questions')->where('test_id', 2)->get();
+        foreach ($soal2wb as $soal2) {
+            $soal2_dt = DB::table('question_choices')->where('question_id', $soal2->id)->get();
+            $soalwb2[] = ([
+                'id_soal' => $soal2->id,
+                'id_test' => $soal2->test_id,
+                'pilihan1' => $soal2_dt[0],
+                'pilihan2' => $soal2_dt[1],
+            ]);
+        }
+        return view('dashboard/admin/soalwb2', compact('soalwb2'));
+    }
+
+    public function editSoalwb2($id)
+    {
+        $soal = DB::table('question_choices')->where('question_id', $id)->get();
+        $soalwb2 = [
+            'id_soal' => $id,
+            'id1' => $soal[0]->id,
+            'pilihan1' => $soal[0]->choice,
+            'label1' => $soal[0]->label,
+            'id2' => $soal[1]->id,
+            'pilihan2' => $soal[1]->choice,
+            'label2' => $soal[1]->label,
+        ];
+        return view('dashboard/admin/edit-soalwb2', compact('soalwb2'));
+    }
+
+    public function changeSoalwb2(Request $request)
+    {
+        DB::table('question_choices')
+            ->where('id', $request->id1)
+            ->update(
+                [
+                    'choice' => $request->pilihan1,
+                    'label' => $request->label1,
+                ]
+            );
+
+        DB::table('question_choices')
+            ->where('id', $request->id2)
+            ->update(
+                [
+                    'choice' => $request->pilihan2,
+                    'label' => $request->label2,
+                ]
+            );
+
+        return redirect()->route('dashboard-soalwb2', $request->question_id);
+    }
+
+    public function deleteSoalwb2(Request $request)
+    {
+        $soal1wb = DB::table('question_choices')->where('question_id', $request->id)->delete();
+        $soalwb1 = DB::table('questions')->where('id', $request->id)->delete();
+
+        return redirect()->route('dashboard-soalwb2');
+    }
+
+    public function soalwb3(Request $request)
+    {
+        $soal3wb = DB::table('questions')->where('test_id', 3)->get();
+        foreach ($soal3wb as $soal3) {
+            $soal3_dt = DB::table('question_choices')->where('question_id', $soal3->id)->get();
+            $soalwb3[] = ([
+                'id_soal' => $soal3->id,
+                'id_test' => $soal3->test_id,
+                'pilihan1' => $soal3_dt[0],
+                'pilihan2' => $soal3_dt[1],
+            ]);
+        }
+        return view('dashboard/admin/soalwb3', compact('soalwb3'));
+    }
+
+    public function createSoalwb3()
+    {
+        $soal3wb = DB::table('questions')->orderBy('id', 'desc')->first();
+        return view('dashboard/admin/create-soalwb3', compact('soal3wb'));
+    }
+    public function storeSoalwb3(Request $request)
+    {
+        DB::table('questions')->insert([
+            'id' => $request->nomor_soal,
+            'test_id' => 3,
+            'question' => "",
+            'type' => 0,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan1,
+            'label' => $request->label1,
+        ]);
+        DB::table('question_choices')->insert([
+            'question_id' => $request->nomor_soal,
+            'choice' => $request->pilihan2,
+            'label' => $request->label2,
+        ]);
+
+        $soal3wb = DB::table('questions')->where('test_id', 3)->get();
+        foreach ($soal3wb as $soal3) {
+            $soal3_dt = DB::table('question_choices')->where('question_id', $soal3->id)->get();
+            $soalwb3[] = ([
+                'id_soal' => $soal3->id,
+                'id_test' => $soal3->test_id,
+                'pilihan1' => $soal3_dt[0],
+                'pilihan2' => $soal3_dt[1],
+            ]);
+        }
+        return view('dashboard/admin/soalwb3', compact('soalwb3'));
+    }
+
+    public function editSoalwb3($id)
+    {
+        $soal = DB::table('question_choices')->where('question_id', $id)->get();
+        $soalwb3 = [
+            'id_soal' => $id,
+            'id1' => $soal[0]->id,
+            'pilihan1' => $soal[0]->choice,
+            'label1' => $soal[0]->label,
+            'id2' => $soal[1]->id,
+            'pilihan2' => $soal[1]->choice,
+            'label2' => $soal[1]->label,
+        ];
+        return view('dashboard/admin/edit-soalwb3', compact('soalwb3'));
+    }
+
+    public function changeSoalwb3(Request $request)
+    {
+        DB::table('question_choices')
+            ->where('id', $request->id1)
+            ->update(
+                [
+                    'choice' => $request->pilihan1,
+                    'label' => $request->label1,
+                ]
+            );
+
+        DB::table('question_choices')
+            ->where('id', $request->id2)
+            ->update(
+                [
+                    'choice' => $request->pilihan2,
+                    'label' => $request->label2,
+                ]
+            );
+
+        return redirect()->route('dashboard-soalwb3', $request->question_id);
+    }
+
+    public function deleteSoalwb3(Request $request)
+    {
+        $soal3wb = DB::table('question_choices')->where('question_id', $request->id)->delete();
+        $soalwb3 = DB::table('questions')->where('id', $request->id)->delete();
+
+        return redirect()->route('dashboard-soalwb3');
+    }
     
 }

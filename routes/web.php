@@ -154,6 +154,27 @@ Route::get('/intel-test/{job_id}/take', 'TestController@take_intel')->name('take
 Route::get('/test/intel', 'TestController@get_test_intel')->name('get-intel-test');
 Route::get('/test/intel/submit', 'TestController@submit_test_intel')->name('submit-intel-test');
 
+Route::get('/admin-dashboard/soalwb1', 'TestController@soalwb1')->name('dashboard-soalwb1');
+Route::get('/admin-dashboard/soalwb1/edit/{id}', 'TestController@editSoalwb1')->name('dashboard-edit-soalwb1');
+Route::post('/admin-dashboard/soalwb1/edit-soalwb1', 'TestController@changeSoalwb1')->name('change-soalwb1');
+Route::get('/admin-dashboard/create-soalwb1', 'TestController@createSoalwb1')->name('dashboard-create-soalwb1');
+Route::post('/admin-dashboard/create-soalwb1', 'TestController@storeSoalwb1')->name('create-soalwb1');
+Route::post('/admin-dashboard/soal/deletewb1', 'TestController@deleteSoalwb1')->name('delete-soalwb1');
+
+Route::get('/admin-dashboard/soalwb2', 'TestController@soalwb2')->name('dashboard-soalwb2');
+Route::get('/admin-dashboard/soalwb2/edit/{id}', 'TestController@editSoalwb2')->name('dashboard-edit-soalwb2');
+Route::post('/admin-dashboard/soalwb2/edit-soalwb2', 'TestController@changeSoalwb2')->name('change-soalwb2');
+Route::get('/admin-dashboard/create-soalwb2', 'TestController@createSoalwb2')->name('dashboard-create-soalwb2');
+Route::post('/admin-dashboard/create-soalwb2', 'TestController@storeSoalwb2')->name('create-soalwb2');
+Route::post('/admin-dashboard/soal/deletewb2', 'TestController@deleteSoalwb2')->name('delete-soalwb2');
+
+Route::get('/admin-dashboard/soalwb3', 'TestController@soalwb3')->name('dashboard-soalwb3');
+Route::get('/admin-dashboard/soalwb3/edit/{id}', 'TestController@editSoalwb3')->name('dashboard-edit-soalwb3');
+Route::post('/admin-dashboard/soalwb3/edit-soalwb3', 'TestController@changeSoalwb3')->name('change-soalwb3');
+Route::get('/admin-dashboard/create-soalwb3', 'TestController@createSoalwb3')->name('dashboard-create-soalwb3');
+Route::post('/admin-dashboard/create-soalwb3', 'TestController@storeSoalwb3')->name('create-soalwb3');
+Route::post('/admin-dashboard/soal/deletewb3', 'TestController@deleteSoalwb3')->name('delete-soalwb3');
+
 
 Route::get('/email-test', 'JobController@testemail')->name('email-test');
 
