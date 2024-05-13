@@ -134,8 +134,6 @@
                                                         </span>
                                                     </section>-->
                                                     
-                                                    
-                                                    
                                                     <!--<section class="content">
                                                         <span class="input input--yoshiko">
                                                             <input class="input__field input__field--yoshiko" type="text" id="input-10" />
@@ -253,6 +251,7 @@
                                                         </button>
                                                     </footer>
                                                     <div><span style="color:#666;">Belum punya akun?</span> <a href="{{route('register')}}">Daftar</a></div>
+                                                    <div><span style="color:#666;">Lupa password?</span> <a href="{{route('lupa_password')}}">klik disini</a></div>
                                                     <div style="margin-top: 2em; font-size: 12px; color: #999;">Copyright &copy; AEROFOOD ACS INDONESIA - 2018</div>
                                                 </form>
                                             </div>

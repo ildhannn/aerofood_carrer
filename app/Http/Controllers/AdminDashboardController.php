@@ -245,7 +245,6 @@ class AdminDashboardController extends Controller
 
         return redirect()->back()->with('success', 'Berhasil mengubah password');
 
-
     }
     public function account(){
         $admins = Admin::all();

@@ -47,13 +47,6 @@ class Candidate extends Model
         return $this->belongsToMany('App\Models\Job', 'job_saves')->where('job_saves.job_id', $job_id)->first();
     }
 
-    public function jobs() {
-    	return $this->belongsToMany('App\Models\Job', 'job_candidates')
-    		->withPivot('progress', 'status', 'suitability', 'start_date', 'end_date')
-    		->withTimestamps()
-            ->orderBy('created_at', 'desc');
-    }
-
     public function job($job_id) {
         return $this->belongsToMany('App\Models\Job', 'job_candidates')
             ->wherePivot('job_id', $job_id)
@@ -137,6 +130,13 @@ class Candidate extends Model
             ->where('job_id', '=', $job_id)
             ->where('candidate_id', '=', $candidate_id)
             ->get();
+    }
+
+    public function jobs() {
+    	return $this->belongsToMany('App\Models\Job', 'job_candidates')
+    		->withPivot('progress', 'status', 'suitability', 'start_date', 'end_date')
+    		->withTimestamps()
+            ->orderBy('created_at', 'desc');
     }
 
     public function progress() {

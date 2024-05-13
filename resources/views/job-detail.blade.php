@@ -44,7 +44,6 @@
 
 </style>
 
-
 @extends('layouts.main') @section('content')
 <div class="job-detail" style="min-height:625px;">
     <div class="container">

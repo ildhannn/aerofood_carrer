@@ -24,25 +24,32 @@
                             <h4 class="panel-title kualif"
                                 style="border-bottom:none; background:#034369;padding-top:20px; color:#fff; text-transform:uppercase;">
                                 Aktivitas</h4>
-                            <div class="panel-content list-qualification">
-                                @foreach ($jadwal as $jd)
-                                    <div class="va-table">
-                                        <div class="va-middle">
-                                            <div class="date">
-                                                <div class="month fs-12 pad-5-0">{{ $jd['month'] }}</div>
-                                                <div class="day">{{ $jd['dateMonth'] }}</div>
+                            @if ($jadwal == null)
+                                <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">
+                                    <h5>Tidak Ada Aktivitas</h5>
+                                </div>
+                            @else
+                                <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">
+                                    @foreach ($jadwal as $jd)
+                                        <div class="va-table">
+                                            <div class="va-middle">
+                                                <div class="date">
+                                                    <div class="month fs-12 pad-5-0">{{ $jd['month'] }}</div>
+                                                    <div class="day">{{ $jd['dateMonth'] }}</div>
+                                                </div>
+                                            </div>
+                                            <div class="va-middle">
+                                                <div class="agenda-content">
+                                                    <strong>{{ $jd['aktivitas'] }}</strong><br>
+                                                    <span>{{ $jd['job'] }}</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="va-middle">
-                                            <div class="agenda-content">
-                                                <strong>{{ $jd['aktivitas'] }}</strong><br>
-                                                <span>{{ $jd['job'] }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                @endforeach
-                            </div>
+                                        <hr>
+                                    @endforeach
+                                </div>
+
+                            @endif
                         </div>
                         {{-- <h3>Aktivitas</h3>
                         <div class="activity">
@@ -91,7 +98,7 @@
                         <a href="{{ route('candidate-profile') }}" class='btn green'>Perbarui Profile</a><br>
                         <span>Terakhir diperbarui: {{ $candidate->updated_at->format('d-m-Y') }}</span>
                     </div> --}}
-                    
+
                     <div class="row panel pad-0" style="background:none;">
                         <ul class="nav nav-tabs sub-tab text-center" role='tab-list'>
                             <li role="presentation" class="active"><a href="#applied"><i

@@ -19,81 +19,100 @@ use App\Models\Skill;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Helpers\Converts;
+use Illuminate\Support\Facades\Hash;
+
 
 class CandidateController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
     }
-    public function apply(Request $request) {
-    	$id = 1;
-    	return;
+    public function apply(Request $request)
+    {
+        $id = 1;
+        return;
     }
 
-    public function index() {
+    public function index()
+    {
         $candidate = Auth::user()->candidate;
         return view('candidate.index', compact('candidate'));
     }
 
     function cmp_obj($a, $b)
     {
-        if($a['tanggal'] < $b['tanggal']){
+        if ($a['tanggal'] < $b['tanggal']) {
             return -1;
         } else {
             return 1;
         }
     }
 
-    public function beranda() {
+    public function beranda()
+    {
         $candidate = Auth::user()->candidate;
 
         $jobs = $candidate->jobs;
-        
-        $jadwal = array();
-        foreach($jobs as $job){
-            $candidate_job = $job->jobCandidate($candidate->candidate_id) ;
+
+        $jadwal = [];
+        foreach ($jobs as $job) {
+            $candidate_job = $job->jobCandidate($candidate->candidate_id);
             $job_step = $job->jobStep($candidate_job->pivot->progress);
+            // dd($job_step);
 
-            $obj = array();
-            // $obj['aktivitas'] = $candidate_job->pivot->progress > 0 ? $candidate_job->progress() : 'Seleksi dokumen' . $candidate_job->pivot->progress == 1 ? ' Prescreening Video Interview' : '';
+            $obj = [];
+            $obj['aktivitas'] = $candidate_job->pivot->progress > 0 ? $candidate_job->progress() : ('Seleksi dokumen' . ($candidate_job->pivot->progress == 1 ? ' Prescreening Video Interview' : ''));
+
             $obj['aktivitas'] = $candidate_job->progress();
-            // $obj['tanggal'] = $job_step['pivot']['due_date'];
 
-            // if($obj['tanggal']){
-            //     $date = date_create($obj['tanggal']);
-            //     $obj['tanggal'] = $date;
-            //     $obj['dateMonth'] = date_format($date, 'd');
-            //     $obj['month'] = strtoupper(date_format($date, 'M'));
-            //     $obj['job'] = $job->title;
-
-            //     array_push($jadwal, $obj);
-            // }
+            if (isset($job_step['pivot'])) {
+                $obj['tanggal'] = $job_step['pivot']['due_date'] ? $job_step['pivot']['due_date'] : "";
+            } else {
+                $obj['tanggal'] = "";
+            }
 
             // dd($obj);
+
+            if ($obj['tanggal']) {
+                $date = date_create($obj['tanggal']);
+                $obj['tanggal'] = $date;
+                $obj['dateMonth'] = date_format($date, 'd');
+                $obj['month'] = strtoupper(date_format($date, 'M'));
+                $obj['job'] = $job->title;
+
+                array_push($jadwal, $obj);
+            }
+
+            // dd($jadwal);
         }
         usort($jadwal, array($this, "cmp_obj"));
 
         return view('candidate.beranda', compact('candidate', 'jadwal'));
     }
 
-    public function deleteSaved($job_id) {
+    public function deleteSaved($job_id)
+    {
         $candidate = Auth::user()->candidate;
         $job = Job::where('job_id', $job_id)->first();
         $candidate->savedJobs()->detach($job->id);
         return redirect()->back();
     }
 
-    public function getDataCandidate($candidate_id) {
+    public function getDataCandidate($candidate_id)
+    {
         $candidate = Candidate::where('candidate_id', $candidate_id)->first();
         return view('dashboard._candidate', compact('candidate'));
     }
 
-    public function summary() {
+    public function summary()
+    {
         $candidate = Auth::user()->candidate;
-        return view('candidate.summary', compact('candidate'));        
+        return view('candidate.summary', compact('candidate'));
     }
 
-    public function summaryEdit() {
+    public function summaryEdit()
+    {
         $candidate = Auth::user()->candidate;
         $provinces = Province::all();
         $cities = City::all();
@@ -101,7 +120,8 @@ class CandidateController extends Controller
         return view('candidate.summary-edit', compact('candidate', 'provinces', 'cities'));
     }
 
-    public function summaryUpdate(Request $request) {
+    public function summaryUpdate(Request $request)
+    {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         $user = $candidate->user;
@@ -116,7 +136,7 @@ class CandidateController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($request->file('photo')->isValid()) {
-                $size = $request->file('photo')->getSize()/1024;
+                $size = $request->file('photo')->getSize() / 1024;
                 // if ($size > 500) {
                 //     $request->session()->flash('size', 'ukuran file maks 500KB');
                 //     return redirect()->back();
@@ -124,18 +144,18 @@ class CandidateController extends Controller
                 if ($size > 500) {
                     Alert::error('Opps', 'Ukuran file maks 2MB');
                     return redirect()->back();
-                }else {
-                    $folder = md5($candidate->candidate_id.'folder');
+                } else {
+                    $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->photo->getClientOriginalExtension();
-                    $filename = 'foto_'.Auth::user()->name.'.'.$extension;
+                    $filename = 'foto_' . Auth::user()->name . '.' . $extension;
                     // if ($candidate->photo) {
                     //     unlink(public_path('upload/candidates/'.$folder).'/'.$filename);
                     // }
-                    $file_path = public_path('upload/candidates/'.$folder).'/'.$filename;
+                    $file_path = public_path('upload/candidates/' . $folder) . '/' . $filename;
                     if (file_exists($file_path)) {
                         unlink($file_path);
                     }
-                    $request->photo->move(public_path('upload/candidates/'.$folder).'/', $filename);
+                    $request->photo->move(public_path('upload/candidates/' . $folder) . '/', $filename);
                     $inputs['photo'] = $filename;
                     Alert::success('Berhasl', 'Photo Telah di Upload');
                 }
@@ -150,20 +170,23 @@ class CandidateController extends Controller
         return redirect()->route('candidate-summary');
     }
 
-    public function education() {
+    public function education()
+    {
         $candidate = Auth::user()->candidate;
         return view('candidate.education', compact('candidate'));
 
     }
 
-    public function createEducation() {
+    public function createEducation()
+    {
         $candidate = Auth::user()->candidate;
         $fields = Field::all();
 
         return view('candidate.education-create', compact('candidate', 'fields'));
     }
 
-    public function storeEducation(Request $request) {
+    public function storeEducation(Request $request)
+    {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         $inputs['candidate_id'] = $candidate->id;
@@ -172,7 +195,8 @@ class CandidateController extends Controller
         return redirect()->route('candidate-education');
     }
 
-    public function editEducation($id) {
+    public function editEducation($id)
+    {
         $candidate = Auth::user()->candidate;
         $education = CandidateEducation::findorfail($id);
         $fields = Field::all();
@@ -180,26 +204,29 @@ class CandidateController extends Controller
         return view('candidate.education-edit', compact('candidate', 'education', 'fields'));
     }
 
-    public function updateEducation(Request $request) {
+    public function updateEducation(Request $request)
+    {
         $inputs = $request->all();
         $education = CandidateEducation::findorfail($request->id);
 
-        if(Auth::user()->candidate->id == $education->candidate->id) {
+        if (Auth::user()->candidate->id == $education->candidate->id) {
             $education->update($inputs);
         }
         return redirect()->route('candidate-education');
     }
-    public function deleteEducation($id) {
+    public function deleteEducation($id)
+    {
         $education = CandidateEducation::findorfail($id);
 
-        if(Auth::user()->candidate->id == $education->candidate->id) {
+        if (Auth::user()->candidate->id == $education->candidate->id) {
             $education->delete();
         }
-        
+
         return redirect()->route('candidate-education');
     }
 
-    public function experience() {
+    public function experience()
+    {
         $candidate = Auth::user()->candidate;
         $provinces = Province::all();
         $cities = City::all();
@@ -211,7 +238,8 @@ class CandidateController extends Controller
         return view('candidate.experience', compact('candidate', 'provinces', 'cities', 'fields'));
     }
 
-    public function createExperience() {
+    public function createExperience()
+    {
         $candidate = Auth::user()->candidate;
         $provinces = Province::all();
         $cities = City::all();
@@ -220,12 +248,13 @@ class CandidateController extends Controller
         return view('candidate.experience-create', compact('candidate', 'provinces', 'cities', 'fields'));
     }
 
-    public function storeExperience(Request $request) {
+    public function storeExperience(Request $request)
+    {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         $inputs['candidate_id'] = $candidate->id;
 
-        if($request->still_work === null) {
+        if ($request->still_work === null) {
             $candidate->experiences()->save(CandidateExperience::create($inputs));
         } else {
             $request->start_date;
@@ -236,18 +265,20 @@ class CandidateController extends Controller
         return redirect()->route('candidate-experience');
     }
 
-    public function editExperience($id) {
+    public function editExperience($id)
+    {
         $candidate = Auth::user()->candidate;
         $experience = CandidateExperience::findorfail($id);
         $provinces = Province::all();
         $cities = City::all();
         $fields = Field::all();
 
-        return view('candidate.experience-edit', compact('experience', 'candidate','provinces', 'cities', 'fields'));
+        return view('candidate.experience-edit', compact('experience', 'candidate', 'provinces', 'cities', 'fields'));
 
     }
 
-    public function updateExperience(Request $request) {
+    public function updateExperience(Request $request)
+    {
         $experience = CandidateExperience::findOrFail($request->id);
 
         $validator = Validator::make($request->all(), [
@@ -268,10 +299,11 @@ class CandidateController extends Controller
 
     }
 
-    public function deleteExperience($id){
+    public function deleteExperience($id)
+    {
         $experience = CandidateExperience::findorfail($id);
 
-        if(Auth::user()->candidate->id == $experience->candidate->id) {
+        if (Auth::user()->candidate->id == $experience->candidate->id) {
             $experience->delete();
         }
 
@@ -280,20 +312,23 @@ class CandidateController extends Controller
         return redirect()->route('candidate-experience');
     }
 
-    public function skill() {
+    public function skill()
+    {
         $candidate = Auth::user()->candidate;
 
         return view('candidate.skill', compact('candidate'));
     }
 
-    public function createSkill() {
+    public function createSkill()
+    {
         $candidate = Auth::user()->candidate;
         $skills = Skill::all();
 
         return view('candidate.skill-create', compact('candidate', 'skills'));
     }
 
-    public function storeSkill(Request $request) {
+    public function storeSkill(Request $request)
+    {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         $inputs['candidate_id'] = $candidate->id;
@@ -308,7 +343,8 @@ class CandidateController extends Controller
         return view('candidate.skill', compact('candidate'));
     }
 
-    public function editSkill($id) {
+    public function editSkill($id)
+    {
         $candidate = Auth::user()->candidate;
         $fields = Field::all();
         $skill = CandidateSkill::findorfail($id);
@@ -316,45 +352,50 @@ class CandidateController extends Controller
         return view('candidate.skill-edit', compact('candidate', 'skill', 'fields'));
     }
 
-    public function updateSkill(Request $request) {
+    public function updateSkill(Request $request)
+    {
         $skill = CandidateSkill::findorfail($request->id);
         $inputs = $request->all();
-        if (Auth::user()->candidate->id == $skill->candidate->id){
+        if (Auth::user()->candidate->id == $skill->candidate->id) {
             $skill->update($inputs);
         }
 
         return redirect()->route('candidate-skill');
     }
 
-    public function deleteSkill($id) {
+    public function deleteSkill($id)
+    {
         $skill = CandidateSkill::findorfail($id);
 
-        if (Auth::user()->candidate->id == $skill->candidate->id){
+        if (Auth::user()->candidate->id == $skill->candidate->id) {
             $skill->delete();
         }
 
         return redirect()->route('candidate-skill');
     }
 
-    public function info() {
+    public function info()
+    {
         $candidate = Auth::user()->candidate;
         $sosmed = Auth::user()->candidate->sosmed;
 
         return view('candidate.other-info', compact('candidate', 'sosmed'));
     }
 
-    public function editInfo() {
+    public function editInfo()
+    {
         $candidate = Auth::user()->candidate;
         $sosmed = Auth::user()->candidate->sosmed;
-       
+
         return view('candidate.other-info-edit', compact('candidate', 'sosmed'));
-        
+
     }
 
-    public function updateInfo(Request $request) {
+    public function updateInfo(Request $request)
+    {
         // info lain
-        $candidate = Auth::user()->candidate;        
-        $candidate->update(['other_info'=>$request->other_info]);
+        $candidate = Auth::user()->candidate;
+        $candidate->update(['other_info' => $request->other_info]);
 
         // sosmed
         $sosmed = Auth::user()->candidate->sosmed;
@@ -384,29 +425,31 @@ class CandidateController extends Controller
         return redirect()->route('candidate-info', compact('candidate'));
     }
 
-    public function cv() {
+    public function cv()
+    {
         $candidate = Auth::user()->candidate;
 
         return view('candidate.cv', compact('candidate'));
-        
+
     }
 
-    public function updateCV(Request $request) {
+    public function updateCV(Request $request)
+    {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
         if ($request->hasFile('cv')) {
             if ($request->file('cv')->isValid()) {
-                $size = $request->file('cv')->getSize()/1024;
+                $size = $request->file('cv')->getSize() / 1024;
                 if ($size > 2000) {
                     Alert::error('Opps', 'Ukuran file maks 2Mb');
-                }else {
-                    $folder = md5($candidate->candidate_id.'folder');
+                } else {
+                    $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->cv->getClientOriginalExtension();
-                    $filename = 'cv_'.Auth::user()->name.'.'.$extension;
+                    $filename = 'cv_' . Auth::user()->name . '.' . $extension;
                     if ($candidate->cv) {
-                        unlink(public_path('upload/candidates/'.$folder).'/'.$filename);
+                        unlink(public_path('upload/candidates/' . $folder) . '/' . $filename);
                     }
-                    $request->cv->move(public_path('upload/candidates/'.$folder).'/', $filename);
+                    $request->cv->move(public_path('upload/candidates/' . $folder) . '/', $filename);
                     $inputs['cv'] = $filename;
                     Alert::success('Berhasl', 'CV Telah di Upload');
                 }
@@ -421,13 +464,10 @@ class CandidateController extends Controller
         return redirect()->route('candidate-cv');
     }
 
-    public function changePassword() {
-
-    }
-
-    public function isHasCV() {
+    public function isHasCV()
+    {
         $candidate = Auth::user()->candidate;
-        if($candidate->cv){
+        if ($candidate->cv) {
             return json_encode(1);
         }
         return json_encode(0);

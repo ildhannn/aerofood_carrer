@@ -99,6 +99,7 @@ class JobController extends Controller
             'created_by' => $user->id,
             'status' => $status,
             // 'has_intelligence_test' => $request->has_intelligence_test,
+            'has_intelligence_test' => "on",
         ]);
 
         // if ($request->hasFile('file')) {

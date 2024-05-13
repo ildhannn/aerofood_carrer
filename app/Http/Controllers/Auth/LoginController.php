@@ -4,10 +4,15 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Hash;
 use Auth;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use App\Models\Unit;
+use App\Models\User;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ResetPassword;
 
 class LoginController extends Controller
 {
@@ -41,28 +46,66 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     protected function authenticated(Request $request, $user)
-    {   
+    {
         $admin = Admin::where('user_id', '=', Auth::user()->id)->get();
 
-        if(count($admin) != 0){
+        if (count($admin) != 0) {
 
-            if(Auth::user()->status == 0){
+            if (Auth::user()->status == 0) {
                 return redirect()->route('logout');
             }
 
-            session(['unit'=> $admin[0]->unit_id]);
+            session(['unit' => $admin[0]->unit_id]);
 
-            if($admin[0]->unit_id == 1){
-                $units = Unit::get();      
+            if ($admin[0]->unit_id == 1) {
+                $units = Unit::get();
             } else {
-                $units = Unit::where('id', '=', $admin[0]->unit_id)->get();      
+                $units = Unit::where('id', '=', $admin[0]->unit_id)->get();
             }
-            
-            session(['units'=> $units]);
 
-            return redirect()->route('admin-dashboard');       
+            session(['units' => $units]);
+
+            return redirect()->route('admin-dashboard');
         } else {
             return redirect()->route('home');
         }
+    }
+
+    public function viewLupaPassword()
+    {
+        return view('auth.passwords.lupa_password');
+    }
+
+    public function emailLupaPassword(Request $request)
+    {
+        $verify = User::where('email', $request->all()['email'])->exists();
+        $emailuse = $request->email;
+
+        if ($verify) {
+            Mail::to($request->all()['email'])->send(new ResetPassword($request->all()['email'], $emailuse));
+            Alert::success('Success', 'Cek Email');
+            return view('auth.login');
+        } else {
+            Alert::error('Opps', 'email tidak ada di database');
+        }
+    }
+
+    public function lupaPassword(Request $request)
+    {
+        $user = User::findorfail($request->id);
+        $session = [];
+        if (!(Hash::check($request->password, $user->password))) {
+            $session['wrong-old-password'] = 'Password lama salah';
+        }
+        if ($request->new_password != $request->confirm_new_password) {
+            $session['same-password'] = 'Password baru dan konfirmasi password baru harus sama';
+        }
+        if (!(Hash::check($request->password, $user->password)) || $request->new_password != $request->confirm_new_password) {
+            return redirect()->back()->with($session);
+        }
+        $user->password = bcrypt($request->new_password);
+        $user->save();
+
+        return redirect()->back()->with('success', 'Berhasil mengubah password');
     }
 }

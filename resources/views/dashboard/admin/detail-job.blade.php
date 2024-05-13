@@ -474,36 +474,7 @@
                 })
             });
         }
-
-        $(document).ready(function() {
-            $('#closeJobButton').on('click', function() {
-                var startDate = $('#start_date').val();
-                var endDate = $('#end_date').val();
-
-                var start = new Date(startDate);
-                var end = new Date(endDate);
-
-                if (start < end) {
-                    $.ajax({
-                        url: '{{ route('close-job') }}',
-                        type: 'POST',
-                        data: {
-                            start_date: startDate,
-                            end_date: endDate
-                        },
-                        success: function(response) {
-                            alert("Lowongan ditutup!", response);
-                        },
-                        error: function(err) {
-                            alert("Error", err);
-                        }
-                    });
-                } else {
-                    alert('Tanggal awal harus lebih besar dari taggal akhir');
-                }
-            });
-        });
-
+        
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
             $('#tabs li a').click(function(e) {

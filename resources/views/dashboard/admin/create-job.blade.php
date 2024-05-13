@@ -119,7 +119,7 @@
                     <i class="fa fa-list-alt"></i>&nbsp;&nbsp;<span class='title'>DESKRIPSI</span>
                     <div class="arrowrow_right_left"></div>
                 </div>
-                <div class="step col-sm-2" data-step='5'>
+                {{-- <div class="step col-sm-2" data-step='5'>
                     <!-- <span class='number'>5</span><br> -->
                     <i class="fa fa-briefcase"></i>&nbsp;&nbsp;<span class='title'>REKRUTMEN</span>
                     <div class="arrowrow_right_left"></div>
@@ -130,7 +130,7 @@
                     <!-- <span class='number'>6</span><br> -->
                     <i class="fa fa-video-camera"></i>&nbsp;&nbsp;<span class='title'>PVI</span>
                     <div class="arrowrow_right_left"></div>
-                </div>
+                </div> --}}
             </div>
 
             <div class="step-content" id='step-1'>
@@ -641,7 +641,7 @@
                 </div>
             </div>
 
-            <div class="step-content" id='step-5' style='display: none'>
+            {{-- <div class="step-content" id='step-5' style='display: none'>
                 <div class="panel mar-b-0 pad-0">
                     <div class="container-fluid">
 
@@ -888,7 +888,7 @@
 
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="panel mar-b-0 pad-0" style="background: #f2f2f2;">
                 <div class="form-footer mar-0">
@@ -988,7 +988,7 @@
                 $('.step-content').hide()
                 $('#step-' + next).show()
                 $('.step[data-step=' + next + ']').addClass('active')
-                if (next == 6) {
+                if (next == 4) {
                     /*$('.draft').hide()*/
                     $('.draft').show()
                     $('.save-job').show()

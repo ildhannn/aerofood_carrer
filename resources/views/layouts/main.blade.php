@@ -131,7 +131,7 @@
 	@stack('scripts')
 	<!--<footer class='dark-grey' style="background:#09283D !important;">-->
 		@if(Auth::user() == null || !Auth::user()->admin)
-		<footer class='dark-grey' style="background:url('{{asset('img/bg-noline.jpg')}}') center center no-repeat;background-size:cover;">
+		<footer class='dark-grey' style="background:url('{{asset('img/bg-noline.jpg')}}') center center no-repeat;background-size:cover; bottom: 0; width: 100%;">
 			<div class="container pad-l-0-m pad-r-0-m">
 				<div class="col-md-3">
 	                <div class="va-table mar-0-auto-m height-130 height-auto-m mar-b-2em-m">
