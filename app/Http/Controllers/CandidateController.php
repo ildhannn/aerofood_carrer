@@ -232,9 +232,6 @@ class CandidateController extends Controller
         $cities = City::all();
         $fields = Field::all();
 
-        $experience = CandidateExperience::get();
-        // dd($candidate);
-
         return view('candidate.experience', compact('candidate', 'provinces', 'cities', 'fields'));
     }
 
@@ -255,10 +252,15 @@ class CandidateController extends Controller
         $inputs['candidate_id'] = $candidate->id;
 
         if ($request->still_work === null) {
-            $candidate->experiences()->save(CandidateExperience::create($inputs));
+            $candidate->experiences()->save(CandidateExperience::create($inputs, $request->still_work = ''));
         } else {
-            $request->start_date;
-            $request->end_date;
+            $candidate->experiences()->save(
+                CandidateExperience::create(
+                    $inputs,
+                    $request->end_date,
+                    $request->start_date,
+                )
+            );
         }
 
         $candidate->updateExperience();
@@ -282,15 +284,27 @@ class CandidateController extends Controller
         $experience = CandidateExperience::findOrFail($request->id);
 
         $validator = Validator::make($request->all(), [
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'start_date' => 'date',
+            'end_date' => 'date|after_or_equal:start_date',
         ]);
 
         if ($validator->fails() || Auth::user()->candidate->id != $experience->candidate->id) {
             return redirect()->route('candidate-experience');
         }
 
-        $experience->update($request->all());
+        if ($request->still_work == 'on') {
+            $experience->update([
+                'still_work' => 'on',
+                'end_date' => null,
+                'start_date' => null,
+            ] + $request->except('start_date', 'end_date'));
+        } else {
+            $experience->update([
+                'still_work' => null,
+                'end_date' => $request->end_date,
+                'start_date' => $request->start_date,
+            ]);
+        }
 
         $candidate = Auth::user()->candidate;
         $candidate->updateExperience();

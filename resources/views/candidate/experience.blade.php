@@ -23,7 +23,7 @@
                                             <div class="tt-upper" style="line-height:1.1em">
                                                 <b>{{ $experience->position }}</b></div>
                                             <hr style="margin:5px 0px;border-top: 1px solid #ccc;">
-                                            @if ($experience->still_work === 0)
+                                            @if ($experience->still_work === null)
                                                 <div class="fs-12 text-muted tt-upper">
                                                     {{ substr(date('F', strtotime($experience->start_date)), 0, 3) . ' ' . date('Y', strtotime($experience->start_date)) . ' - ' . substr(date('F', strtotime($experience->end_date)), 0, 3) . ' ' . date('Y', strtotime($experience->end_date)) }}
                                                 </div>

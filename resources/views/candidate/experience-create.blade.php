@@ -262,9 +262,9 @@
             $("#still_work").change(function() {
                 if ($('#still_work').is(":checked")) {
                     $('#start_date').hide();
-                    $('#start_date').val('')
+                    $('#start_date').val(' ')
                     $('#end_date').hide();
-                    $('#end_date').val('')
+                    $('#end_date').val(' ')
                 } else {
                     $('#start_date').show();
                     $('#end_date').show();

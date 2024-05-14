@@ -23,7 +23,7 @@
                         <div class="panel qualifications"style="padding-top:0px;padding-bottom:0px;">
                             <h4 class="panel-title kualif"
                                 style="border-bottom:none; background:#034369;padding-top:20px; color:#fff; text-transform:uppercase;">
-                                Aktivitas</h4>
+                                Aktivitas Lamaran</h4>
                             @if ($jadwal == null)
                                 <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">
                                     <h5>Tidak Ada Aktivitas</h5>

@@ -3,8 +3,12 @@
 @section('profile-content')
     <div class="profile-section pad-0 minHeight">
         <div class="va-table width-100" style="padding:20px 20px 20px 20px;background:#dcdcdc;">
-            <div class="va-middle pad-b-1em-m ta-center-m"><h4 style=" margin:0px;"><i class="fa fa-graduation-cap"></i>&nbsp;PENDIDIKAN TERAKHIR</h4></div>
-            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{route('candidate-education')}}" class='btn btn-success'><i class="fa fa-chevron-left" style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
+            <div class="va-middle pad-b-1em-m ta-center-m">
+                <h4 style=" margin:0px;"><i class="fa fa-graduation-cap"></i>&nbsp;PENDIDIKAN TERAKHIR</h4>
+            </div>
+            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{ route('candidate-education') }}"
+                    class='btn btn-success'><i class="fa fa-chevron-left"
+                        style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
         </div>
         <div class="section-content" style="padding:20px 30px;margin:0px;">
             <form method="POST" action="{{ route('store-candidate-education') }}" class='form-horizontal'>
@@ -13,7 +17,8 @@
                         {{ csrf_field() }}
 
                         <div class="form-group">
-                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Tingkat Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="qualification" class="col-md-12" style="font-weight:normal;">Tingkat Pendidikan
+                                <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='qualification' name='qualification' required='required'>
                                     <option value=''>Pilih Tingkat Pendidikan</option>
@@ -30,16 +35,17 @@
                         </div>
                         <div class="form-group">
                             <label for='institute' class="col-md-12" style="font-weight:normal;">Nama Lembaga
-                                Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                                Pendidikan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="institute" type="text" class="form-control" name="institute" required
                                     placeholder="Nama Lembaga Pendidikan">
-
+                                {{-- 
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Nama Lembaga Pendidikan" id="institute" name="institute" required
                                         style="height: 100px"></textarea>
                                     <label for="institute">Nama</label>
-                                </div>
+                                </div> --}}
                                 @if ($errors->has('institute'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('institute') }}</strong>
@@ -48,7 +54,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Pendidikan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Pendidikan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='field_id' name='field_id' required='required'>
                                     <option value=''>Pilih Bidang Pendidikan</option>
@@ -64,7 +71,8 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for='major' class="col-md-12" style="font-weight:normal;">Jurusan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='major' class="col-md-12" style="font-weight:normal;">Jurusan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="major" type="text" class="form-control" name="major" required
                                     placeholder="Jurusan">
@@ -80,7 +88,8 @@
                     <div class="col-md-6">
 
                         <div class="form-group">
-                            <label for='graduate_date' class="col-md-12" style="font-weight:normal;">Waktu Lulus <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='graduate_date' class="col-md-12" style="font-weight:normal;">Waktu Lulus <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="graduate_date" type="date" class="form-control" name="graduate_date" required
                                     placeholder="Waktu lulus">
@@ -118,13 +127,14 @@
                                 @endif
                             </div> --}}
                             <p class="fs-12">
-                            <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
-                                isikan dengan nilai desimal menggunakan tanda koma (,) contoh : 3,01
-                                atau 90,2
+                                <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                isikan dengan nilai desimal menggunakan tanda titik (.) contoh : 3.01
+                                atau 90.2
                             </p>
                         </div>
                         <div class="form-group">
-                            <label for='info' class="col-md-12" style="font-weight:normal;">Info lain <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='info' class="col-md-12" style="font-weight:normal;">Info lain <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <textarea id="info" class="form-control" name="info" required
                                     placeholder="Tulis prestasi, sertifikasi, dan lain sebagainya" rows=3 maxlength="300"></textarea>
@@ -150,6 +160,11 @@
     </div>
 
     <script>
+        // function setDecimalValue() {
+        //     const num = $('#decimalvalue').val();
+        //     const n = num.toFixed(2);
+        //     $('#decimalvalue').val(n);
+        // }
         $(document).ready(function() {
             $('#qualification').on('change', function() {
                 if (this.value == '0')

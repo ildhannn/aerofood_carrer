@@ -129,8 +129,8 @@
                             <p class="fs-12">
                                 <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
 
-                                isikan dengan nilai desimal menggunakan tanda koma (,) contoh : 3,01
-                                atau 90,2
+                                isikan dengan nilai desimal menggunakan tanda titik (.) contoh : 3.01
+                                atau 90.2
                             </p>
                         </div>
                         <div class="form-group">
@@ -159,11 +159,11 @@
         </div>
     </div>
     <script>
-        function setDecimalValue() {
-            const num = $('#decimalvalue').val();
-            const n = num.toFixed(2);
-            $('#decimalvalue').val(n);
-        }
+        // function setDecimalValue() {
+        //     const num = $('#decimalvalue').val();
+        //     const n = num.toFixed(2);
+        //     $('#decimalvalue').val(n);
+        // }
         $(document).ready(function() {
             $('#qualification').on('change', function() {
                 if (this.value == '0')

@@ -3,8 +3,12 @@
 @section('profile-content')
     <div class="profile-section pad-0 minHeight">
         <div class="va-table width-100" style="padding:20px 20px 20px 20px;background:#dcdcdc;">
-            <div class="va-middle pad-b-1em-m ta-center-m"><h4 style=" margin:0px;"><i class="fa fa-briefcase"></i>&nbsp;PENGALAMAN KERJA</h4></div>
-            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{route('candidate-experience')}}" class='btn btn-success'><i class="fa fa-chevron-left" style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
+            <div class="va-middle pad-b-1em-m ta-center-m">
+                <h4 style=" margin:0px;"><i class="fa fa-briefcase"></i>&nbsp;PENGALAMAN KERJA</h4>
+            </div>
+            <div class="va-middle dis-tab-row-m ta-right ta-center-m"><a href="{{ route('candidate-experience') }}"
+                    class='btn btn-success'><i class="fa fa-chevron-left"
+                        style="width:auto !important;"></i>&nbsp;&nbsp;KEMBALI</a></div>
         </div>
         <div class="section-content" style="padding:20px 30px;margin:0px;">
             <form method="POST" action="{{ route('update-candidate-experience') }}" class='form-horizontal'>
@@ -13,7 +17,8 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="id" value="{{ $experience->id }}">
                         <div class="form-group">
-                            <label for='position' class="col-md-12" style="font-weight:normal;">Posisi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='position' class="col-md-12" style="font-weight:normal;">Posisi <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="position" type="text" class="form-control" name="position" required
                                     placeholder="Posisi" value="{{ $experience->position }}">
@@ -27,7 +32,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='company' class="col-md-12" style="font-weight:normal;">Nama Perusahaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='company' class="col-md-12" style="font-weight:normal;">Nama Perusahaan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="company" type="text" class="form-control" name="company"
                                     value="{{ $experience->company }}" required placeholder="Nama Perusahaan">
@@ -40,8 +46,38 @@
                             </div>
                         </div>
 
+                        @if ($experience->still_work == 'on')
                         <div class="form-group">
-                            <label for='start_date' class="col-md-12" style="font-weight:normal;">Waktu Mulai <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='still_work' class="col-md-12" style="font-weight:normal;">Masih Bekerja <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <div class="col-md-12">
+                                <input type="checkbox" id="still_work" value="" name="still_work" aria-label="Masih Bekerja" {{ $experience->still_work ? 'checked' : '' }}>
+                                @if ($errors->has('still_work'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('still_work') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @else
+                        <div class="form-group">
+                            <label for='still_work' class="col-md-12" style="font-weight:normal;">Masih Bekerja <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <div class="col-md-12">
+                                <input type="checkbox" id="still_work" value="" name="still_work" aria-label="Masih Bekerja">
+                                @if ($errors->has('still_work'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('still_work') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        @endif
+                        
+
+                        <div class="form-group" id="start_date">
+                            <label for='start_date' class="col-md-12" style="font-weight:normal;">Waktu Mulai <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="start_date" type="date" class="form-control" name="start_date"
                                     value="{{ $experience->start_date }}" required placeholder="Waktu mulai">
@@ -54,11 +90,12 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for='end_date' class="col-md-12" style="font-weight:normal;">Waktu Berakhir <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                        <div class="form-group" id="end_date">
+                            <label for='end_date' class="col-md-12" style="font-weight:normal;">Waktu Berakhir <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="end_date" type="date" class="form-control" name="end_date"
-                                    value="{{ $experience->end_date }}" required placeholder="Waktu berakhir">
+                                    value="{{ $experience->end_date }}"  required placeholder="Waktu berakhir">
 
                                 @if ($errors->has('end_date'))
                                     <span class="help-block">
@@ -84,7 +121,8 @@
                         @endif --}}
 
                         <div class="form-group">
-                            <label for="nationality" class="col-md-12" style="font-weight:normal;">Negara <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="nationality" class="col-md-12" style="font-weight:normal;">Negara <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='nationality' name='nationality' required>
                                     <option value=''>Pilih Negara</option>
@@ -116,7 +154,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group province">
-                            <label for='province' class="col-md-12" style="font-weight:normal;">Lokasi <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='province' class="col-md-12" style="font-weight:normal;">Lokasi <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='province' name='province_id'>
                                     <option value=''>Pilih Provinsi</option>
@@ -155,7 +194,8 @@
                         </div>
 
                         <div class="form-group city">
-                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Perusahaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for="field_id" class="col-md-12" style="font-weight:normal;">Bidang Perusahaan <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <select class='form-control' id='field_id' name='field_id' required>
                                     <option value=''>Pilih Bidang Perusahaan</option>
@@ -176,7 +216,8 @@
 
                         <div class="form-group">
                             <label for='description' class="col-md-12" style="font-weight:normal;">Deskripsi
-                                Pekerjaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                                Pekerjaan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <textarea id="description" type="text" class="form-control" name="description"
                                     value="{{ $experience->description }}" required placeholder="Deskripsi Pekerjaan">{{ $experience->description }}</textarea>
@@ -190,10 +231,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label for='salary' class="col-md-12" style="font-weight:normal;">Gaji <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
+                            <label for='salary' class="col-md-12" style="font-weight:normal;">Gaji <span
+                                    class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
                                 <input id="salary" type="number" class="form-control" name="salary"
-                                    value="{{ $experience->salary }}" required placeholder="Gaji" minlength="0" maxlength="9999999">
+                                    value="{{ $experience->salary }}" required placeholder="Gaji" minlength="0"
+                                    maxlength="9999999">
 
                                 @if ($errors->has('salary'))
                                     <span class="help-block">
@@ -238,10 +281,27 @@
                     $('#end_date').val('');
                 }
             });
+
+
+            $("#still_work").change(function() {
+                if ($('#still_work').is(":checked")) {
+                    $('#start_date').hide()
+                    $('#start_date').val('')
+                    $('#end_date').hide()
+                    $('#end_date').val('')
+                    $('#still_work').val('on')
+                } else {
+                    $('#start_date').show()
+                    $('#end_date').show()
+                    $('#still_work').val('')
+                }
+            });
+
         });
     </script>
     <script type="text/javascript">
         $(function() {
+
             $('#province').on('change', function() {
                 var provinceId = $(this).val()
                 if (provinceId === '') {
