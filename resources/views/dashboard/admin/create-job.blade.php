@@ -928,7 +928,7 @@
         $('#preq').on('change', function() {
             const size = (this.files[0].size / 1024 / 1024);
             if (size > 2) {
-                alert("Dokumen harus 2 MB");
+                alert("Max Dokumen 2 MB");
                 this.value = "";
             }
         });
@@ -1116,10 +1116,6 @@
                 $('#yes-reply').hide();
                 $('#no-reply').show();
             });
-
-
-
-
         });
     </script>
 @endpush

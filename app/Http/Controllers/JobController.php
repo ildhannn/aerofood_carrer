@@ -12,6 +12,7 @@ use App\Models\EmploymentType;
 use App\Models\Field;
 use App\Models\FieldSpecialization;
 use App\Models\Job;
+use App\Models\JobInterview;
 use App\Models\Province;
 use App\Models\Pvi;
 use Auth;
@@ -77,6 +78,8 @@ class JobController extends Controller
 
         $status = $request->draft ? JOB::STATUS_DRAFT : JOB::STATUS_PUBLISHED;
 
+        $end_date = $request->end_date;
+
         $job = new Job([
             'job_id' => $job_id,
             'preq' => $request->preq,
@@ -91,7 +94,7 @@ class JobController extends Controller
             'min_salary' => $request->min_salary,
             'max_salary' => $request->max_salary,
             'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
+            'end_date' => $end_date,
             'province_id' => $request->province_id,
             'city_id' => $request->city_id,
             'field_id' => (!empty($request->field_id) ? $request->field_id : 999),
@@ -100,6 +103,7 @@ class JobController extends Controller
             'status' => $status,
             // 'has_intelligence_test' => $request->has_intelligence_test,
             'has_intelligence_test' => "on",
+            // 'due_date' => $end_date
         ]);
 
         // if ($request->hasFile('file')) {
@@ -148,12 +152,12 @@ class JobController extends Controller
             }
         }
 
-        foreach ($request->step as $key => $step) {
-            $job->steps()->attach($step, ['due_date' => $request->due_date[$key]]);
-            dd($request->due_date);
-        }
+        // foreach ($request->step as $key => $step) {
+        //     $job->steps()->attach($step, ['due_date' => $request->due_date[$key]]);
+        // }
 
-        // $due_date = $request->start_date < $request->end_date;
+        $job->steps()->attach(['due_date' => $end_date]);
+
 
         // $step_id = 3;
         // foreach ($request->interviewer as $interviewer) {

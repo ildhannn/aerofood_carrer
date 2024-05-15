@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Lupa Password</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('lupa_password-email') }}">
+                    <form class="form-horizontal" method="POST" action="{{ route('lupa_password-post') }}">
                         @csrf
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">Email</label>

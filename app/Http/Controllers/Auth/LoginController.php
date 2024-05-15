@@ -87,25 +87,31 @@ class LoginController extends Controller
             return view('auth.login');
         } else {
             Alert::error('Opps', 'email tidak ada di database');
+            return view('auth.passwords.lupa_password');
         }
+    }
+
+    public function viewLupaPasswordEmail(Request $request, $token)
+    {
+        $token = request()->cookie('laravel_session');
+        return view('auth.passwords.lupa_password_email', ['token' => $token]);
     }
 
     public function lupaPassword(Request $request)
     {
         $user = User::findorfail($request->id);
         $session = [];
-        if (!(Hash::check($request->password, $user->password))) {
-            $session['wrong-old-password'] = 'Password lama salah';
-        }
         if ($request->new_password != $request->confirm_new_password) {
             $session['same-password'] = 'Password baru dan konfirmasi password baru harus sama';
         }
-        if (!(Hash::check($request->password, $user->password)) || $request->new_password != $request->confirm_new_password) {
+
+        if ($request->new_password != $request->confirm_new_password) {
             return redirect()->back()->with($session);
         }
         $user->password = bcrypt($request->new_password);
         $user->save();
 
         return redirect()->back()->with('success', 'Berhasil mengubah password');
+     
     }
 }

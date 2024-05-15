@@ -31,8 +31,8 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->subject("Request ganti password".$this->user)
-        ->view('user.lupa_password')->with(['candidate' => $this->candidate, 'user' => $this->user])
+        return $this->subject("Request ganti password ".$this->user)
+        ->view('email.lupa_password')->with(['candidate' => $this->candidate, 'user' => $this->user])
         ->from('career@aerowisatafood.com','Career PT. Aerofood Indonesia');
         // ->cc($this->user->createdBy->user, $this->user->createdBy->email);
     }
