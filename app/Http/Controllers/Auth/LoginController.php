@@ -78,11 +78,12 @@ class LoginController extends Controller
 
     public function emailLupaPassword(Request $request)
     {
-        $verify = User::where('email', $request->all()['email'])->exists();
+        $verify = User::where('email', $request->all()['email'])->first();
         $emailuse = $request->email;
+        $idemail = $verify->id;
 
         if ($verify) {
-            Mail::to($request->all()['email'])->send(new ResetPassword($request->all()['email'], $emailuse));
+            Mail::to($request->all()['email'])->send(new ResetPassword($request->all()['email'], $emailuse, $idemail));
             Alert::success('Success', 'Cek Email');
             return view('auth.login');
         } else {
@@ -91,27 +92,26 @@ class LoginController extends Controller
         }
     }
 
-    public function viewLupaPasswordEmail(Request $request, $token)
+    public function viewLupaPasswordEmail(Request $request, $email, $id)
     {
-        $token = request()->cookie('laravel_session');
-        return view('auth.passwords.lupa_password_email', ['token' => $token]);
+        return view('auth.passwords.lupa_password_email', ['email' => $email, 'id' => $id]);
     }
 
     public function lupaPassword(Request $request)
     {
-        $user = User::findorfail($request->id);
-        $session = [];
-        if ($request->new_password != $request->confirm_new_password) {
+        $email = User::where('email', $request->all()['email'])->first();
+
+        if ($request->password != $request->confirm_new_password) {
             $session['same-password'] = 'Password baru dan konfirmasi password baru harus sama';
         }
 
-        if ($request->new_password != $request->confirm_new_password) {
+        if ($request->password != $request->confirm_new_password) {
             return redirect()->back()->with($session);
         }
-        $user->password = bcrypt($request->new_password);
-        $user->save();
+        $email->password = bcrypt($request->password);
 
-        return redirect()->back()->with('success', 'Berhasil mengubah password');
-     
+        $email->save();
+
+        return redirect()->route('login')->with('success', 'Berhasil mengubah password');
     }
 }

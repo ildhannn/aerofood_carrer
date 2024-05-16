@@ -7,9 +7,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">Lupa Password</div>
                     <div class="panel-body">
-                        <form class="form-horizontal" method="POST" action="{{ route('lupa_password-email-post', 'token') }}">
+                        <form class="form-horizontal" method="POST" action="{{ route('lupa_password-email-post') }}">
                             @csrf
-                            <input type="hidden" name="token" value="{{ $token }}">
+                            <input type="hidden" name="email" value="{{ $email }}">
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="col-md-4 control-label">Password Baru</label>
     

@@ -26,7 +26,7 @@ Route::post('/register', 'Auth\RegisterController@register')->name('register');
 Route::get('/lupa_password', 'Auth\LoginController@viewLupaPassword')->name('lupa_password');
 Route::post('/lupa_password', 'Auth\LoginController@emailLupaPassword')->name('lupa_password-post');
 
-Route::get('/lupa_password/{token}', 'Auth\LoginController@viewLupaPasswordEmail')->name('lupa_password-email');
+Route::get('/lupa_password/{email}/{id}', 'Auth\LoginController@viewLupaPasswordEmail')->name('lupa_password-email');
 Route::post('/lupa_password/email', 'Auth\LoginController@lupaPassword')->name('lupa_password-email-post');
 
 Route::get('/faq', 'HomeController@faq')->name('faq');

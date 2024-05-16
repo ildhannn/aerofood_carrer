@@ -17,12 +17,14 @@ class ResetPassword extends Mailable
      * @return void
      */
     protected $candidate;
-    protected $user;
+    protected $email;
+    protected $id;
 
-    public function __construct($candidate, $user)
+    public function __construct($candidate, $email, $id)
     {
         $this->candidate = $candidate;
-        $this->user = $user;
+        $this->email = $email;
+        $this->id = $id;
     }
     /**
      * Build the message.
@@ -31,8 +33,8 @@ class ResetPassword extends Mailable
      */
     public function build()
     {
-        return $this->subject("Request ganti password ".$this->user)
-        ->view('email.lupa_password')->with(['candidate' => $this->candidate, 'user' => $this->user])
+        return $this->subject("Request ganti password ".$this->email)
+        ->view('email.lupa_password')->with(['candidate' => $this->candidate, 'email' => $this->email, 'id' => $this->id])
         ->from('career@aerowisatafood.com','Career PT. Aerofood Indonesia');
         // ->cc($this->user->createdBy->user, $this->user->createdBy->email);
     }

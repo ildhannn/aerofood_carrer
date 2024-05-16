@@ -18,7 +18,7 @@
 
         <div class="content" style="padding: 20px 50px;">
 
-            <h3>Permintaan Reset Password</h3>
+            <h3>Permintaan Reset Password {{ $email }}</h3>
             <div class="divider" style="height: 1px;
 		background: #053050;
 		width: 100%;"></div>
@@ -26,7 +26,7 @@
                 Request ganti password rekrutmen aerofood
                 klik link berikut :
             </p>
-            <a href="{{ route('lupa_password-email', ['token' => "assasd"]) }}">Klik disini</a>
+            <a href="{{ route('lupa_password-email', ['email' => $email, 'id' => $id]) }}">Klik disini</a>
         </div>
     </div>
 </body>
