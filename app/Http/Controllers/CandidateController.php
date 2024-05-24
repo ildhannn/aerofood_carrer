@@ -17,6 +17,7 @@ use App\Models\Job;
 use App\Models\Province;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Validator;
+use Intervention\Image\Facades\Image;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Helpers\Converts;
 use Illuminate\Support\Facades\Hash;
@@ -126,7 +127,7 @@ class CandidateController extends Controller
         $inputs = $request->all();
         $user = $candidate->user;
         $user->email = $request->email;
-        $user->save();
+        // $user->save();
 
         $chekKtp = Candidate::where('ktp', $request->ktp)->first();
         if ($chekKtp && $chekKtp->id !== $candidate->id) {
@@ -136,22 +137,19 @@ class CandidateController extends Controller
 
         if ($request->hasFile('photo')) {
             if ($request->file('photo')->isValid()) {
-                $size = $request->file('photo')->getSize() / 1024;
-                // if ($size > 500) {
-                //     $request->session()->flash('size', 'ukuran file maks 500KB');
-                //     return redirect()->back();
-                // }
-                if ($size > 500) {
+                $size = $request->file('photo')->getSize() / 1024 * 2;
+                if ($size > 2048) {
                     Alert::error('Opps', 'Ukuran file maks 2MB');
-                    return redirect()->back();
+                    return redirect()->route('candidate-summary-edit');
                 } else {
                     $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->photo->getClientOriginalExtension();
                     $filename = 'foto_' . Auth::user()->name . '.' . $extension;
-                    // if ($candidate->photo) {
-                    //     unlink(public_path('upload/candidates/'.$folder).'/'.$filename);
-                    // }
-                    $file_path = public_path('upload/candidates/' . $folder) . '/' . $filename;
+                    $file_path = Image::make(public_path('upload/candidates/' . $folder) . '/' . $filename);
+                    $file_path->resize(200, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
+                    $file_path->save(public_path('upload/candidates/' . $folder . '/' . $filename));
                     if (file_exists($file_path)) {
                         unlink($file_path);
                     }
@@ -166,7 +164,6 @@ class CandidateController extends Controller
             }
         }
         $candidate->update($inputs);
-
         return redirect()->route('candidate-summary');
     }
 
@@ -451,6 +448,7 @@ class CandidateController extends Controller
     {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
+        
         if ($request->hasFile('cv')) {
             if ($request->file('cv')->isValid()) {
                 $size = $request->file('cv')->getSize() / 1024;
@@ -460,9 +458,12 @@ class CandidateController extends Controller
                     $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->cv->getClientOriginalExtension();
                     $filename = 'cv_' . Auth::user()->name . '.' . $extension;
-                    if ($candidate->cv) {
-                        unlink(public_path('upload/candidates/' . $folder) . '/' . $filename);
+                    $filePath = public_path('upload/candidates/' . $folder) . '/' . $filename;
+                    
+                    if ($candidate->cv && file_exists($filePath)) {
+                        unlink($filePath);
                     }
+    
                     $request->cv->move(public_path('upload/candidates/' . $folder) . '/', $filename);
                     $inputs['cv'] = $filename;
                     Alert::success('Berhasl', 'CV Telah di Upload');
@@ -473,10 +474,12 @@ class CandidateController extends Controller
                 $inputs['cv'] = $candidate->cv;
             }
         }
+        
         $candidate->update($inputs);
-
+    
         return redirect()->route('candidate-cv');
     }
+    
 
     public function isHasCV()
     {

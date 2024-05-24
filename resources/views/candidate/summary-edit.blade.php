@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-12" style="padding-top: 10px;">
                                     <input id="photo" type="file" class="" name="photo"
-                                        value="{{ Auth::user()->photo }}" placeholder="Photo" accept="image/*" max>
+                                        value="{{ Auth::user()->photo }}" placeholder="Photo" accept=".png, .jpg, .jpeg">
                                     <i class="text-muted fs-12">Silahkan upload foto 3x4 Anda (<b>max. 2MB</b>)</i>
                                     @if ($errors->has('photo'))
                                         <span class="help-block">

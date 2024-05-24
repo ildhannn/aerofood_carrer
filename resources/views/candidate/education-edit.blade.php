@@ -19,14 +19,11 @@
                                 <select class='form-control' id='qualification' name='qualification'
                                     required='required'>
                                     <option value='' selected disabled>Pilih Tingkat Pendidikan</option>
-                                    <option value='0' {{ $education->qualification == '0' ? 'selected' : '' }}>
-                                        SMA/Sederajat</option>
-                                    <option value='1' {{ $education->qualification == '1' ? 'selected' : '' }}>D1 -
-                                        D4
-                                    </option>
-                                    <option value='2' {{ $education->qualification == '2' ? 'selected' : '' }}>S1 -
-                                        S3
-                                    </option>
+                                    <option value='0' {{ $education->qualification == '0' ? 'selected' : '' }}>SMA/Sederajat</option>
+                                    <option value='1' {{ $education->qualification == '1' ? 'selected' : '' }}>D1-D2</option>
+                                    <option value='2' {{ $education->qualification == '2' ? 'selected' : '' }}>D3</option>
+                                    <option value='3' {{ $education->qualification == '3' ? 'selected' : '' }}>D4-S1</option>
+                                    <option value='4' {{ $education->qualification == '4' ? 'selected' : '' }}>S2</option>
                                 </select>
                                 @if ($errors->has('qualification'))
                                     <span class="help-block">

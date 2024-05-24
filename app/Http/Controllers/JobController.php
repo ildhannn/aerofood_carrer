@@ -12,6 +12,7 @@ use App\Models\EmploymentType;
 use App\Models\Field;
 use App\Models\FieldSpecialization;
 use App\Models\Job;
+use App\Models\Step;
 use App\Models\JobInterview;
 use App\Models\Province;
 use App\Models\Pvi;
@@ -73,6 +74,7 @@ class JobController extends Controller
 
     public function storeJob(Request $request)
     {
+        // dd($request);
         $job_id = md5($request->title . date('Y-m-d h-m-s'));
         $user = Auth::user();
 
@@ -152,11 +154,13 @@ class JobController extends Controller
             }
         }
 
-        // foreach ($request->step as $key => $step) {
-        //     $job->steps()->attach($step, ['due_date' => $request->due_date[$key]]);
-        // }
+        $stepp = Step::get();
+        
+        foreach ($stepp as $key => $step) {
+            $job->steps()->attach($step, ['due_date' => null]);
+        }
 
-        $job->steps()->attach(['due_date' => $end_date]);
+        // $job->steps()->attach(['due_date' => $end_date]);
 
 
         // $step_id = 3;
@@ -185,12 +189,12 @@ class JobController extends Controller
 
     public function copyLowongan(Request $request, $id)
     {
-        $job_id = $request->id_job;
-        $user = Auth::user();
-        $status = $request->draft ? JOB::STATUS_DRAFT : JOB::STATUS_PUBLISHED;
-
         $currentJob = Job::findOrFail($id);
 
+        $job_id = md5($currentJob->title . date('Y-m-d h-m-s'));
+        
+        $user = Auth::user();
+        $status = $request->draft ? JOB::STATUS_DRAFT : JOB::STATUS_PUBLISHED;
         $job = new Job([
             'job_id' => $job_id,
             'preq' => $currentJob->preq,
@@ -213,12 +217,10 @@ class JobController extends Controller
             'created_by' => $user->id,
             'status' => $status,
             'has_intelligence_test' => $currentJob->has_intelligence_test,
+            // 'due_date' => null
         ]);
 
-        $newJob = $job->replicate()->fill([
-            'job_id' => md5($currentJob->title . date('Y-m-d h-m-s')),
-        ]);
-
+        $newJob = $job->replicate();
         $newJob->save();
 
         if ($newJob->benefit) {
@@ -237,9 +239,14 @@ class JobController extends Controller
             }
         }
 
-        foreach ($newJob->step as $key => $step) {
-            $job->steps()->attach($step, ['due_date' => $currentJob->due_date[$key]]);
+        $stepp = Step::get();
+        foreach ($stepp as $key => $step) {
+            $newJob->steps()->attach($step, ['due_date' => null]);
         }
+
+         // foreach ($newJob->step as $key => $step) {
+        //     $job->steps()->attach($step, ['due_date' => $currentJob->due_date[$key]]);
+        // }
 
         return redirect()->route('dashboard-jobs')->with(compact('id', 'currentJob'));
     }
@@ -296,7 +303,7 @@ class JobController extends Controller
         $job->employmentTypes()->sync($request->employment_type);
 
         foreach ($job->steps as $key => $step) {
-            $job->steps()->updateExistingPivot($step->id, ['due_date' => $request->due_date[$key]]);
+            $job->steps()->updateExistingPivot($step->id, ['due_date' => null]);
         }
 
         foreach ($job->interviews as $key => $interview) {

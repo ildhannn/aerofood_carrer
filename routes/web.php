@@ -48,6 +48,8 @@ Route::get('/admin-dashboard/job/{job_id}/delete', 'JobController@delete')->name
 Route::post('/admin-dashboard/job/preview', 'JobController@preview')->name('preview-job');
 Route::get('/admin-dashboard/job/detail/{id}', 'AdminDashboardController@detailJob')->name('detail-job');
 
+Route::get('/admin-dashboard/total/{id}', 'AdminDashboardController@totalPelamar')->name('total-pelamar');
+
 Route::post('/admin-dashboard/job/copy/{id}', 'JobController@copyLowongan')->name('copy-job');
 
 Route::get('/admin-dashboard/candidate', 'AdminDashboardController@candidate')->name('dashboard-candidate');

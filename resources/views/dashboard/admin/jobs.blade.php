@@ -106,8 +106,7 @@
                                                 <a
                                                     href="{{ url('admin-dashboard/job/detail') . '/' . $job->id . '#candidate-list' }}">
                                                     <span class="number"><b>{{ $job->candidates->count() }}</b></span><br>
-                                                    <span class="name">Kandidat
-                                                    </span>
+                                                    <span class="name">Kandidat</span>
                                                 </a>
                                             </div>
                                             <div class="step" data-toggle="tooltip" data-placement="top" title="Matched">

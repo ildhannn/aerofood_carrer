@@ -98,7 +98,7 @@ class Dbases
     }
 
     public static function getByTwoIdOrder($table, $field, $id, $order, $by) {
-        $db = DB::table($table)->where($field, $id)->where($fields, $ids)->orderBy($order, $by)->get();
+        $db = DB::table($table)->where($field, $id)->where($field, $id)->orderBy($order, $by)->get();
         return $db;
     }
 
@@ -114,7 +114,7 @@ class Dbases
     }
 
     public static function getByTwoIdOrderLimit($table, $field, $id, $order, $by, $limit) {
-        $db = DB::table($table)->where($field, $id)->where($fields, $ids)->orderBy($order, $by)->limit($limit)->get();
+        $db = DB::table($table)->where($field, $id)->where($field, $id)->orderBy($order, $by)->limit($limit)->get();
         return $db;
     }
     

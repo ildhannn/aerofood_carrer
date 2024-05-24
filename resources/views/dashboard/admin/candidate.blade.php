@@ -59,51 +59,39 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th width="3%" class="all"></th>
-                                <th width="20%" class="all">NAMA</th>
-                                <th width="20%" class="min-tablet">LOKASI</th>
-                                <th width="10%" class="min-tablet">PENDIDIKAN</th>
-                                <th width="10%" class="min-tablet">PENGALAMAN</th>
-                                <th width="14%" class="min-tablet">EXPECTED SALARY</th>
-                                {{-- <th width="14%" class="min-tablet">ACTION</th> --}}
+                                <th class="all">LOWONGAN</th>
+                                <th class="min-tablet">TOTAL PELAMAR</th>
+                                <th class="min-tablet-l">LOKASI</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($candidates as $item)
+                            @foreach ($jobs->where('status', 1) as $job)
                                 <tr>
                                     <td>
-                                        <img
-                                            src="{{ asset($item->photo ? 'upload/candidates/' . md5($item->candidate_id . 'folder') . '/' . $item->photo : 'img/no-pic.jpg') }}" />
+                                        <div class="title">
+                                            <a href="{{ route('detail-job', $job->id) }}"
+                                                style="font-size: 14px;"><b>{{ $job->title }}</b></a>
+                                            <span class="status">
+                                                @if ($job->status == 0)
+                                                    <span type="button" class="label label-warning"> Draft</span>
+                                                @elseif($job->status == 1)
+                                                    <span type="button" class="label label-success"> Terpublish</span>
+                                                @else
+                                                    <span type="button" class="label label-default"> Tidak Aktif</span>
+                                                @endif
+                                                {{ $job->start_date }}<br>
+                                            </span>
+                                        </div>
                                     </td>
                                     <td>
-                                        {{-- <a class='view-profile' onclick='getCandidate({{ $item->candidate_id }})'
-                                            href='#'
-                                            data-candidate="{{ $item->candidate_id }}">{{ $item->user->name }}</a> --}}
-
-                                        <a class='view-profile' onclick="getCandidate({{ $item->candidate_id }} )"
-                                            href='#'
-                                            data-candidate='{{ $item->candidate_id }}'>{{ $item->user->name }}</a>
+                                        <a href="{{ url('admin-dashboard/total') . '/' . $job->id . '#candidate-list' }}">
+                                            <span class="number"><b>{{ $job->candidates->count() }}</b></span><br>
+                                            <span class="name">Kandidat</span>
+                                        </a>
                                     </td>
+                                    <td><i class="fa fa-map-marker"></i>
+                                        {{ $job->city ? $job->city->city . ', ' . $job->province->province : '-' }}</td>
                                     <td>
-                                        {!! $item->city
-                                            ? '<i class="fa fa-map-marker"></i> ' . $item->city->city . ', ' . $item->province->province
-                                            : '-' !!}
-                                    </td>
-                                    <td>
-                                        @if ($item->education == 0)
-                                            SMA / Sederajat
-                                        @elseif($item->education == 1)
-                                            D1-D4
-                                        @elseif($item->education == 2)
-                                            S1-S3
-                                        @endif
-                                    </td>
-                                    <td>
-                                        {{ $item->experience }} <span class='text-muted'>Tahun</span>
-                                    </td>
-                                    <td>
-                                        <span class='text-muted'>Rp.</span> {{ $item->expected_salary }}
-                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -115,6 +103,19 @@
 
     <!-- Modal -->
     <div class="modal fade" id="profile" tabindex="-1" role="dialog" aria-labelledby="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="pelamar" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,102 +143,24 @@
             });
         }
 
-        // $(function() {
-        //     var tablejobs = $('#tabel-kandidat').DataTable({
-        //         responsive: true,
-        //         lengthChange: false,
-        //         processing: true,
-        //         paging: true,
-        //         serverSide: true,
-        //         ajax: "{{ route('dashboard-candidate-datatables') }}",
-        //         columns: [{
-        //                 render: function(data, type, row, meta) {
-        //                     var content =
-        //                         '<div class="picture" style="height: auto !important;overflow: auto !important;float: none;border-radius: 0px;">';
-        //                     if (row.photo) {
-        //                         var src = '{!! asset('uploads/candidates/' . md5(' + row.candidate_id +  "folder"  ') . '/' . "' + row.photo + '") !!}'
-        //                     } else {
-        //                         var src = "{{ asset('img/no-pic.jpg') }}"
-        //                     }
-        //                     content += '<img src="' + src + '" style="width: 30px !important">'
-        //                     content += '</div>'
-        //                     return content
-        //                 }
-        //             },
-        //             {
-        //                 render: function(data, type, row, meta) {
-        //                     return "<div><a class='view-profile' onclick='getCandidate(\"" + row
-        //                         .candidate_id + "\")' href='#' data-candidate='" + row
-        //                         .candidate_id + "'>" + row.name + "</a></div>"
-        //                 },
-        //                 name: 'name'
-        //             },
-        //             {
-        //                 render: function(data, type, row, meta) {
-        //                     return row.city ? '<i class="fa fa-map-marker"></i> ' + row.city.city +
-        //                         ', ' + row.province.province : '-'
-        //                 },
-        //                 name: 'location'
-        //             },
-        //             {
-        //                 data: 'education',
-        //                 name: 'education'
-        //             },
-        //             {
-        //                 render: function(data, type, row, meta) {
-        //                     return row.experience + " <span class='text-muted'>Tahun</span>"
-        //                 },
-        //                 name: 'experience'
-        //             },
-        //             {
-        //                 data: 'expected_salary',
-        //                 name: 'expected_salary'
-        //             }
-        //             //  	{render: function(data, type, row, meta){
-        //             //  		var content = '<div class="va-table width-100">'
-        //             // content += '<div class="va-middle ta-left" style="width: 20%;"><span class="text-muted">Rp</span></div>'
-        //             // content += '<div class="va-middle ta-right" style="width: 80%;"><span class="thousand"></span></div>'
-        //             // content += '</div>'
-        //             // return content
-        //             //  	}, name:'expected_salary'},
-        //         ],
-        //         buttons: ['copy', 'excel', 'pdf', 'colvis'],
-        //         /*scrollX: true,
-        //         scrollCollapse: true,*/
-        //     });
+        function getCandidate(id) {
+            $('#pelamar').modal('show');
+            $.get("{{ url('/admin-dashboard/job/detail') }}" + '/' + id, function(data, status) {
+                $('#pelamar').find('.modal-body').html(data)
 
-        //     /*new $.fn.dataTable.FixedHeader(table);*/
-
-        //     tablejobs.buttons().container()
-        //         .appendTo('#tabel-kandidat_wrapper .col-sm-6:eq(0)');
-        // })
-
-        // $('#tabel-kandidat tbody').on('click', 'td.details-control', function() {
-        //     var tr = $(this).closest('tr');
-        //     var row = table.row(tr);
-
-        //     if (row.child.isShown()) {
-        //         // This row is already open - close it
-        //         row.child.hide(500);
-        //         tr.removeClass('shown');
-        //     } else {
-        //         // Open this row
-        //         row.child(format(row.data())).show(500);
-        //         tr.addClass('shown');
-        //     }
-        // });
+                $('#tabs li a').click(function(e) {
+                    e.preventDefault()
+                    $(this).tab('show')
+                })
+            });
+        }
 
         $(function() {
             var tablejobs = $('#tabel-kandidat').DataTable({
                 lengthChange: false,
                 buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                /*scrollX: true,
-                scrollCollapse: true,*/
                 paging: true
             });
-
-            /*new $.fn.dataTable.FixedHeader(table);*/
-
             tablejobs.buttons().container()
                 .appendTo('#tabel-kandidat_wrapper .col-sm-6:eq(0)');
         })

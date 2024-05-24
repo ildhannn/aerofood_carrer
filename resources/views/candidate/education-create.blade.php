@@ -23,8 +23,10 @@
                                 <select class='form-control' id='qualification' name='qualification' required='required'>
                                     <option value=''>Pilih Tingkat Pendidikan</option>
                                     <option value='0'>SMA/Sederajat</option>
-                                    <option value='1'>D1-D4</option>
-                                    <option value='2'>S1-S3</option>
+                                    <option value='1'>D1-D2</option>
+                                    <option value='2'>D3</option>
+                                    <option value='3'>D4-S1</option>
+                                    <option value='4'>S2</option>
                                 </select>
                                 @if ($errors->has('qualification'))
                                     <span class="help-block">

@@ -128,7 +128,7 @@ class AdminDashboardController extends Controller
                         ->where('created_by', Auth::user()->id)->get();
         }
         $fields = Field::all(); 
-        $provinces = Province::all(); 
+        $provinces = Province::all();
         return view('dashboard/admin/jobs', compact('jobs', 'fields', 'provinces'));
     }
     public function detailJob($id) {
@@ -137,10 +137,36 @@ class AdminDashboardController extends Controller
         $umurMax = Dbases::getFieldById('jobs', 'max_age', 'id', $id);
         return view('dashboard/admin/detail-job', compact('job', 'umurMin', 'umurMax'));
     }
-    public function candidate(){
-        $provinces = Province::all(); 
+    
+    public function candidate(Request $request){
+        if (Auth::user()->id == 1) {
+            $jobs = Job::join('admins', 'admins.user_id', '=', 'jobs.created_by')
+                        ->where('unit_id', '=', session('unit'))
+                        ->title($request->title)
+                        ->orderBy('jobs.updated_at', $request->updated == 'oldest' ? 'desc' : 'asc')
+                        ->field($request->field_id)
+                        ->province($request->province_id)
+                        ->select('jobs.*')
+                        ->get();
+        } else {
+            $jobs = Job::title($request->title)
+                        ->orderBy('updated_at', $request->updated == 'oldest' ? 'desc' : 'asc')
+                        ->field($request->field_id)
+                        ->province($request->province_id)
+                        ->where('created_by', Auth::user()->id)->get();
+        }
+
+        $provinces = Province::all();
         $candidates = Candidate::all();
-        return view('dashboard/admin/candidate', compact('candidates', 'provinces'));
+
+        return view('dashboard/admin/candidate', compact('candidates', 'provinces', 'jobs'));
+    }
+
+    public function totalPelamar($id){
+        $job = Job::findorfail($id);
+        $umurMin = Dbases::getFieldById('jobs', 'min_age', 'id', $id);
+        $umurMax = Dbases::getFieldById('jobs', 'max_age', 'id', $id);
+        return view('dashboard/admin/_total-candidate', compact('job', 'umurMin', 'umurMax'));
     }
 
     // public function candidate(Request $request){

@@ -228,6 +228,7 @@
             </div>
         </div>
     </div>
+
     <!-- Modal Tutup Lowongan -->
     <div class="modal fade" id="close" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
@@ -248,6 +249,7 @@
             </div>
         </div>
     </div>
+    
     <!-- Modal Uplaod MCU -->
     <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
