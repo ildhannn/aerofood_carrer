@@ -206,7 +206,8 @@ class AdminDashboardController extends Controller
 
     public function storekeahlian(Request $request) {
         Skill::create(['name' => $request->input('name')]);
-        return view('dashboard/admin/skill');
+        return redirect()->route('dashboard-keahlian');
+
     }
 
     public function editkeahlian(Request $request, $id) {
