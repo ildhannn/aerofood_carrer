@@ -201,7 +201,7 @@ class AdminDashboardController extends Controller
         return view('dashboard/admin/skill', compact('skill'));
     }
     public function createkeahlian() {
-        return view('dashboard/admin/skill-create', compact('candidate', 'skills'));
+        return view('dashboard/admin/skill-create');
     }
 
     public function storekeahlian(Request $request) {
@@ -227,8 +227,6 @@ class AdminDashboardController extends Controller
         $skill->delete();
         return redirect()->route('dashboard-keahlian');
     }
-
-
 
     public function profile(){
         $user = Auth::user();

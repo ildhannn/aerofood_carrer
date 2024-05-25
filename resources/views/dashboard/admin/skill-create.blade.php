@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="panel">
-            <form method="POST" action="{{ route('store-candidate-skill-admin') }}" class='form-horizontal'>
+            <form method="POST" action="{{ route('store-candidate-keahlian-admin') }}" class='form-horizontal'>
 				{{csrf_field()}}
 				<div class="container-fluid">
 					<div class="row">

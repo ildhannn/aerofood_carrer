@@ -17,7 +17,7 @@
             <div class="list-item">
                 <div class="item pad-0-m">
                     <a href="{{ route('create-candidate-keahlian-admin') }}"
-                        class='btn blue width-100-m visible-xs-block mar-b-1em-m' style="background-color: #5cb85c;"><i
+                        class='btn blue width-100-m  mar-b-1em-m' style="background-color: #5cb85c;"><i
                             class="fa fa-plus"></i> Tambah Keahlian</a>
                     <table id="tabel-skill" class="table table-striped table-bordered row-border order-column"
                         style="width:100%">
@@ -46,38 +46,33 @@
                                                 class="btn btn-danger"><i class="fa fa-close"></i></span></a>
                                     </td>
                                 </tr>
-                                {{-- modal --}}
-                                <div class="modal fade" id="konfirmasi" tabindex="-1" role="dialog"
-                                    aria-labelledby="modal">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header" style="text-align:center;background:#dcdcdc;    ">
-                                                Konfirmasi Hapus Keahlian
-                                            </div>
-                                            <div class="modal-body" style="text-align:center">
-                                                <span style="text-transform: capitalize;">Anda yakin akan menghapus
-                                                    keahlian ini <span id='namaKeahlian'></span>?</span>
-                                            </div>
-                                            <div class="modal-footer">
-
-                                                <form method="POST"
-                                                    action="{{ route('delete-candidate-keahlian-admin', ['id' => $item->id ]) }}">
-                                                    {{ csrf_field() }}
-                                                    <input type="hidden" id='inputID' name="id" value=''
-                                                        class='form-control'>
-                                                    <a class='btn btn-danger cancel-apply' href='#'
-                                                        style='width: 100px;'><i
-                                                            class="fa fa-close"></i>&nbsp;&nbsp;Batal</a>
-                                                    <button class='btn btn-success' type="submit">Hapus
-                                                        Keahlian</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Modal --}}
+    <div class="modal fade" id="konfirmasi" tabindex="-1" role="dialog" aria-labelledby="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align:center;background:#dcdcdc;">
+                    Konfirmasi Hapus Keahlian
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <span style="text-transform: capitalize;">Anda yakin akan menghapus keahlian ini <span
+                            id='namaKeahlian'></span>?</span>
+                </div>
+                <div class="modal-footer">
+                    <form method="POST" id="deleteForm">
+                        {{ csrf_field() }}
+                        <a class='btn btn-danger cancel-apply' href='#' style='width: 100px;' data-dismiss="modal">
+                            <i class="fa fa-close"></i>&nbsp;&nbsp;Batal
+                        </a>
+                        <button class='btn btn-success' type="submit">Hapus Keahlian</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -97,10 +92,11 @@
         })
 
         function deleteKeahlian(id, nama) {
-            $('#inputID').val(id);
             $('#namaKeahlian').html(nama);
+            $('#deleteForm').attr('action', '/admin-dashboard/keahlian/delete/' + id);
             $('#konfirmasi').modal('show');
         }
+
         $(function() {
             var tablejobs = $('#tabel-skill').DataTable({
                 lengthChange: false,

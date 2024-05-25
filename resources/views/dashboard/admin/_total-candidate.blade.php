@@ -117,7 +117,7 @@
                                                                 value="{{ $job->id }}">
                                                             <input type="hidden" name="step_id" value="0">
                                                             <button class='btn btn-danger'
-                                                                style="font-size: 10px;">Gagal&nbsp;<i
+                                                                style="font-size: 10px;">Tidak Terima&nbsp;<i
                                                                     class="fa fa-close"></i></button>
                                                         </form>
                                                     </div>
@@ -131,7 +131,7 @@
                                                             <input type="hidden" name="matched" value='1'>
                                                             <input type="hidden" name="step_id" value="0">
                                                             <button class='btn btn-success'
-                                                                style="font-size: 10px;">Lolos&nbsp;<i
+                                                                style="font-size: 10px;">Terima&nbsp;<i
                                                                     class="fa fa-check-circle"></i></button>
                                                         </form>
                                                     </div>
