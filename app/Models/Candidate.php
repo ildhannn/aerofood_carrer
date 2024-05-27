@@ -197,7 +197,7 @@ class Candidate extends Model
 
     public function isMainProfileComplete() {
         $profile = [
-            'phone', 'address', 'expected_salary', 'birth_date', 'summary', 'cv', 'ktp', 'bpjs', 'npwp', 'why_hire_me', 'photo'
+            'phone', 'address', 'expected_salary', 'birth_date', 'summary', 'cv', 'ktp', 'bpjs', 'npwp', 'why_hire_me', 'photo', 'pvi'
         ];
 
         if ($this->nationality === 2 && $this->country === null) {

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pvi;
+use App\Models\PviAnswer;
 use App\Models\Sosmed;
 use Auth;
 use Illuminate\Http\File;
@@ -448,7 +450,7 @@ class CandidateController extends Controller
     {
         $candidate = Auth::user()->candidate;
         $inputs = $request->all();
-        
+
         if ($request->hasFile('cv')) {
             if ($request->file('cv')->isValid()) {
                 $size = $request->file('cv')->getSize() / 1024;
@@ -459,11 +461,11 @@ class CandidateController extends Controller
                     $extension = $request->cv->getClientOriginalExtension();
                     $filename = 'cv_' . Auth::user()->name . '.' . $extension;
                     $filePath = public_path('upload/candidates/' . $folder) . '/' . $filename;
-                    
+
                     if ($candidate->cv && file_exists($filePath)) {
                         unlink($filePath);
                     }
-    
+
                     $request->cv->move(public_path('upload/candidates/' . $folder) . '/', $filename);
                     $inputs['cv'] = $filename;
                     Alert::success('Berhasl', 'CV Telah di Upload');
@@ -474,12 +476,11 @@ class CandidateController extends Controller
                 $inputs['cv'] = $candidate->cv;
             }
         }
-        
+
         $candidate->update($inputs);
-    
+
         return redirect()->route('candidate-cv');
     }
-    
 
     public function isHasCV()
     {
@@ -488,5 +489,136 @@ class CandidateController extends Controller
             return json_encode(1);
         }
         return json_encode(0);
+    }
+
+    public function pvi()
+    {
+        $candidate = Auth::user()->candidate;
+
+        $pvis = Pvi::select('pvis.*', 'pvi_answers.answer')
+            ->leftJoin('pvi_answers', 'pvis.id', '=', 'pvi_answers.pvi_id')
+            ->where('pvis.status', 1)
+            ->orderBy('pvis.created_at', 'DESC')
+            ->get();
+
+        return view('candidate.pvi', compact('candidate', 'pvis'));
+    }
+
+    public function editPvi($id)
+    {
+        $candidate = Auth::user()->candidate;
+
+        $pvis = Pvi::select('pvis.*', 'pvi_answers.answer')
+            ->leftJoin('pvi_answers', 'pvis.id', '=', 'pvi_answers.pvi_id')
+            ->where('pvis.id', $id)
+            ->get();
+
+        return view('candidate.pvi_answer', compact('candidate', 'pvis'));
+    }
+
+    // public function updatePvi(Request $request) 
+    // {
+    //     $candidate = Auth::user()->candidate;
+
+    //     $files = [];
+
+    //     if ($request->hasFile('answer')) 
+    //     {
+    //         foreach($request->file('answer') as $file)
+    //         {
+    //             if ($file->isValid()) 
+    //             {
+    //                 if (Converts::bytesToHuman($file->getSize()) > 25) {
+    //                     Alert::error('Opps', 'Ukuran file maks 25MB!');
+    //                     return redirect('profile/pvi/edit/'.$request->pvi_id);
+    //                 } else {
+    //                     $folder = md5($candidate->candidate_id.'folder');
+    //                     $extension = $file->getClientOriginalExtension();
+    //                     $filename = 'answer_'.$candidate->candidate_id.'_'.Auth::user()->name.'.'.$extension;
+
+    //                     if (file_exists(public_path('upload/candidates/'.$folder).'/'.$filename)) {
+    //                         unlink(public_path('upload/candidates/'.$folder).'/'.$filename);
+    //                     }
+
+    //                     $file->move(public_path('upload/candidates/'.$folder).'/', $filename);
+
+    //                     foreach ($request->pvi_id as $pvi_id) 
+    //                     {
+    //                         $files[] = [
+    //                             'pvi_id' => $pvi_id,
+    //                             'candidate_id' => $candidate->id,
+    //                             'answer' => $filename
+    //                         ];
+    //                     }
+
+    //                     foreach ($files as $check) 
+    //                     {
+    //                         $check_answer = PviAnswer::where('pvi_id', $check['pvi_id'])->first();
+
+    //                         if ($check_answer) {
+    //                             PviAnswer::where('pvi_id', $check['pvi_id'])->update([
+    //                                 'answer' => $check['answer']
+    //                             ]);
+    //                         } else {
+    //                             PviAnswer::insert($files);
+    //                         }
+    //                     }
+
+    //                     Alert::success('Berhasil', 'Jawaban telah di Upload');
+
+    //                     return redirect()->route('candidate-pvi');
+    //                 }
+    //             }
+    //         }
+    //     } else {
+    //         Alert::error('Gagal', 'Jawaban gagal di Upload');
+
+    //         return redirect()->route('candidate-pvi');
+    //     }
+    // }
+
+    public function updatePvi(Request $request)
+    {
+        $candidate = Auth::user()->candidate;
+
+        if ($request->has('answer')) {
+            if (Converts::bytesToHuman($request->file('answer')->getSize()) > 25) {
+                Alert::error('Opps', 'Ukuran file maks 25MB!');
+                return redirect('profile/pvi/edit/' . $request->pvi_id);
+            } else {
+                $folder = md5($candidate->candidate_id . 'folder');
+                $extension = $request->file('answer')->getClientOriginalExtension();
+                $filename = 'answer_' . $request->pvi_id . '_' . $candidate->candidate_id . '_' . Auth::user()->name . '.' . $extension;
+
+                if (file_exists(public_path('upload/candidates/' . $folder) . '/' . $filename)) {
+                    unlink(public_path('upload/candidates/' . $folder) . '/' . $filename);
+                }
+
+                $request->file('answer')->move(public_path('upload/candidates/' . $folder) . '/', $filename);
+
+                $check_answer = PviAnswer::where('pvi_id', $request->pvi_id)->first();
+
+                if ($check_answer) {
+                    PviAnswer::where('pvi_id', $request->pvi_id)->update([
+                        'answer' => $filename
+                    ]);
+                } else {
+                    $answer = new PviAnswer;
+                    $answer->pvi_id = $request->pvi_id;
+                    $answer->candidate_id = $candidate->id;
+                    $answer->answer = $filename;
+                    $answer->save();
+                }
+
+                Alert::success('Berhasil', 'Jawaban telah di Upload');
+
+                return redirect()->route('candidate-pvi');
+            }
+
+        } else {
+            Alert::error('Gagal', 'Jawaban gagal di Upload');
+
+            return redirect()->route('candidate-pvi');
+        }
     }
 }

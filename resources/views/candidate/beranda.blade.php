@@ -137,11 +137,9 @@
                                                                     href="{{ route('job-detail', $job->job_id) }}">{{ $job->title }}</a>
                                                             </h4>
                                                             <?php
-                                                            
-                                                            $candidate_job = $job->jobCandidate($candidate->candidate_id);
-                                                            $job_step = $job->jobStep($candidate_job->pivot->progress);
+                                                                $candidate_job = $job->jobCandidate($candidate->candidate_id);
+                                                                $job_step = $job->jobStep($candidate_job->pivot->progress);
                                                             ?>
-
 
                                                             <div>
                                                                 <span class="text-muted">Tahap:</span>

@@ -21,7 +21,8 @@
                                     <div class="va-middle">
                                         <div class="name mar-t-0">
                                             <span><b>{{ Auth::user()->name }}</b></span><br><span>{{ Auth::user()->email }}</span><br><span
-                                                class="label label-primary">Lihat Profil</span></div>
+                                                class="label label-primary">Lihat Profil</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -39,6 +40,8 @@
                             href="{{ route('candidate-info') }}"><i class="fa fa-list"></i> Info Lain</a>
                         <a class="nav-item {{ Auth::user()->candidate->cv === null ? 'uncompleted' : '' }} {{ Route::currentRouteName() == 'candidate-cv' ? 'active' : '' }}"
                             href="{{ route('candidate-cv') }}"><i class="fa fa-paper-plane-o"></i> Unggah CV/Resume</a>
+                        <a class="nav-item {{ Auth::user()->candidate->pvi === null ? 'uncompleted' : '' }} {{ Route::currentRouteName() == 'candidate-pvi' || Route::currentRouteName() == 'edit-candidate-pvi' ? 'active' : '' }}"
+                            href="{{ route('candidate-pvi') }}"><i class="fa fa-video-camera"></i> PVI</a>
                     </div>
                 </div>
             </div>
