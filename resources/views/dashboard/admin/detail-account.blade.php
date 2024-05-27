@@ -1,0 +1,1 @@
+detail-account.blade.php
