@@ -66,7 +66,7 @@
 
 	<div class="va-table" style="text-align: center;margin: 0 auto;">
 		<div class="va-middle">
-			<form method='POST' action='{{route("fail")}}' style="margin-right: 10px;">
+			<form method='POST' action='{{route("fail-candidates")}}' style="margin-right: 10px;">
 				{{csrf_field()}}
 				<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 				<input type="hidden" name="job_id" value="{{$job->id}}">
@@ -75,7 +75,7 @@
 			</form>
 		</div>
 		<div class="va-middle">
-			<form method='POST' action='{{route("pass")}}'>
+			<form method='POST' action='{{route("pass-candidates")}}'>
 				{{csrf_field()}}
 				<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 				<input type="hidden" name="job_id" value="{{$job->id}}">

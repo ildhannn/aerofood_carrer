@@ -66,7 +66,7 @@
                         $name = 'Interview User 1';
                     } elseif ($step_id == 6) {
                         $name = 'Interview User 2';
-                    } 
+                    }
                     ?>
                     <li role="presentation"><a href="#interview-{{ $loop->iteration }}">{{ $name }}</a></li>
                 @endif
@@ -104,7 +104,7 @@
                                                 class='btn btn-primary'>Evaluasi</a></td>
                                         <td align="center">User 2 <a href="#interview-6"
                                                 class='btn btn-primary'>Evaluasi</a></td>
-                                        
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -260,7 +260,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+
                                         </tr>
                                         <tr>
                                             <td colspan="6">
@@ -298,7 +298,7 @@
                                         <td style="vertical-align: middle;"
                                             class="text-center {{ $class[$interviewResults[3]] }}">
                                             {{ $result[$interviewResults[3]] }}</td>
-                                        
+
                                     </tr>
                                 </tbody>
                             </table>
@@ -306,6 +306,7 @@
                     </div>
                 </div>
             </div>
+
             @foreach ($job->interviews as $interview)
                 <div class="list-item tab-pane" role='tab-panel' id='interview-{{ $interview->step->id }}'
                     style="border: 1px solid #ccc;margin-top: -1px;padding: 0px 30px;">
@@ -388,52 +389,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- <div class="row">
-                                                                                                                                                                                                                                                                                                                      <?php $detail = $job->interviewResultDetail($interview->id, $job->id, $candidate->id, $form->id); ?>
-                                                                                                                                                                                                                                                                                                                      <h4>{{ $form->competence }}</h4>
-                                                                                                                                                                                                                                                                                                                      <div class="form-group">
-                                                                                                                                                                                                                                                                                                                       <label class='col-sm-2 control-label'>Rating</label>
-                                                                                                                                                                                                                                                                                                                       <div class="col-sm-4">
-                                                                                                                                                                                                                                                                                                                        <section class='rating-widget'>
-                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                        Rating Stars Box
-                                                                                                                                                            @if ($detail != null)
-    <div class='rating-stars text-center'>
-                                                                                                                                                                                                                                                                                                                        <ul id='stars'>
-                                                                                                                                                                                                                                                                                                                        <li onclick='star("rate{{ '-' . $interview->id . '-' . $form->id }}", 1)' class='star {{ $detail['rating'] >= 1 ? 'selected' : '' }}' title='Poor' data-value='1'>
-                                                                                                                                                                                                                                                                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                                                                                                                                        <li onclick='star("rate{{ '-' . $interview->id . '-' . $form->id }}", 2)' class='star {{ $detail['rating'] >= 2 ? 'selected' : '' }}' title='Fair' data-value='2'>
-                                                                                                                                                                                                                                                                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                                                                                                                                        <li onclick='star("rate{{ '-' . $interview->id . '-' . $form->id }}", 3)' class='star {{ $detail['rating'] >= 3 ? 'selected' : '' }}' title='Good' data-value='3'>
-                                                                                                                                                                                                                                                                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                                                                                                                                        <li onclick='star("rate{{ '-' . $interview->id . '-' . $form->id }}", 4)' class='star {{ $detail['rating'] >= 4 ? 'selected' : '' }}' title='Excellent' data-value='4'>
-                                                                                                                                                                                                                                                                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                                                                                                                                        <li onclick='star("rate{{ '-' . $interview->id . '-' . $form->id }}", 5)' class='star {{ $detail['rating'] >= 5 ? 'selected' : '' }}' title='WOW!!!' data-value='5'>
-                                                                                                                                                                                                                                                                                                                        <i class='fa fa-star fa-fw'></i>
-                                                                                                                                                                                                                                                                                                                        </li>
-                                                                                                                                                                                                                                                                                                                        </ul>
-                                                                                                                                                                                                                                                                                                                        </div>
-    @endif
-                                                                                                                                                                                                                                                                                                                        </section>
-                                                                                                                                                                                                                                                                                                                        <input type="hidden" name="interview_form_id[]" value='{{ $form->id }}'>
-                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                     
-                                                                                                                                                                                                                                                                                                                       </div>
-                                                                                                                                                                                                                                                                                                                       <div class="col-md-1">
-                                                                                                                                                                                                                                                                                                                        <input class="form-control" type='number' placeholder='0' id='rate{{ '-' . $interview->id . '-' . $form->id }}' name='rating[]' value='{{ $detail }}' required="required"/>
-                                                                                                                                                                                                                                                                                                                       </div>
-                                                                                                                                                                                                                                                                                                                      </div>
-                                                                                                                                                                                                                                                                                                                      <div class="form-group">
-                                                                                                                                                                                                                                                                                                                       <label class='col-sm-2 control-label'>Deskripsi</label>
-                                                                                                                                                                                                                                                                                                                       <div class="col-sm-7">
-                                                                                                                                                                                                                                                                                                                        <textarea cols="70" rows="3" name='description[]' required="required">{{ $detail }}</textarea>
-                                                                                                                                                                                                                                                                                                                       </div>
-                                                                                                                                                                                                                                                                                                                      </div>
-                                                                                                                                                                                                                                                                                                                     </div> -->
                                 @endforeach
                             </div>
                             <div class="result" style="border-top: none;margin: 0px;">
