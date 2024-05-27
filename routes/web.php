@@ -153,6 +153,9 @@ Route::post('/apply', 'JobController@apply')->name('apply');
 Route::post('/save-job', 'JobController@saveJob')->name('save-job');
 Route::post('/fail', 'JobController@fail')->name('fail');
 Route::post('/pass', 'JobController@pass')->name('pass');
+Route::post('/failcadidates', 'JobController@failCandidates')->name('fail-candidates');
+Route::post('/passcandidates', 'JobController@passCandites')->name('pass-candidates');
+
 
 Route::get('/intel-test/{job_id}/take', 'TestController@take_intel')->name('take-intel-test');
 Route::get('/test/intel', 'TestController@get_test_intel')->name('get-intel-test');
