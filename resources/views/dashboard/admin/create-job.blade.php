@@ -632,8 +632,8 @@
                             <div class="form-group col-md-12 ta-center">
                                 <a data-back='3' class="btn btn-default back"><i
                                         class="fa fa-angle-left"></i>&nbsp;&nbsp;&nbsp; Sebelumnya</a>
-                                <a data-next='5' class="btn blue next">Selanjutnya &nbsp;&nbsp;&nbsp;<i
-                                        class="fa fa-angle-right"></i> </a>
+                                {{-- <a data-next='5' class="btn blue next">Selanjutnya &nbsp;&nbsp;&nbsp;<i
+                                        class="fa fa-angle-right"></i> </a> --}}
                             </div>
                         </div>
 

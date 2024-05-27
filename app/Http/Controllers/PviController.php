@@ -15,7 +15,6 @@ class PviController extends Controller
 {
     public function getDetailPvi($candidate_id) {
     	$job = PviAnswer::where('candidate_id', $candidate_id)->get();
-        dd($job);
     	$pvis = $job->pvis;
     	$candidate = $job->jobCandidate($candidate_id);
     	return view('dashboard.pvi-report', compact('pvis', 'job', 'candidate'));

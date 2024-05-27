@@ -76,7 +76,7 @@ Route::post('/admin-dashboard/account/change-password', 'AdminDashboardControlle
 Route::post('/admin-dashboard/account/delete', 'AdminDashboardController@deleteAccount')->name('delete-account');
 
 // 
-Route::get('/admin-dashboard/pvi/{candidate_id}', 'PviController@getDetailPvi')->name('pvi-candidate');
+Route::get('/admin-dashboard/pvi/{job_id}/{candidate_id}', 'PviController@getDetailPvi')->name('pvi-candidate');
 Route::get('/admin-dashboard/test-result/{job_id}/{candidate_id}', 'PviController@testResult')->name('test-result');
 // 
 
