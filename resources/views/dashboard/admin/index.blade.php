@@ -213,7 +213,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
                     <div class="form-group">
                         <div style="width: 100%; color: #fff;">
                             <div class="va-table" style="width: 100%;">
@@ -228,7 +228,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 

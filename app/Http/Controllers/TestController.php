@@ -239,7 +239,6 @@ class TestController extends Controller
     public function soal(Request $request)
     {
         $soalintel = DB::table('questions_intel')->get();
-        // dd($soalintel);
         return view('dashboard/admin/soal', compact('soalintel'));
     }
     public function createSoal()

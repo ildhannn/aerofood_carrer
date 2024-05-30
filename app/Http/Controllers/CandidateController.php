@@ -147,11 +147,7 @@ class CandidateController extends Controller
                     $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->photo->getClientOriginalExtension();
                     $filename = 'foto_' . Auth::user()->name . '.' . $extension;
-                    $file_path = Image::make(public_path('upload/candidates/' . $folder) . '/' . $filename);
-                    $file_path->resize(200, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
-                    $file_path->save(public_path('upload/candidates/' . $folder . '/' . $filename));
+                    $file_path = public_path('upload/candidates/' . $folder) . '/' . $filename;
                     if (file_exists($file_path)) {
                         unlink($file_path);
                     }

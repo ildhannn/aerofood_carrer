@@ -65,7 +65,7 @@ class AdminDashboardController extends Controller
         $Interview   = DB::table('job_candidates')->where('status', 0)->whereIn('id', array(3, 4, 5, 6, 7))->count();
         $MCU         = DB::table('job_candidates')->where('status', 0)->where('progress', 8)->count();
         $Offering    = DB::table('job_candidates')->where('status', 0)->where('progress', 9)->count();
-        $Hired       = DB::table('job_candidates')->where('status', 0)->where('progress', 10)->count();
+        // $Hired       = DB::table('job_candidates')->where('status', 0)->where('progress', 10)->count();
         
         $arr_step = array(
             'Matched'       => $Matched,
@@ -75,7 +75,7 @@ class AdminDashboardController extends Controller
             'Interview'     => $Interview,
             'MCU'           => $MCU,
             'Offering'      => $Offering,
-            'Hired'         => $Hired,
+            // 'Hired'         => $Hired,
         );
         
         $arr_province = array();
@@ -107,7 +107,8 @@ class AdminDashboardController extends Controller
             $preq = $yearNow .'-'. $monthNow .'-'. $i;
             $total = DB::table("candidates")->where('created_at', 'LIKE', "%{$preq}%")->count();
             $arr_candidate[] = array(
-                'label' => (($i < 10)?"0".$i:$i) .'-'. $monthNow .'-'. $yearNow,
+                // 'label' => (($i < 10)?"0".$i:$i) .'-'. $monthNow .'-'. $yearNow,
+                'label' => (($i < 9)?"0".$i:$i) .'-'. $monthNow .'-'. $yearNow,
                 'value' => $total,
             );
         }

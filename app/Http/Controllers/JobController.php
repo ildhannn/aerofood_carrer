@@ -75,7 +75,6 @@ class JobController extends Controller
 
     public function storeJob(Request $request)
     {
-        // dd($request);
         $job_id = md5($request->title . date('Y-m-d h-m-s'));
         $user = Auth::user();
 
@@ -428,7 +427,7 @@ class JobController extends Controller
             Mail::to($candidate->user->email)->send(new Status($candidate, $job));
         }
 
-        // return redirect()->back()->with(compact('job'));
+        return redirect()->back()->with(compact('job'));
     }
 
     public function fail(Request $request)

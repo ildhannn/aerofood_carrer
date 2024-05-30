@@ -93,8 +93,7 @@
                         <div class="va-middle width-50 width-100-m">
                             JOB TITLE: <span style="text-transform: uppercase;"><b
                                     style="margin-right: 20px">{{ $job->title }}</b></span>
-                            CREATE BY: <span
-                                style="text-transform: uppercase;"><b>{{ $job->createdBy['name'] }}</b></span>
+                            CREATE BY: <span style="text-transform: uppercase;"><b>{{ $job->createdBy['name'] }}</b></span>
                         </div>
                     </div>
                 </div>
@@ -124,9 +123,9 @@
                 </div>
 
                 <!-- <span type="button" class="label label-default job-status"> Status Lowongan : Closed</span>
-                                        <a href="{{ route('edit-job', $job->job_id) }}" class='btn' style="width: 100px; background: #f0ad4e; border-color: #eea236; color: white"><i class="fa fa-pencil" style="margin-right: 5px"></i> Ubah</a>
-                                        <a href="{{ route('delete-job', $job->job_id) }}" class='btn btn-danger delete' data-title="{{ $job->title }}" style="width: auto;"><i class="fa fa-trash" style="margin-right: 5px"></i> Hapus</a>
-                                        <br><br> -->
+                                                        <a href="{{ route('edit-job', $job->job_id) }}" class='btn' style="width: 100px; background: #f0ad4e; border-color: #eea236; color: white"><i class="fa fa-pencil" style="margin-right: 5px"></i> Ubah</a>
+                                                        <a href="{{ route('delete-job', $job->job_id) }}" class='btn btn-danger delete' data-title="{{ $job->title }}" style="width: auto;"><i class="fa fa-trash" style="margin-right: 5px"></i> Hapus</a>
+                                                        <br><br> -->
             @endif
             <!-- <a href="{{ route('job-detail', $job->job_id) }}" class='btn btn-default' style="background: #fff"><i class="fa fa-eye"></i> Pratinjau</a> -->
             <span class='alert alert-success copied'
@@ -178,10 +177,10 @@
                                             <span class="visible-inline-xs-block"><i
                                                     class="fa fa-folder-open"></i>&nbsp;</span><span
                                                 class="hidden-xs">{{ $step->name }}</span>
-                                        @elseif($step->id == 10)
+                                            {{-- @elseif($step->id == 10)
                                             <span class="visible-inline-xs-block"><i
                                                     class="fa fa-thumbs-up"></i>&nbsp;</span><span
-                                                class="hidden-xs">{{ $step->name }}</span>
+                                                class="hidden-xs">{{ $step->name }}</span> --}}
                                         @endif
                                     @endif
                                     (<span
@@ -210,7 +209,7 @@
                 @include('dashboard.admin._interview')
                 @include('dashboard.admin._mcu')
                 @include('dashboard.admin._offering')
-                @include('dashboard.admin._hired')
+                {{-- @include('dashboard.admin._hired') --}}
             </div>
         </div>
     </div>
@@ -249,7 +248,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modal Uplaod MCU -->
     <div class="modal fade" id="upload" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
@@ -276,7 +275,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal Interview -->
     <div class="modal fade" id="interview-modal" tabindex="-1" role="dialog" aria-labelledby="modal">
@@ -345,17 +343,17 @@
                         </div>
 
                         <!-- <div class="form-group">
-                                                    <label>Waktu</label>
-                                                    <input type="time" name="time-interview">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label style="vertical-align: top">Tempat</label>
-                                                    <textarea name='place-interview' cols='50' rows='4'></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Interviewer</label>
-                                                    <select name='interviewer'></select>
-                                                </div> -->
+                                                                    <label>Waktu</label>
+                                                                    <input type="time" name="time-interview">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label style="vertical-align: top">Tempat</label>
+                                                                    <textarea name='place-interview' cols='50' rows='4'></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label>Interviewer</label>
+                                                                    <select name='interviewer'></select>
+                                                                </div> -->
                         <div class="form-group">
                             <textarea id="invitation" name='invitation'>
                             <h5><b>Dear Mr/Mrs. <span class="candidate-name"></span>,</b></h5>
@@ -439,11 +437,27 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="job_id">
                         <input type="hidden" name="candidate_id">
-                        <input id="offering" type="file" class="form-control" name="offering" required autofocus
-                            placeholder="Offering" accept="image/*,application/pdf"><br>
+
+                        <div class="input-group" style="margin-top: 10px;">
+                            <label for="basic-url">Join Date</label>
+                            <input class="form-control" type="date" name="join_date">
+                        </div>
+
+                        <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
+                            <label for="basic-url">Offering Date</label>
+                            <input class="form-control" type="date" name="offering_date">
+                        </div>
+
+                        <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
+                            <label for="basic-url">Offering Letter</label>
+                            <input id="offering" style="margin-top: 10px;" type="file" class="form-control"
+                                name="offering" autofocus placeholder="Offering"
+                                accept="image/*,application/pdf"><br>
+                        </div>
+
                         <div class="button-group text-center">
                             <a class='btn btn-danger cancel-offer' href='#' style='width: 100px;'>Batal</a>
-                            <button class='btn btn-success' style='width: 125px;'>Upload Offering</button>
+                            <button class='btn btn-success' style='width: 125px;'>Simpan Offering</button>
                         </div>
                     </form>
                 </div>
@@ -451,6 +465,7 @@
         </div>
     </div>
 
+    <!-- Hapus Lowongan -->
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -489,7 +504,7 @@
                 })
             });
         }
-        
+
         $(function() {
             $('[data-toggle="tooltip"]').tooltip()
             $('#tabs li a').click(function(e) {
@@ -577,7 +592,6 @@
 
 
                 var interviewers = $(this).data('interviewers')
-                console.log(interviewers);
                 $('[name=interviewer]').append('<option value="">Pilih Interviewer</option>')
                 $('[name=interviewer]').append('<option value="' + interviewers[0] + '">' + interviewers[
                     0] + '</option>')
@@ -657,8 +671,8 @@
                         $('#dashboard .loading-screen').show()
                     },
                     success: function(result) {
-                        $('.job-candidate-progress').html(result)
-                        $('#dashboard .loading-screen').hide()
+                        // $('.job-candidate-progress').html(result)
+                        // $('#dashboard .loading-screen').hide()
                         // if ($form.attr('action').includes('fail')) {
                         //     $('.lists .alert-success').html(
                         //         '<strong>Sukses!</strong> menggagalkan kandidat')
@@ -668,9 +682,9 @@
                         // }
                         // $('.lists .alert-success').show(500)
                         location.reload();
-                        setTimeout(function() {
-                            $('.lists .alert-success').hide(500)
-                        }, 5000)
+                        // setTimeout(function() {
+                        //     $('.lists .alert-success').hide(500)
+                        // }, 5000)
 
                         $('#tabs a').click(function(e) {
                             $(this).tab('show')
@@ -696,7 +710,7 @@
                         })
                     },
                     error: function() {
-                        $('#dashboard .loading-screen').hide()
+                        // $('#dashboard .loading-screen').hide()
                         // if ($form.attr('action').includes('fail')) {
                         //     $('.lists .alert-danger').html(
                         //         '<strong>Error!</strong> menggagalkan kandidat')
@@ -706,9 +720,9 @@
                         // }
                         // $('.lists .alert-danger').show(500)
                         location.reload();
-                        setTimeout(function() {
-                            $('.lists .alert-danger').hide(500)
-                        }, 5000)
+                        // setTimeout(function() {
+                        //     $('.lists .alert-danger').hide(500)
+                        // }, 5000)
                     }
                 })
             })

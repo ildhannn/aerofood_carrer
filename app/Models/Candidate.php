@@ -140,9 +140,9 @@ class Candidate extends Model
     }
 
     public function progress() {
-        //if ($this->pivot->progress == 1) {
-        //    return 'PVI';
-        //} 
+        if ($this->pivot->progress == 1) {
+           return 'PVI';
+        } 
         if ($this->pivot->progress == 2) {
             return 'Tes Online';
         } elseif ($this->pivot->progress >= 3 && $this->pivot->progress <= 7) {
@@ -151,9 +151,11 @@ class Candidate extends Model
             return 'Medical Check Up';
         } elseif ($this->pivot->progress == 9) {
             return 'Offering';
-        } elseif ($this->pivot->progress == 10) {
-            return 'Join Date';
-        } else {
+        } 
+        // elseif ($this->pivot->progress == 10) {
+        //     return 'Join Date';
+        // } 
+        else {
             return 'Seleksi Dokumen';
         }
     }

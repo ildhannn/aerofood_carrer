@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Job;
 use App\Models\Pvi;
 
 use App\Models\PviAnswer;
@@ -13,11 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class PviController extends Controller
 {
-    public function getDetailPvi($candidate_id) {
-    	$job = PviAnswer::where('candidate_id', $candidate_id)->get();
-    	$pvis = $job->pvis;
-    	$candidate = $job->jobCandidate($candidate_id);
-    	return view('dashboard.pvi-report', compact('pvis', 'job', 'candidate'));
+    public function getDetailPvi($job_id, $candidate_id)
+    {
+        $job = Job::where('job_id', $job_id)->first();
+        $can_id = DB::table('candidates')->where('candidate_id', $candidate_id)->first();
+        $pvis = DB::table('pvi_answers')->where('candidate_id', $can_id->id)->join('pvis', 'pvis.id', '=', 'pvi_answers.pvi_id')->get();
+        $candidate = $job->jobCandidate($candidate_id);
+        return view('dashboard.pvi-report', compact('pvis', 'job', 'candidate'));
     }
 
     // public function take($job_id) {
@@ -59,10 +62,10 @@ class PviController extends Controller
     //     }
     // }
 
-    public function pvi(Request $request) 
+    public function pvi(Request $request)
     {
         $pvis = Pvi::orderBy('created_at', 'DESC')->get();
-        
+
         return view('dashboard/admin/pvi', compact('pvis'));
     }
 

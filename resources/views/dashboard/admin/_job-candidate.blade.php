@@ -132,6 +132,8 @@
                             <span class="label label-info">Tahap matched</span>
                         @elseif($candidate->pivot->status == 2 && $candidate->pivot->progress == 0)
                             <span class="label label-info">Tahap shortlisted</span>
+                            @elseif($candidate->pivot->status == 0 && $candidate->pivot->progress == 10)
+                            <span class="label label-success">Hired</span>
                         @elseif($candidate->pivot->status == 0)
                             <span class="label label-info">Tahap {{ $candidate->progress() }}</span>
                         @endif
@@ -144,6 +146,7 @@
             </table>
         </div>
     </div>
+
     <div class="list-item tab-pane" role='tabpanel' id='not-matched'>
 
         <div class="item">

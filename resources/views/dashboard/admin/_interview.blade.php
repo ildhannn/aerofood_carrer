@@ -23,8 +23,6 @@
             array_push($interviewers, $value->interviewer);
         }
         
-        //dd($interviewers);
-        
         ?>
         <li role="presentation" class="active"><a href="#interview-not-checked">Belum Diperiksa
                 ({{ $not_checked->count() }})</a></li>
@@ -148,7 +146,7 @@
                                                         </form>
                                                     </div>
                                                 </div>
-                                                {{-- <!-- --}}
+
                                                 <div class="va-table width-100">
                                                     <div class="va-middle width-100">
                                                         <a href="#interview-modal"
@@ -166,7 +164,6 @@
                                             @endif
                                         </div>
             </div>
-            {{-- --> --}}
 
         </div>
         </td>
@@ -261,6 +258,7 @@
         </table>
     </div>
 </div>
+
 <div class="list-item tab-pane" role='tab-panel' id='interview-fail'>
     <div class="item">
         <table id="table-interview-fail" class="table table-striped table-bordered row-border order-column"
