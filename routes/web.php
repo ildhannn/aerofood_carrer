@@ -29,12 +29,11 @@ Route::post('/lupa_password', 'Auth\LoginController@emailLupaPassword')->name('l
 Route::get('/lupa_password/{email}/{id}', 'Auth\LoginController@viewLupaPasswordEmail')->name('lupa_password-email');
 Route::post('/lupa_password/email', 'Auth\LoginController@lupaPassword')->name('lupa_password-email-post');
 
-Route::get('/faq', 'HomeController@faq')->name('faq');
+Route::get('/faq', 'FaqController@index')->name('faq');
 
 Route::get('/jobs', 'HomeController@jobs')->name('jobs');
 Route::get('/job-detail/{id}', 'HomeController@jobDetail')->name('job-detail');
 Route::get('/job-search', 'HomeController@searchJob')->name('job-search');
-
 
 Route::get('/admin-dashboard/changeUnit', 'AdminDashboardController@changeUnit')->name('changeUnit');
 Route::get('/admin-dashboard', 'AdminDashboardController@index')->name('admin-dashboard');
@@ -76,7 +75,8 @@ Route::post('/admin-dashboard/account/change-password', 'AdminDashboardControlle
 Route::post('/admin-dashboard/account/delete', 'AdminDashboardController@deleteAccount')->name('delete-account');
 
 // 
-Route::get('/admin-dashboard/pvi/{job_id}/{candidate_id}', 'PviController@getDetailPvi')->name('pvi-candidate');
+// Route::get('/admin-dashboard/pvi/{job_id}/{candidate_id}', 'PviController@getDetailPvi')->name('pvi-candidate');
+Route::get('/admin-dashboard/pvi/candidate', 'PviController@getDetailPvi')->name('pvi-candidate');
 Route::get('/admin-dashboard/test-result/{job_id}/{candidate_id}', 'PviController@testResult')->name('test-result');
 // 
 
@@ -92,14 +92,19 @@ Route::get('/admin-dashboard/create-soal', 'TestController@createSoal')->name('d
 Route::post('/admin-dashboard/create-soal', 'TestController@storeSoal')->name('create-soal');
 Route::post('/admin-dashboard/soal/delete', 'TestController@deleteSoal')->name('delete-soal');
 
-// --- MASTER PVI --- //
 Route::get('/admin-dashboard/pvi', 'PviController@pvi')->name('dashboard-pvi');
 Route::get('/admin-dashboard/create-pvi', 'PviController@createPvi')->name('dashboard-create-pvi');
 Route::post('/admin-dashboard/create-pvi', 'PviController@storePvi')->name('create-pvi');
 Route::get('/admin-dashboard/pvi/edit/{id}', 'PviController@editPvi')->name('dashboard-edit-pvi');
 Route::post('/admin-dashboard/pvi/edit-soal', 'PviController@changePvi')->name('change-pvi');
 Route::post('/admin-dashboard/pvi/delete', 'PviController@deletePvi')->name('delete-pvi');
-// ------------------ //
+
+Route::get('/admin-dashboard/faq', 'FaqController@faq')->name('dashboard-faq');
+Route::get('/admin-dashboard/create-faq', 'FaqController@createFaq')->name('dashboard-create-faq');
+Route::post('/admin-dashboard/create-faq', 'FaqController@storeFaq')->name('create-faq');
+Route::get('/admin-dashboard/faq/edit/{id}', 'FaqController@editFaq')->name('dashboard-edit-faq');
+Route::post('/admin-dashboard/faq/edit-soal', 'FaqController@changeFaq')->name('change-faq');
+Route::post('/admin-dashboard/faq/delete', 'FaqController@deleteFaq')->name('delete-faq');
 
 Route::get('/admin-dashboard/age', 'AdminDashboardController@age')->name('age');
 Route::get('/admin-dashboard/province', 'AdminDashboardController@province')->name('province');
@@ -148,6 +153,8 @@ Route::post('/profile/info/edit', 'CandidateController@updateInfo')->name('updat
 
 // --- PVI ANSWER --- //
 Route::get('/profile/pvi', 'CandidateController@pvi')->name('candidate-pvi');
+Route::get('/profile/pvi/add/{id}', 'CandidateController@addPvi')->name('add-pvi');
+Route::post('/profile/pvi/add', 'CandidateController@addAnswerPvi')->name('add-candidate-pvi');
 Route::get('/profile/pvi/edit/{id}', 'CandidateController@editPvi')->name('edit-candidate-pvi');
 Route::post('/profile/pvi/edit', 'CandidateController@updatePvi')->name('update-candidate-pvi');
 // ------------------ //
