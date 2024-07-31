@@ -20,45 +20,44 @@
             <div class="row">
 
                 {{-- konten kiri --}}
-                <!--<div class="col-sm-4 pad-l-0-m pad-r-0-m">-->
-                <!--    <div class="agenda">-->
-                <!--        <div class="panel qualifications"style="padding-top:0px;padding-bottom:0px;">-->
-                <!--            <h4 class="panel-title kualif"-->
-                <!--                style="border-bottom:none; background:#034369;padding-top:20px; color:#fff; text-transform:uppercase;">-->
-                <!--                Aktivitas Lamaran</h4>-->
-                <!--            @if ($jadwal == null)-->
-                <!--                <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">-->
-                <!--                    <h5>Tidak Ada Aktivitas</h5>-->
-                <!--                </div>-->
-                <!--            @else-->
-                <!--                <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">-->
-                <!--                    @foreach ($jadwal as $jd)-->
-                <!--                        <div class="va-table">-->
-                <!--                            <div class="va-middle">-->
-                <!--                                <div class="date">-->
-                <!--                                    <div class="month fs-12 pad-5-0">{{ $jd['month'] }}</div>-->
-                <!--                                    <div class="day">{{ $jd['dateMonth'] }}</div>-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                            <div class="va-middle">-->
-                <!--                                <div class="agenda-content">-->
-                <!--                                    <strong>{{ $jd['aktivitas'] }}</strong><br>-->
-                <!--                                    <span>{{ $jd['job'] }}</span>-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                        <hr>-->
-                <!--                    @endforeach-->
-                <!--                </div>-->
+                {{-- <div class="col-sm-4 pad-l-0-m pad-r-0-m">
+                   <div class="agenda">
+                       <div class="panel qualifications"style="padding-top:0px;padding-bottom:0px;">
+                           <h4 class="panel-title kualif"
+                               style="border-bottom:none; background:#034369;padding-top:20px; color:#fff; text-transform:uppercase;">
+                               Aktivitas Lamaran</h4>
+                           @if ($jadwal == null)
+                               <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">
+                                   <h5>Tidak Ada Aktivitas</h5>
+                               </div>
+                           @else
+                               <div class="panel-content list-qualification" style="overflow-x: scroll; height: 300px;">
+                                   @foreach ($jadwal as $jd)
+                                       <div class="va-table">
+                                           <div class="va-middle">
+                                               <div class="date">
+                                                   <div class="month fs-12 pad-5-0">{{ $jd['month'] }}</div>
+                                                   <div class="day">{{ $jd['dateMonth'] }}</div>
+                                               </div>
+                                           </div>
+                                           <div class="va-middle">
+                                               <div class="agenda-content">
+                                                   <strong>{{ $jd['aktivitas'] }}</strong><br>
+                                                   <span>{{ $jd['job'] }}</span>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <hr>
+                                   @endforeach
+                               </div>
 
-                <!--            @endif-->
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
+                           @endif
+                       </div>
+                   </div>
+               </div> --}}
 
                 {{-- konten kanan --}}
                 <div class="col-sm-12 profile pad-l-15-m pad-r-15-m">
-
                     {{-- Header --}}
                     <div class="row panel pad-t-5em-m"
                         style="position:relative;border:none;-webkit-box-shadow: 0px 20px 30px -17px rgba(0,0,0,0.6);-moz-box-shadow: 0px 20px 30px -17px rgba(0,0,0,0.6);box-shadow: 0px 20px 30px -17px rgba(0,0,0,0.6);">
@@ -93,7 +92,7 @@
                     </div>
 
                     <div class="row panel pad-0" style="background:none;">
-
+                        {{-- tab --}}
                         <ul class="nav nav-tabs sub-tab text-center" role='tab-list'>
                             <li role="presentation" class="active"><a href="#applied"><i
                                         class="fa fa-check-square"></i><span class="hidden-xs">&nbsp;&nbsp;LOWONGAN
@@ -103,7 +102,7 @@
                         </ul>
 
                         <div class="tab-content">
-                            {{-- lowongan terlama --}}
+                            {{-- lowongan terlamar --}}
                             <div class="list-item tab-pane active" role='tabpanel' id='applied'>
                                 <ul class="item-low-t mar-b-0 border-b-0">
                                     <div class="visible-xs-block pad-1em-m" style="font-size: 1.5em;background:#fff;">
@@ -129,29 +128,32 @@
                                                             <h4><a
                                                                     href="{{ route('job-detail', $job->job_id) }}">{{ $job->title }}</a>
                                                             </h4>
-                                                            <?php
-                                                            $candidate_job = $job->jobCandidate($candidate->candidate_id);
-                                                            $job_step = $job->jobStep($candidate_job->pivot->progress);
-                                                            ?>
-                                                            @if($candidate_job->pivot->status == 0 && $candidate_job->pivot->progress == 10)
-                                                            
+                                                            @php
+                                                                $candidate_job = $job->jobCandidate(
+                                                                    $candidate->candidate_id,
+                                                                );
+                                                                $job_step = $job->jobStep(
+                                                                    $candidate_job->pivot->progress,
+                                                                );
+                                                            @endphp
+                                                            @if ($candidate_job->pivot->status == 0 && $candidate_job->pivot->progress == 10)
                                                             @else
-                                                             <div>
-                                                                <span class="text-muted">Tahap:</span>
-                                                                <label>{{ $candidate_job->pivot->progress > 0 ? $candidate_job->progress() : 'Seleksi dokumen' }}{{ $candidate_job->pivot->progress == 1 ? ' (Prescreening Video Interview)' : '' }}</label>
-                                                                
-                                                            </div>
-                                                                @if ($candidate_job->pivot->progress >= 3 )
+                                                                <div>
+                                                                    <span class="text-muted">Tahap:</span>
+                                                                    <label>{{ $candidate_job->pivot->progress > 0 ? $candidate_job->progress() : 'Seleksi dokumen' }}{{ $candidate_job->pivot->progress == 1 ? ' (Prescreening Video Interview)' : '' }}</label>
+
+                                                                </div>
+                                                                {{-- @if ($candidate_job->pivot->progress >= 3)
                                                                     <div>
                                                                         <!--<span class="text-muted">Tanggal Offering:</span>-->
-                                                                        <span class="text-muted"><i>Silahkan periksa e-mail anda, untuk informasi lebih lanjut.</i></span>
-                                                                        
+                                                                        <span class="text-muted"><i>Silahkan periksa e-mail
+                                                                                anda, untuk informasi lebih
+                                                                                lanjut.</i></span>
                                                                     </div>
-                                                                @endif
+                                                                @endif --}}
                                                             @endif
-                                                           
+
                                                             @if ($candidate_job->pivot->progress > 0)
-                                                                
                                                                 @if ($candidate_job->pivot->status == 0)
                                                                     @if ($candidate_job->pivot->progress == 1)
                                                                     @elseif($candidate_job->pivot->progress == 2)
@@ -172,7 +174,7 @@
                                                                                     pemeriksaan</span></div>
                                                                         @endif
                                                                     @elseif($candidate_job->pivot->status == 0 && $candidate_job->pivot->progress == 10)
-                                                                    <span class="label label-success">Hired</span>
+                                                                        <span class="label label-success">Hired</span>
                                                                     @endif
                                                                 @elseif($candidate_job->pivot->status == 1)
                                                                     <span class='label label-success'>Lolos</span>
@@ -208,7 +210,42 @@
                                                                                 class="fa fa-server"></i></a>
                                                                     @endif
                                                                 @endif
+                                                                <br />
+                                                                @if ($candidate_job->pivot->progress == 9 && $candidate_job->offering($job->id) != null)
+                                                                    <div class="input-group"
+                                                                        style="margin-top: 10px; margin-bottom: 10px;">
+                                                                        <form action='{{ route('offering-candidate') }}'
+                                                                            method='POST' enctype="multipart/form-data">
+                                                                            {{ csrf_field() }}
+                                                                            <input type="hidden" name="job_id"
+                                                                                value="{{ $candidate_job->offering($job->id)->id }}">
+                                                                            <input type="hidden" name="candidate_id"
+                                                                                value="{{ $candidate_job->offering($job->id)->candidate_id }}">
+
+                                                                            <input type="hidden" name="unit"
+                                                                                value="{{ $candidate_job->offering($job->id)->unit }}">
+                                                                            <input type="hidden" name="posisi"
+                                                                                value="{{ $candidate_job->offering($job->id)->position }}">
+                                                                            <input type="hidden" name="offering_date"
+                                                                                value="{{ $candidate_job->offering($job->id)->offering_date }}">
+                                                                            <input type="hidden" name="join_date"
+                                                                                value="{{ $candidate_job->offering($job->id)->join_date }}">
+
+                                                                            <input id="offering" type="file"
+                                                                                class="form-control" name="offering"
+                                                                                required autofocus placeholder="Offering"
+                                                                                accept="image/*,application/pdf"><br>
+                                                                            <button type="submit"
+                                                                                class='btn btn-success'>Upload
+                                                                                Offering</button>
+                                                                        </form>
+                                                                        <span
+                                                                            style="font-style:italic; color: red; font-size: 12px;">cek
+                                                                            kembali TTD!</span>
+                                                                    </div>
+                                                                @endif
                                                             @endif
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -279,7 +316,7 @@
         </div>
     </div>
 
-    {{-- modal --}}
+    {{-- modal delete save lowongan --}}
     <div class="modal fade" id="delete-modal" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -300,6 +337,7 @@
             </div>
         </div>
     </div>
+
 @stop
 
 @push('scripts')

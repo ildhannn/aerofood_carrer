@@ -48,6 +48,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
     protected function authenticated(Request $request, $user)
     {
         $admin = Admin::where('user_id', '=', Auth::user()->id)->get();

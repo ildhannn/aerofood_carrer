@@ -58,7 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" id="start_date">
+                        <div class="form-group">
                             <label for='start_date' class="col-md-12" style="font-weight:normal;">Waktu Mulai <span
                                     class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
@@ -73,7 +73,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group" id="end_date">
+                        <div class="form-group">
                             <label for='end_date' class="col-md-12" style="font-weight:normal;">Waktu Berakhir <span
                                     class="input-group-text" id="inputGroupPrepend" style="color: red">*</span></label>
                             <div class="col-md-12">
@@ -235,25 +235,35 @@
 @stop
 
 @push('scripts')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#start_date').change(function() {
+            function validateDates() {
                 var startDate = new Date($('#start_date').val());
                 var endDate = new Date($('#end_date').val());
                 if (endDate < startDate) {
                     alert('Tanggal akhir harus setelah atau sama dengan tanggal mulai.');
                     $('#end_date').val('');
                 }
-            });
+            }
 
-            $('#end_date').change(function() {
+            $('#start_date').change(validateDates);
+            $('#end_date').change(validateDates);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            function validateDates() {
                 var startDate = new Date($('#start_date').val());
                 var endDate = new Date($('#end_date').val());
                 if (endDate < startDate) {
                     alert('Tanggal akhir harus setelah atau sama dengan tanggal mulai.');
                     $('#end_date').val('');
                 }
-            });
+            }
+
+            $('#start_date').change(validateDates);
+            $('#end_date').change(validateDates);
         });
     </script>
     <script type="text/javascript">

@@ -20,10 +20,12 @@
         
         $interviewers = [];
         foreach ($job->interviews as $key => $value) {
-            array_push($interviewers, $value->interviewer);
+            // if ($value->interviewer_name == null) {
+                array_push($interviewers, $value->interviewer);
+            // }
         }
         
-        //dd($interviewers);
+        // dd($interviewers);
         
         ?>
         <li role="presentation" class="active"><a href="#interview-not-checked">Belum Diperiksa
@@ -118,12 +120,53 @@
 
                                         </div>
                                     </td>
-                                    <td width="5%">
+                                    <td width="20%">
                                         <div class="pull-right">
                                             @if ($candidate->pivot->progress >= 3 && $candidate->pivot->progress <= 7 && $candidate->pivot->status == 0)
-                                                <div class="va-table width-100">
+                                                <div class="va-table width-200">
                                                     <div class="va-middle width-50">
-                                                        <form method='POST' action='{{ route('fail-candidates') }}'>
+                                                        {{-- <form method='POST' action='{{ route('fail-candidates') }}' style="margin-right: 10px;">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="candidate_id"
+                                                                value="{{ $candidate->id }}">
+                                                            <input type="hidden" name="job_id"
+                                                                value="{{ $job->id }}">
+                                                            <input type="hidden" name="step_id" value="3">
+                                                            <button class='btn btn-primary width-100'
+                                                                style="margin-right: 5px;">Online</button>
+                                                        </form> --}}
+
+                                                        <button href="#interview-modal-online"
+                                                            class='btn btn-primary invite interview-online width-100' style="margin-right: 10px;"
+                                                            data-candidate='{{ $candidate->id }}'
+                                                            data-job-name='{{ $job->title }}'
+                                                            data-job='{{ $job->id }}'
+                                                            data-user='{{ $candidate->user->name }}'
+                                                            data-jenis_interview='online'
+                                                            data-interviewers='{{ collect($interviewers) }}'>Online</button>
+                                                    </div>
+                                                    <div class="va-middle width-50">
+                                                        {{-- <form method='POST' action='{{ route('pass-candidates') }}' style="margin-right: 10px;">
+                                                            {{ csrf_field() }}
+                                                            <input type="hidden" name="candidate_id"
+                                                                value="{{ $candidate->id }}">
+                                                            <input type="hidden" name="job_id"
+                                                                value="{{ $job->id }}">
+                                                            <input type="hidden" name="step_id" value="3">
+                                                            <button class='btn btn-primary width-100'>Offline</button>
+                                                        </form> --}}
+
+                                                        <button href="#interview-modal"
+                                                            class='btn btn-primary invite interview width-100' style="margin-left: 10px;"
+                                                            data-candidate='{{ $candidate->id }}'
+                                                            data-job-name='{{ $job->title }}'
+                                                            data-job='{{ $job->id }}'
+                                                            data-user='{{ $candidate->user->name }}'
+                                                            data-jenis_interview='offline'
+                                                            data-interviewers='{{ collect($interviewers) }}'>Offline</button>
+                                                    </div>
+                                                    <div class="va-middle width-50">
+                                                        <form method='POST' action='{{ route('fail-candidates') }}' style="margin-right: 10px; margin-left: 20px;">
                                                             {{ csrf_field() }}
                                                             <input type="hidden" name="candidate_id"
                                                                 value="{{ $candidate->id }}">
@@ -149,7 +192,7 @@
                                                     </div>
                                                 </div>
                                                 {{-- <!-- --}}
-                                                <div class="va-table width-100">
+                                                {{-- <div class="va-table width-100">
                                                     <div class="va-middle width-100">
                                                         <a href="#interview-modal"
                                                             class='btn btn-primary invite interview width-100'
@@ -158,14 +201,26 @@
                                                             data-job='{{ $job->id }}'
                                                             data-user='{{ $candidate->user->name }}'
                                                             data-interviewers='{{ collect($interviewers) }}'>Undang
-                                                            interview</a>
+                                                            interview</a> --}}
                                                     @else
                                                         @if ($candidate->pivot->progress >= 3 && $candidate->pivot->progress <= 7 && $candidate->pivot->status == 33)
                                                             <span class="label label-danger"><i>Gagal</i></span>
                                                         @endif
-                                            @endif
-                                        </div>
-            </div>
+                                                    @endif
+                                                    {{-- </div>
+                                                </div> --}}
+                                                <div class="va-table width-100">
+                                                    <div class="va-middle width-100">
+                                                        <form method='POST' action='{{route("roleback")}}' style="margin-top: 10px;">
+                                                            {{csrf_field()}}
+                                                            <input type="hidden" name="candidate_id" value="{{$candidate->id}}">
+                                                            <input type="hidden" name="job_id" value="{{$job->id}}">
+                                                            <input type="hidden" name="step_id" value="3">
+                                                            <button class='btn btn-warning width-100'><i class="fa fa-undo"></i>&nbsp;Roleback</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
             {{-- --> --}}
 
         </div>
@@ -264,6 +319,7 @@
         </table>
     </div>
 </div>
+
 <div class="list-item tab-pane" role='tab-panel' id='interview-fail'>
     <div class="item">
         <table id="table-interview-fail" class="table table-striped table-bordered row-border order-column"

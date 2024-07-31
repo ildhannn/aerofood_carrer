@@ -46,8 +46,11 @@ class AdminDashboardController extends Controller
 
     public function index() {
         $arr_nationality = array();
-        $arr_nationality[] = Dbases::getCountById('candidates', 'nationality', 0);
-        $arr_nationality[] = Dbases::getCountById('candidates', 'nationality', 1);
+        $arr_nationality[] = Dbases::getCountById('candidates', 'education', 0);
+        $arr_nationality[] = Dbases::getCountById('candidates', 'education', 1);
+        $arr_nationality[] = Dbases::getCountById('candidates', 'education', 2);
+        $arr_nationality[] = Dbases::getCountById('candidates', 'education', 3);
+        $arr_nationality[] = Dbases::getCountById('candidates', 'education', 4);
          
         $arr_age = array();
         
@@ -56,6 +59,11 @@ class AdminDashboardController extends Controller
         $arr_age[] = DB::table('candidates')->where('age', '>', 25)->where('age', '<=', 30)->count();
         $arr_age[] = DB::table('candidates')->where('age', '>', 30)->where('age', '<=', 35)->count();
         $arr_age[] = DB::table('candidates')->where('age', '>', 35)->count();
+
+        $arr_jk = array();
+        
+        $arr_jk[] = DB::table('candidates')->where('jk', '=', 1)->count();
+        $arr_jk[] = DB::table('candidates')->where('jk', '=', 2)->count();
         
         $arr_step = array();
         $Matched     = DB::table('job_candidates')->where('status', 1)->where('progress', 0)->count();
@@ -124,6 +132,7 @@ class AdminDashboardController extends Controller
         $arr = array(
             'arr_nationality'   => $arr_nationality,
             'arr_age'           => $arr_age,
+            'arr_jk'            => $arr_jk,
             'arr_province'      => $arr_province,
             'arr_salary'        => $arr_salary,
             'arr_candidate'     => $arr_candidate,

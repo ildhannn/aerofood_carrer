@@ -13,6 +13,9 @@ class HomeController extends Controller
 {
     public function index()
     {
+        if (session()->has('unit')) {
+            return redirect()->route('admin-dashboard');
+        }
         $jobs = Job::orderBy('updated_at', 'desc')->where('status', 1)->get();
         $fields = Field::all(); 
         $provinces = Province::all(); 

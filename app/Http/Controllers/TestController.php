@@ -249,6 +249,7 @@ class TestController extends Controller
     public function storeSoal(Request $request)
     {
         DB::table('questions_intel')->insert([
+            'jenis_soal' => $request->jenis_soal,
             'question' => $request->question,
             'option_a' => $request->option_a,
             'option_b' => $request->option_b,
@@ -260,6 +261,7 @@ class TestController extends Controller
 
         return redirect()->route('dashboard-soal');
     }
+    
     public function editSoal($id)
     {
         $soal = DB::table('questions_intel')->find($id);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Mail\Applied;
 use App\Mail\Rejected;
 use App\Mail\Status;
+use App\Mail\Offering;
 use App\Models\Benefit;
 use App\Models\Candidate;
 use App\Models\City;
@@ -347,6 +348,37 @@ class JobController extends Controller
         return view('job-detail', compact('job', 'request'));
     }
 
+    public function roleBack(Request $request) {
+        $job = Job::findorfail($request->job_id);
+        $candidate = Candidate::findorfail($request->candidate_id);
+        if ($request->step_id == 8) {
+            $roleback = 3;
+        } else {
+            $roleback = $request->step_id - 1;
+        }
+
+        if ($request->step_id == 1) {
+            DB::table('job_candidates')
+            ->where('candidate_id', $candidate->id)
+            ->where('job_id', $request->job_id)
+            ->update([
+                'progress' =>  $roleback,
+                'status' => $request->status
+            ]);
+        } else {
+            DB::table('job_candidates')
+            ->where('candidate_id', $candidate->id)
+            ->where('job_id', $request->job_id)
+            ->update([
+                'progress' =>  $roleback,
+            ]);
+        }
+
+        // $job->candidates()->wherePivot('id', $candidate->id)->updateExistingPivot($candidate->id, ['progress' => $roleback]);
+
+        return back();
+    }
+
     public function pass(Request $request)
     {
         $job = Job::findorfail($request->job_id);
@@ -354,8 +386,9 @@ class JobController extends Controller
         if ($request->matched == 1) {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => $request->step_id, 'status' => 2]);
         } elseif ($request->step_id == 3) {
-            $job->candidates()->updateExistingPivot($candidate->id, ['progress' => 8, 'status' => 0]);
+            $job->candidates()->updateExistingPivot($candidate->id, ['progress' => 9, 'status' => 0]);
         } else {
+
             if ($request->step_id == 2) {
                 DB::table('job_interviews')->insert([
                     'job_id' => $request->job_id,
@@ -397,68 +430,80 @@ class JobController extends Controller
     {
         $job = Job::findorfail($request->job_id);
         $candidate = Candidate::findorfail($request->candidate_id);
+
+        if ($request->step_id == 9) {
+            Mail::to($candidate->user->email)->send(new Offering($candidate, $job));
+        }
+
         if ($request->matched == 1) {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => $request->step_id, 'status' => 2]);
         } elseif ($request->step_id == 3) {
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => 8, 'status' => 0]);
         } else {
             if ($request->step_id == 2) {
-                DB::table('job_interviews')->insert([
-                    'job_id' => $request->job_id,
-                    'step_id' => 3,
-                    'interviewer' => "HC 1",
-                    'candidate_id' => $request->candidate_id
-                ]);
-                DB::table('job_interviews')->insert([
-                    'job_id' => $request->job_id,
-                    'step_id' => 4,
-                    'interviewer' => "HC 2",
-                    'candidate_id' => $request->candidate_id
-                ]);
-                DB::table('job_interviews')->insert([
-                    'job_id' => $request->job_id,
-                    'step_id' => 5,
-                    'interviewer' => "User 1",
-                    'candidate_id' => $request->candidate_id
-                ]);
-                DB::table('job_interviews')->insert([
-                    'job_id' => $request->job_id,
-                    'step_id' => 6,
-                    'interviewer' => "User 2",
-                    'candidate_id' => $request->candidate_id
-                ]);
-                DB::table('job_interviews')->insert([
-                    'job_id' => $request->job_id,
-                    'step_id' => 7,
-                    'interviewer' => null,
-                    'candidate_id' => $request->candidate_id
-                ]);
+
+                $cek1 = DB::table('job_interviews')->where('job_id', $request->job_id)->where('candidate_id', $request->candidate_id)->count();
                 
-                $job_interview = DB::table('job_interviews')->where('candidate_id', $request->candidate_id)->get();
-                for ($i = 0; $i < $job_interview->count(); $i++ ) {
-                    DB::table('job_interview_results')->insert([
-                        'job_interview_id' => $job_interview[$i]->id,
-                        'job_id' => $job_interview[$i]->job_id,
-                        'candidate_id' => $request->candidate_id,
-                        'result' => 3
+                if ($cek1 == 0) {
+                    DB::table('job_interviews')->insert([
+                        'job_id' => $request->job_id,
+                        'step_id' => 3,
+                        'interviewer' => "HC 1",
+                        'candidate_id' => $request->candidate_id
                     ]);
-                }
-                
-                $job_interview_result = DB::table('job_interview_results')->where('candidate_id', $request->candidate_id)->get();
-                for ($i = 0; $i < $job_interview_result->count(); $i++ ) {
-                    $interview_forms = DB::table('interview_forms')->get();
-                    for ($j = 0; $j < $interview_forms->count(); $j++ ) {
-                        DB::table('job_interview_result_details')->insert([
-                            'job_interview_result_id' => $job_interview_result[$i]->id,
-                            'interview_form_id' => $interview_forms[$j]->id,
-                            'description' => ''
+                    DB::table('job_interviews')->insert([
+                        'job_id' => $request->job_id,
+                        'step_id' => 4,
+                        'interviewer' => "HC 2",
+                        'candidate_id' => $request->candidate_id
+                    ]);
+                    DB::table('job_interviews')->insert([
+                        'job_id' => $request->job_id,
+                        'step_id' => 5,
+                        'interviewer' => "User 1",
+                        'candidate_id' => $request->candidate_id
+                    ]);
+                    DB::table('job_interviews')->insert([
+                        'job_id' => $request->job_id,
+                        'step_id' => 6,
+                        'interviewer' => "User 2",
+                        'candidate_id' => $request->candidate_id
+                    ]);
+                    DB::table('job_interviews')->insert([
+                        'job_id' => $request->job_id,
+                        'step_id' => 7,
+                        'interviewer' => null,
+                        'candidate_id' => $request->candidate_id
+                    ]);
+                    
+                    $job_interview = DB::table('job_interviews')->where('candidate_id', $request->candidate_id)->get();
+                    for ($i = 0; $i < $job_interview->count(); $i++ ) {
+                        DB::table('job_interview_results')->insert([
+                            'job_interview_id' => $job_interview[$i]->id,
+                            'job_id' => $job_interview[$i]->job_id,
+                            'candidate_id' => $request->candidate_id,
+                            'result' => 3
                         ]);
                     }
+                    
+                    $job_interview_result = DB::table('job_interview_results')->where('candidate_id', $request->candidate_id)->get();
+                    for ($i = 0; $i < $job_interview_result->count(); $i++ ) {
+                        $interview_forms = DB::table('interview_forms')->get();
+                        for ($j = 0; $j < $interview_forms->count(); $j++ ) {
+                            DB::table('job_interview_result_details')->insert([
+                                'job_interview_result_id' => $job_interview_result[$i]->id,
+                                'interview_form_id' => $interview_forms[$j]->id,
+                                'description' => ''
+                            ]);
+                        }
+                    }
                 }
+
             }
+
             $job->candidates()->updateExistingPivot($candidate->id, ['progress' => $request->step_id + 1, 'status' => 0]);
         }
-
+        
         if (($request->step_id == 0 && $request->matched != 1) || $request->step_id == 1) {
             Mail::to($candidate->user->email)->send(new Status($candidate, $job));
         }
@@ -520,4 +565,5 @@ class JobController extends Controller
 
         return redirect()->route('dashboard-jobs');
     }
+
 }

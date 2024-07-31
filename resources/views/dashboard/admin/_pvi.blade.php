@@ -33,10 +33,10 @@
 			                    <td width="68%"><div><a class='view-profile' onclick="showProfile('{{$candidate->candidate_id}}')" href='#{{$candidate->candidate_id}}' data-candidate='{{$candidate->candidate_id}}'>{{$candidate->user->name}}</a></div></td>
 			                    <td width="15%" align="center"><div><a href="{{route('pvi-candidate', ['job_id'=>$job->job_id, 'candidate_id'=>$candidate->candidate_id])}}" data-toggle="tooltip" data-original-title="Lihat Hasil PVI"><i class="fa fa-external-link-square" style="font-size: 20px;"></i></a></div></td>
 			                    <!-- <td width="45%"><div><a href="{{route('pvi-candidate', [$job->job_id, $candidate->candidate_id])}}">Lihat Hasil PVI</a></div></td> -->
-				                <td width="15%">
+				                <td width="20%">
 				                	<div class="va-table width-100">
 										<div class="va-middle width-50">
-											<form method='POST' action='{{route("fail")}}'>
+											<form method='POST' action='{{route("fail")}}' style="margin-right: 10px;">
 												{{csrf_field()}}
 												<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 												<input type="hidden" name="job_id" value="{{$job->id}}">
@@ -45,12 +45,22 @@
 											</form>
 										</div>
 										<div class="va-middle width-50">
-											<form method='POST' action='{{route("pass")}}'>
+											<form method='POST' action='{{route("pass")}}' style="margin-right: 10px;">
 												{{csrf_field()}}
 												<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 												<input type="hidden" name="job_id" value="{{$job->id}}">
 												<input type="hidden" name="step_id" value="1">
 												<button class='btn btn-success width-100'><i class="fa fa-check"></i>&nbsp;Lolos</button>
+											</form>
+										</div>
+										<div class="va-middle width-50">
+											<form method='POST' action='{{route("roleback")}}'>
+												{{csrf_field()}}
+												<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
+												<input type="hidden" name="job_id" value="{{$job->id}}">
+												<input type="hidden" name="step_id" value="1">
+												<input type="hidden" name="status" value="2">
+												<button class='btn btn-warning width-100'><i class="fa fa-undo"></i>&nbsp;Roleback</button>
 											</form>
 										</div>
 									</div>
@@ -78,6 +88,7 @@
 			    </table>
 			</div>
 		</div>
+		{{-- @dd($candidate) --}}
 
 		<div class="list-item tab-pane" role='tab-panel' id='pass-pvi'>
 			<div class="item">

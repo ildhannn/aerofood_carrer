@@ -8,7 +8,7 @@ use DB;
 class Candidate extends Model
 {
 	protected $fillable = [
-	   'user_id', 'candidate_id', 'phone', 'nationality', 'province_id', 'city_id', 'address', 'expected_salary', 'birth_date', 'fresh_graduate', 'summary', 'other_info', 'cv', 'experience', 'country', 'ktp', 'bpjs', 'npwp', 'why_hire_me', 'photo', 'sosmed'
+	   'user_id', 'candidate_id', 'phone', 'nationality', 'province_id', 'city_id', 'address', 'expected_salary', 'birth_date', 'fresh_graduate', 'summary', 'other_info', 'cv', 'experience', 'country', 'ktp', 'bpjs', 'npwp', 'why_hire_me', 'photo', 'sosmed', 'jk'
 	];
 
 	public function user() {
@@ -28,7 +28,7 @@ class Candidate extends Model
     }
 
     public function experiences() {
-    	return $this->hasMany('App\Models\CandidateExperience', 'candidate_id')->orderBy('end_date', 'DESC');
+    	return $this->hasMany('App\Models\CandidateExperience', 'candidate_id')->orderBy('end_date', 'ASC');
     }
 
     public function skills() {

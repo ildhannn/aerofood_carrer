@@ -122,6 +122,7 @@
 			    </table>
 			</div>
 		</div>
+		
 		<div class="list-item tab-pane" role='tabpanel' id='shortlisted-pass'>
 			<div class="item">
 				<table id="table-shortlisted-pass" class="table table-striped table-bordered row-border order-column" style="width:100%">

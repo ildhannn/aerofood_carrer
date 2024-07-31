@@ -10,7 +10,7 @@
         <li role="presentation"><a href="#offering-fail">Gagal
                 ({{ $job->candidateProgressStatus('=', 9, 33)->count() }})</a></li>
     </ul>
-    
+
     <div class="tab-content">
         <div class="list-item tab-pane active" role='tab-panel' id='offering-not-checked'>
             <div class="item">
@@ -49,9 +49,9 @@
                                     </div>
                                 </td>
                                 <td>{{ $candidate->offering($job->id)->position ?? '-' }}</td>
-                                <td>{{ $candidate->offering($job->id)->unit  ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->offering_date),('d F Y')) ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->join_date),('d F Y')) ?? '-' }}</td>
+                                <td>{{ $candidate->offering($job->id)->unit ?? '-' }}</td>
+                                <td>{{ $candidate->offering($job->id)->offering_date ?? '-' }}</td>
+                                <td>{{ $candidate->offering($job->id)->join_date ?? '-' }}</td>
                                 <td width="20%" align="center">
                                     @if ($candidate->offering($job->id))
                                         <div class="va-table">
@@ -109,12 +109,11 @@
                                     </div>
             </div>
             </td>
-            <td width="10%" align="center">
+            <td width="20%" align="center">
                 <div>
                     <div class="va-table width-100">
                         <div class="va-middle width-50">
-                            <form method='POST' action='{{ route('fail-candidates') }}'
-                                style="display: inline-block;">
+                            <form method='POST' action='{{ route('fail-candidates') }}' style="margin-right: 10px;">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
                                 <input type="hidden" name="job_id" value="{{ $job->id }}">
@@ -124,8 +123,7 @@
                             </form>
                         </div>
                         <div class="va-middle width-50">
-                            <form method='POST' action='{{ route('pass-candidates') }}'
-                                style="display: inline-block;">
+                            <form method='POST' action='{{ route('pass-candidates') }}' style="margin-right: 10px;">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
                                 <input type="hidden" name="job_id" value="{{ $job->id }}">
@@ -133,6 +131,19 @@
                                 <button class='btn btn-success width-100'><i
                                         class="fa fa-check"></i>&nbsp;Lolos</button>
                             </form>
+                        </div>
+                        <div class="va-table width-100">
+                            <div class="va-middle width-100">
+                                <form method='POST' action='{{ route('roleback') }}'
+                                    style="display: inline-block; margin-right: 10px;">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
+                                    <input type="hidden" name="job_id" value="{{ $job->id }}">
+                                    <input type="hidden" name="step_id" value="9">
+                                    <button class='btn btn-warning width-100'><i
+                                            class="fa fa-undo"></i>&nbsp;Roleback</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
@@ -180,10 +191,10 @@
                                         data-candidate='{{ $candidate->candidate_id }}'>{{ $candidate->user->name }}</a>
                                 </div>
                             </td>
-                             <td>{{ $candidate->offering($job->id)->position ?? '-' }}</td>
-                                <td>{{ $candidate->offering($job->id)->unit  ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->offering_date),('d F Y')) ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->join_date),('d F Y')) ?? '-' }}</td>
+                            <td>{{ $candidate->offering($job->id)->position ?? '-' }}</td>
+                            <td>{{ $candidate->offering($job->id)->unit ?? '-' }}</td>
+                            <td>{{ $candidate->offering($job->id)->offering_date ?? '-' }}</td>
+                            <td>{{ $candidate->offering($job->id)->join_date ?? '-' }}</td>
                             <td width="20%" align="center">
                                 @if ($candidate->offering($job->id))
                                     <div class="va-table">
@@ -262,7 +273,6 @@
             </thead>
             <tbody>
                 @foreach ($job->candidateProgressStatus('=', 9, 33) as $candidate)
-
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td width="63%">
@@ -281,9 +291,9 @@
                             </div>
                         </td>
                         <td>{{ $candidate->offering($job->id)->position ?? '-' }}</td>
-                                <td>{{ $candidate->offering($job->id)->unit  ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->offering_date),('d F Y')) ?? '-' }}</td>
-                                <td>{{ date_format(new DateTime($candidate->offering($job->id)->join_date),('d F Y')) ?? '-' }}</td>
+                        <td>{{ $candidate->offering($job->id)->unit ?? '-' }}</td>
+                        <td>{{ $candidate->offering($job->id)->offering_date ?? '-' }}</td>
+                        <td>{{ $candidate->offering($job->id)->join_date ?? '-' }}</td>
                         <td width="20%" align="center">
                             @if ($candidate->offering($job->id))
                                 <div class="va-table">
@@ -297,8 +307,7 @@
                                     <div class="va-middle">
                                         <div><a href="#offering" class='offering btn btn-warning'
                                                 data-toggle="tooltip" data-original-title="Ubah Offering Letter"
-                                                data-candidate='{{ $candidate->id }}'
-                                                data-job='{{ $job->id }}'
+                                                data-candidate='{{ $candidate->id }}' data-job='{{ $job->id }}'
                                                 data-user='{{ $candidate->user->name }}' style="width:auto;"><i
                                                     class="fa fa fa-pencil" style="font-size: 14px;"></i></a>
                                         </div>
@@ -325,9 +334,8 @@
                                             aria-valuemax="100" style="width:{{ $candidate->match($job->id) }}%">
                                         @elseif($presentase < 75)
                                             <div class="progress-bar progress-bar-primary" role="progressbar"
-                                                aria-valuenow="{{ $candidate->match($job->id) }}"
-                                                aria-valuemin="0" aria-valuemax="100"
-                                                style="width:{{ $candidate->match($job->id) }}%">
+                                                aria-valuenow="{{ $candidate->match($job->id) }}" aria-valuemin="0"
+                                                aria-valuemax="100" style="width:{{ $candidate->match($job->id) }}%">
                                             @else
                                                 <div class="progress-bar progress-bar-success" role="progressbar"
                                                     aria-valuenow="{{ $candidate->match($job->id) }}"

@@ -19,13 +19,14 @@
                             </label>
                             <div style="margin-top:10px;">
                                 <div class="col-md-12">
-                                    @if ($candidate->photo)
-                                        <img src="{{ asset($candidate->photo ? 'upload/candidates/' . md5($candidate->candidate_id . 'folder') . '/' . $candidate->photo : 'img/no-pic.jpg') }}"
-                                            width="100">
-                                    @else
-                                    @endif
+                                    {{-- <img src="{{ asset(Session::get('photo') ? '/public/upload/candidates/' . md5($candidate->updated_at . 'folder') . '/' . Session::get('photo') : 'img/no-pic.jpg') }}"
+                                        width="100"> --}}
+                                        <img src="{{ $candidate->photo ? asset('/upload/candidates/' . md5($candidate->candidate_id . 'folder') . '/' . $candidate->photo) : 'img/no-pic.jpg' }}"
+                                        width="100">
                                 </div>
                                 <div class="col-md-12" style="padding-top: 10px;">
+                                    {{-- <input id="photo" type="text" class="" name="photo_old"
+                                        value="{{ $candidate->photo }}" placeholder="Photo" accept=".png, .jpg, .jpeg"> --}}
                                     <input id="photo" type="file" class="" name="photo"
                                         value="{{ Auth::user()->photo }}" placeholder="Photo" accept=".png, .jpg, .jpeg">
                                     <i class="text-muted fs-12">Silahkan upload foto 3x4 Anda (<b>max. 2MB</b>)</i>
@@ -62,7 +63,8 @@
                             </label>
                             <div class="col-md-12">
                                 <input id="ktp" type="text" class="form-control" name="ktp"
-                                    value="{{ Auth::user()->candidate->ktp }}" required placeholder="No. KTP" maxlength="16">
+                                    value="{{ Auth::user()->candidate->ktp }}" required placeholder="No. KTP"
+                                    maxlength="16">
                                 @if ($errors->has('ktp'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('ktp') }}</strong>
@@ -83,20 +85,32 @@
                                     </span>
                                 @endif
                             </div>
+                            <label for='npwp' class="col-md-12" style="font-weight:normal;">
+                                <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: grey; font-size: 12px; font-style: italic">Jika tidak ada, isi ( - )
+                                    -</span>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label for='bpjs' class="col-md-12" style="font-weight:normal;">
-                                No. BPJS Ketenagakerjaan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                No. BPJS Ketenagakerjaan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <input id="bpjs" type="text" class="form-control" name="bpjs"
-                                    value="{{ Auth::user()->candidate->bpjs }}" required placeholder="No. BPJS Ketenagakerjaan">
+                                    value="{{ Auth::user()->candidate->bpjs }}" required
+                                    placeholder="No. BPJS Ketenagakerjaan">
                                 @if ($errors->has('bpjs'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('bpjs') }}</strong>
                                     </span>
                                 @endif
                             </div>
+                            <label for='npwp' class="col-md-12" style="font-weight:normal;">
+                                <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: grey; font-size: 12px; font-style: italic">Jika tidak ada, isi ( -
+                                    )</span>
+                            </label>
                         </div>
                         <div class="form-group">
                             <label for='email' class="col-md-12" style="font-weight:normal;">
@@ -114,7 +128,8 @@
                         </div>
                         <div class="form-group">
                             <label for='phone' class="col-md-12" style="font-weight:normal;">
-                                Nomor Telepon <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                Nomor Telepon <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <input id="phone" type="text" class="form-control" name="phone"
@@ -127,12 +142,32 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for='phone' class="col-md-12" style="font-weight:normal;">
-                                Gaji yang Diharapkan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                            <label for='jk' class="col-md-12" style="font-weight:normal;">
+                                Jenis Kelamin <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
-                               <input id="expected_salary" type="number" class="form-control" name="expected_salary"
-                                    value="{{ $candidate->expected_salary }}" placeholder="Gaji yang diharapkan">
+                                <select class='form-control' id='jk' name='jk'>
+                                    <option value=''>Pilih Jenis Kelamin</option>
+                                    <option value='1' {{ $candidate->jk == '1' ? 'selected' : '' }}>Laki-laki</option>
+                                    <option value='2' {{ $candidate->jk == '2' ? 'selected' : '' }}>Perempuan</option>
+                                </select>
+                                @if ($errors->has('jk'))
+                                    <span class="help-block">
+                                        <strong class='text-danger'>{{ $errors->first('jk') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for='phone' class="col-md-12" style="font-weight:normal;">
+                                Gaji yang Diharapkan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
+                            </label>
+                            <div class="col-md-12">
+                                <input id="expected_salary" type="text" class="form-control" name="expected_salary"
+                                    value="{{ $candidate->expected_salary }}" placeholder="Gaji yang diharapkan"
+                                    maxlength="12">
                                 @if ($errors->has('expected_salary'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('expected_salary') }}</strong>
@@ -142,7 +177,8 @@
                         </div>
                         <div class="form-group">
                             <label for='phone' class="col-md-12" style="font-weight:normal;">
-                                Tanggal Lahir <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                Tanggal Lahir <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <input id="birth_date" type="date" class="form-control" name="birth_date"
@@ -158,12 +194,14 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for='nationality' class="col-md-12" style="font-weight:normal;">
-                                Kewarganegaraan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                Kewarganegaraan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <select class='form-control' id='nationality' name='nationality'>
                                     <option value=''>Pilih Kewarganegaraan</option>
-                                    <option value='1' {{ $candidate->nationality == '1' ? 'selected' : '' }}>Indonesia
+                                    <option value='1' {{ $candidate->nationality == '1' ? 'selected' : '' }}>
+                                        Indonesia
                                     </option>
                                     <option value='0' {{ $candidate->nationality == '0' ? 'selected' : '' }}>Asing
                                     </option>
@@ -200,7 +238,7 @@
                                             {{ $candidate->province_id && $candidate->province_id == $province->id ? 'selected' : '' }}>
                                             {{ $province->province }}</option>
                                     @endforeach
-                                </select>    
+                                </select>
                                 @if ($errors->has('province'))
                                     <span class="help-block">
                                         <strong class='text-danger'>{{ $errors->first('province') }}</strong>
@@ -228,7 +266,8 @@
                         </div>
                         <div class="form-group">
                             <label for='address' class="col-md-12" style="font-weight:normal;">
-                                Alamat Sesuai Domisili <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                Alamat Sesuai Domisili <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <textarea id="address" class="form-control" name="address" required placeholder="Alamat" rows=5>{{ $candidate->address }}</textarea>
@@ -240,8 +279,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for='why_hire_me' class="col-md-12" style="font-weight:normal;">
-                                Why Hire Me <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                            <label for='why_hire_me' class="col-md-12" style="font-weight:normal; font-style: italic;">
+                                Mengapa kami mempekerjakan anda (Why hire me) <span class="input-group-text"
+                                    id="inputGroupPrepend" style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <textarea id="why_hire_me" class="form-control" name="why_hire_me" required
@@ -255,7 +295,8 @@
                         </div>
                         <div class="form-group">
                             <label for='summary' class="col-md-12" style="font-weight:normal;">
-                                Ringkasan <span class="input-group-text" id="inputGroupPrepend" style="color: red">*</span>
+                                Ringkasan <span class="input-group-text" id="inputGroupPrepend"
+                                    style="color: red">*</span>
                             </label>
                             <div class="col-md-12">
                                 <textarea id="summary" class="form-control" name="summary" required placeholder="Tulis deskripsi diri Anda" rows=5

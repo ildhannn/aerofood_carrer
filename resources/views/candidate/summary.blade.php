@@ -40,6 +40,10 @@
                     </div>
 		        </div>
 		        <div class="col-md-5">
+		            <div class="form-group">
+                        <div class="text-muted">Jenis Kelamin</div>
+                        <label>{{$candidate->jk == 1 ? 'Laki-laki' : 'Perempuan'}}</label>
+                    </div>
                     <div class="form-group">
                         <div class="text-muted">Gaji yang Diharapkan</div>
                         <label>{{Converts::formatRupiah($candidate->expected_salary)}}</label>

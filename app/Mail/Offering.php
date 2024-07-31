@@ -7,7 +7,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class Applied extends Mailable
+class Offering extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,6 +19,7 @@ class Applied extends Mailable
 
     protected $candidate;
     protected $job;
+
 
     public function __construct($candidate, $job)
     {
@@ -33,9 +34,10 @@ class Applied extends Mailable
      */
     public function build()
     {
-        return $this->subject("You've Applied Job: ".$this->job->title)
-            ->view('email.applied')->with(['candidate' => $this->candidate, 'job' => $this->job])
-            ->from('karir@aerowisatafood.com','Career PT. Aerofood Indonesia')
-            ->cc($this->job->createdBy->email, $this->job->createdBy->name);
+        return $this->subject("Your Job Application: ".$this->job->title)
+            ->view('email.offering')->with(['candidate' => $this->candidate, 'job' => $this->job])
+            ->from('career@aerowisatafood.com','Career PT. Aerofood Indonesia')
+            ->cc($this->job->createdBy->email, $this->job->createdBy->name)
+            ->attach(asset('upload/candidates/' . md5($this->candidate->candidate_id . 'folder')) . '/' . $this->candidate->offering($this->job->id)->offering);
     }
 }

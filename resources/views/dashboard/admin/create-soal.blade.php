@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button class='btn blue pull-right'>Tambah Soal</button>
+                                        <button type='submit' class='btn blue pull-right'>Tambah Soal</button>
                                     </div>
                                 </div>
                             </div>

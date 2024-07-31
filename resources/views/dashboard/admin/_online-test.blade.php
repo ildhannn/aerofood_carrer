@@ -54,11 +54,11 @@
 			                    		<a href="{{route('test-candidate', [$job->job_id, $candidate->candidate_id])}}" data-toggle="tooltip" data-original-title="Lihat Hasil Test"><i class="fa fa-external-link-square" style="font-size: 20px;"></i></a>
 			                    	</div>
 			                    </td>
-				                <td width="5%" align="center">
+				                <td width="20%">
 				                	<div>
 				                		<div class="va-table width-100">
 											<div class="va-middle width-50">
-												<form method='POST' action='{{route("fail-candidates")}}'>
+												<form method='POST' action='{{route("fail-candidates")}}' style="margin-right: 10px;">
 													{{csrf_field()}}
 													<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 													<input type="hidden" name="job_id" value="{{$job->id}}">
@@ -67,7 +67,7 @@
 												</form>
 											</div>
 											<div class="va-middle width-50">
-												<form method='POST' action='{{route("pass-candidates")}}'>
+												<form method='POST' action='{{route("pass-candidates")}}' style="margin-right: 10px;">
 													{{csrf_field()}}
 													<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
 													<input type="hidden" name="job_id" value="{{$job->id}}">
@@ -75,8 +75,19 @@
 													<button class='btn btn-success width-100'><i class="fa fa-check"></i>&nbsp;Lolos</button>
 												</form>
 											</div>
-										</div>
 										
+										<div class="va-table width-100">
+											<div class="va-middle width-100">
+												<form method='POST' action='{{route("roleback")}}'>
+													{{csrf_field()}}
+													<input type="hidden" name="candidate_id" value="{{$candidate->id}}">
+													<input type="hidden" name="job_id" value="{{$job->id}}">
+													<input type="hidden" name="step_id" value="2">
+													<button class='btn btn-warning width-100'><i class="fa fa-undo"></i>&nbsp;Roleback</button>
+												</form>
+											</div>
+										</div>
+									</div>
 										
 									</div>
 				                </td>

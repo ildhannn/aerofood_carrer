@@ -79,7 +79,21 @@ class InterviewController extends Controller
         $job = DB::table('jobs')->find($request->job_id);
         $user = DB::table('users')->find($candidate->user_id);
         $info = array('date_interview' => $waktubaru, 'time_interview' => $request->time_interview, 'place_interview' => $request->place_interview, 'interviewer' => $request->interviewer);
-        Mail::to($user->email)->send(new Invite($candidate, $job, $user, $info));
+        if ($request->jenis_interview == 'offline') {
+            $jenis_interview = 'offline';
+            $platform = '';
+        } elseif($request->jenis_interview == 'online') {
+            $jenis_interview = 'online';
+            if ($request->platform == 'gm') {
+                $platform = 'Google Meet';
+            } else {
+                $platform = 'Zoom';
+            }
+        }
+        $interviewer = $request->interviewer_name;
+        $backupinterviewer = $request->interviewer_backup;
+
+        Mail::to($user->email)->send(new Invite($candidate, $job, $user, $info, $platform, $jenis_interview, $interviewer, $backupinterviewer));
         return back()->with('message', 'Undangan sudah dikirimkan ke email Kandidat');
     }
 }

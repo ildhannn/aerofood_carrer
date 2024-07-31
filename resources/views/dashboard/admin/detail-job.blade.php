@@ -123,19 +123,21 @@
                 </div>
 
                 <!-- <span type="button" class="label label-default job-status"> Status Lowongan : Closed</span>
-                                                        <a href="{{ route('edit-job', $job->job_id) }}" class='btn' style="width: 100px; background: #f0ad4e; border-color: #eea236; color: white"><i class="fa fa-pencil" style="margin-right: 5px"></i> Ubah</a>
-                                                        <a href="{{ route('delete-job', $job->job_id) }}" class='btn btn-danger delete' data-title="{{ $job->title }}" style="width: auto;"><i class="fa fa-trash" style="margin-right: 5px"></i> Hapus</a>
-                                                        <br><br> -->
+                                                                    <a href="{{ route('edit-job', $job->job_id) }}" class='btn' style="width: 100px; background: #f0ad4e; border-color: #eea236; color: white"><i class="fa fa-pencil" style="margin-right: 5px"></i> Ubah</a>
+                                                                    <a href="{{ route('delete-job', $job->job_id) }}" class='btn btn-danger delete' data-title="{{ $job->title }}" style="width: auto;"><i class="fa fa-trash" style="margin-right: 5px"></i> Hapus</a>
+                                                                    <br><br> -->
             @endif
             <!-- <a href="{{ route('job-detail', $job->job_id) }}" class='btn btn-default' style="background: #fff"><i class="fa fa-eye"></i> Pratinjau</a> -->
             <span class='alert alert-success copied'
                 style="position: absolute; top: 80px; right: 50px; display: none">Berhasil Mengcopy URL</span>
         </div>
+
         <br>
         <div class="alert alert-success" style="display: none">
         </div>
         <div class="alert alert-danger" style="display: none">
         </div>
+
         <div class="job-candidate-progress">
             <div class="list-title">
                 <ul class="nav nav-tabs nav-tabs-colored text-center" role='tab-list' id='tabs'>
@@ -307,6 +309,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <input type="text" name='jenis_interview' value="offline" class="hidden">
                             <div class="col-md-6">
                                 <label class="col-md-3">Tanggal</label>
                                 <div class="col-md-9"><input type="date" name="date_interview" class="form-group">
@@ -325,7 +328,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="col-md-3">Interviewer</label>
-                                <div class="col-md-9"><select name='interviewer' id='interviewer' class="form-group"></select></div>
+                                <div class="col-md-9"><select name='interviewer' id='interviewer'
+                                        class="form-group"></select></div>
                             </div>
                             <div class="col-md-6">
                                 <label class="col-md-3">Nama Interviewer</label>
@@ -343,17 +347,17 @@
                         </div>
 
                         <!-- <div class="form-group">
-                                                                    <label>Waktu</label>
-                                                                    <input type="time" name="time-interview">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label style="vertical-align: top">Tempat</label>
-                                                                    <textarea name='place-interview' cols='50' rows='4'></textarea>
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <label>Interviewer</label>
-                                                                    <select name='interviewer'></select>
-                                                                </div> -->
+                                                                                <label>Waktu</label>
+                                                                                <input type="time" name="time-interview">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label style="vertical-align: top">Tempat</label>
+                                                                                <textarea name='place-interview' cols='50' rows='4'></textarea>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label>Interviewer</label>
+                                                                                <select name='interviewer'></select>
+                                                                            </div> -->
                         <div class="form-group">
                             <textarea id="invitation" name='invitation'>
                             <h5><b>Dear Mr/Mrs. <span class="candidate-name"></span>,</b></h5>
@@ -422,7 +426,168 @@
         </div>
     </div>
 
-    <!-- Modal Uplaod MCU -->
+    <!-- Modal Interview Online -->
+    <div class="modal fade" id="interview-modal-online" tabindex="-1" role="dialog" aria-labelledby="modal">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center;position: relative;">
+                    <span style="text-align: center;">
+                        <h3 style="margin:0px; ">Undang Interview Online</h3>
+                    </span>
+                    <div style="position: absolute; top: 18px; right: 14px;">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                    <form action='{{ route('invite-interview') }}' method='POST' enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="row" style="margin-bottom: 10px;">
+                            <div class="form-group col-md-12">
+                                <div class="col-md-12">
+                                    <div class="va-table">
+                                        <div class="va-middle"
+                                            style="border: 1px solid #ccc; padding: 0px 10px; background-color: #ccc;"><i
+                                                class="fa fa-user-circle"></i>&nbsp;&nbsp;Kandidat</div>
+                                        <div class="va-middle"
+                                            style="border: 1px solid #ccc; padding: 0px 20px; border-left: 0px; background-color: #f2f2f2;font-weight: 700;">
+                                            <h4 style="line-height: 35px;"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="text" name='jenis_interview' value="online" class="hidden">
+                            <div class="col-md-6">
+                                <label class="col-md-3">Tanggal</label>
+                                <div class="col-md-9"><input type="date" name="date_interview" class="form-group">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Waktu</label>
+                                <div class="col-md-9"><input type="time" name="time_interview" class="form-group">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Platform</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="platform" value="gm">
+                                    <label class="form-check-label" for="platform">
+                                        Google Meet
+                                    </label>
+                                    <input class="form-check-input" type="radio" name="platform" value="zm">
+                                    <label class="form-check-label" for="platform">
+                                        Zoom
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Interviewer</label>
+                                <div class="col-md-9"><select name='interviewer' id='interviewer'
+                                        class="form-group"></select></div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Link</label>
+                                <div class="col-md-9">
+                                    <textarea name='place_interview' class="form-group"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Nama Interviewer</label>
+                                <div class="col-md-9">
+                                    <input type="text" name='interviewer_name' class="form-group">
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                            <div class="col-md-6">
+                                <label class="col-md-3">Backup Interviewer</label>
+                                <div class="col-md-9">
+                                    <input type="text" name='interviewer_backup' class="form-group">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group">
+                                                                                <label>Waktu</label>
+                                                                                <input type="time" name="time-interview">
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label style="vertical-align: top">Tempat</label>
+                                                                                <textarea name='place-interview' cols='50' rows='4'></textarea>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label>Interviewer</label>
+                                                                                <select name='interviewer'></select>
+                                                                            </div> -->
+                        <div class="form-group hidden">
+                            <textarea id="invitation" name='invitation'>
+                            <h5><b>Dear Mr/Mrs. <span class="candidate-name"></span>,</b></h5>
+                            <p>
+                                Follow up your application for PT. Aerofood Indonesia (Garuda Indonesia Group), herewith we sent to you our application form. Please fill it completely and bring it in our interview session as this schedule:
+                            </p>
+                            <p>
+                                <table>
+                                  <tr>
+                                      <td>Day/Date</td>
+                                      <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                                      <td><b><span class='date'></span></b></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Time</td>
+                                      <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                                      <td><b><span class='time'></span></b></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Place</td>
+                                      <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                                      <td><b><span class="place"></span></b></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Interviewer</td>
+                                      <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                                      <td><b><span class="interviewer"></span></b></td>
+                                  </tr>
+                                  <tr>
+                                      <td>Position offered</td>
+                                      <td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>
+                                      <td><b><span class="job-applied"></span></b></td>
+                                  </tr>
+                                </table>
+                                <!-- Day/Date : <b><span class='date'></span></b>
+                                <br> Time : <b><span class="time"></span> - Finished
+                                <br> Place : <b><span class="place"></span>
+                                <br> Interviewer : <span class="interviewer"></span>
+                                <br> Position offered : <span class="job-applied"></span> -->
+                            </p>
+                            <p>
+                                Kindly confirm if you are available with this schedule as soon as possible. Then bring along your full resume with your latest educational certification, latest payslip, NPWP, KTP, reference letter from the previous company and the completed application form.
+                            </p>
+                            <p>
+                                Best Regards,
+                            </p>
+                            <p>
+                                HC Talent Acquisition Team
+                                <br> PT. Aerofood Indonesia
+                                <br> GARUDA INDONESIA GROUP
+                                <br> Aerowisata Park, Jl. Prof. Dr. Soepomo no.45 Tebet Jakarta Selatan 12810
+                                <br> T: (6221) 83705076 | F: (6221) 83705012 | E: career@aerowisatafood.com | W: www.aerowisatafood.com |
+                            </p>
+                        </textarea>
+                        </div>
+                        <input type="hidden" name="job_id">
+                        <input type="hidden" name="candidate_id">
+                        <div class="button-group text-center">
+                            <a class='btn btn-danger cancel-interview-online' href='#'><i
+                                    class="fa fa-close"></i>&nbsp;Batal</a>
+                            <button class='btn btn-success'><i class="fa fa-sign-in"></i>&nbsp;Kirim Undangan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Uplaod Offering letter -->
     <div class="modal fade" id="offering" tabindex="-1" role="dialog" aria-labelledby="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -437,17 +602,17 @@
                         {{ csrf_field() }}
                         <input type="hidden" name="job_id">
                         <input type="hidden" name="candidate_id">
-                        
+
                         <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
                             <label for="basic-url">Unit</label></label>
                             <input class="form-control" type="text" name="unit" required>
                         </div>
-                        
+
                         <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
                             <label for="basic-url">Position</label>
                             <input class="form-control" type="text" name="position" required>
                         </div>
-                        
+
                         <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
                             <label for="basic-url">Offering Date</label>
                             <input class="form-control" type="date" name="offering_date" required>
@@ -457,12 +622,11 @@
                             <label for="basic-url">Join Date</label>
                             <input class="form-control" type="date" name="join_date" required>
                         </div>
-                        
+
                         <div class="input-group" style="margin-top: 10px; margin-bottom: 10px;">
                             <label for="basic-url">Offering Letter</label>
                             <input id="offering" style="margin-top: 10px;" type="file" class="form-control"
-                                name="offering" autofocus placeholder="Offering"
-                                accept="image/*,application/pdf"><br>
+                                name="offering" autofocus placeholder="Offering" accept="image/*,application/pdf"><br>
                         </div>
 
                         <div class="button-group text-center">
@@ -602,6 +766,7 @@
 
 
                 var interviewers = $(this).data('interviewers')
+                console.log(interviewers);
                 $('#interviewer').empty();
                 $('[name=interviewer]').append('<option value="">Pilih Interviewer</option>')
                 $('[name=interviewer]').append('<option value="' + interviewers[0] + '">' + interviewers[
@@ -623,6 +788,45 @@
                 $('#interview-modal').find('[name=job_id]').val($(this).data('job'))
             });
 
+            $(".invite.interview-online").on('click', function() {
+                $('#interview-modal-online').modal('show')
+                $('#interview-modal-online').find('h4').text($(this).data('user'))
+                $('#interview-modal-online').find('.candidate-name').text($(this).data('user'))
+                $('#interview-modal-online').find('[name=date-interview]').on('change', function() {
+                    $('#interview-modal-online').find('.date').text($(this).val())
+                })
+                $('#interview-modal-online').find('[name=place-interview]').on('change', function() {
+                    $('#interview-modal-online').find('.place').text($(this).val())
+                })
+                $('#interview-modal-online').find('[name=time-interview]').on('change', function() {
+                    $('#interview-modal-online').find('.time').text($(this).val())
+                })
+                $('#interview-modal-online').find('.job-applied').val($(this).data('job-name'))
+
+
+                var interviewers = $(this).data('interviewers')
+                console.log(interviewers);
+                $('#interviewer').empty();
+                $('[name=interviewer]').append('<option value="">Pilih Interviewer</option>')
+                $('[name=interviewer]').append('<option value="' + interviewers[0] + '">' + interviewers[
+                    0] + '</option>')
+                $('[name=interviewer]').append('<option value="' + interviewers[1] + '">' + interviewers[
+                    1] + '</option>')
+                $('[name=interviewer]').append('<option value="' + interviewers[2] + '">' + interviewers[
+                    2] + '</option>')
+                $('[name=interviewer]').append('<option value="' + interviewers[3] + '">' + interviewers[
+                    3] + '</option>')
+
+
+                $('#interview-modal-online').find('[name=interviewer]').on('change', function() {
+                    $('#interview-modal-online').find('.interviewer').text($(this).val())
+                })
+
+                $('#interview-modal-online').find('.job-applied').text($(this).data('job-name'))
+                $('#interview-modal-online').find('[name=candidate_id]').val($(this).data('candidate'))
+                $('#interview-modal-online').find('[name=job_id]').val($(this).data('job'))
+            });
+
             $('.cancel-interview').on('click', function() {
                 $('#interview-modal').modal('hide')
                 $('#interview-modal').find('h4').text('')
@@ -630,6 +834,15 @@
                 $('#interview-modal').find('[name=candidate_id]').val('')
                 $('#interview-modal').find('[name=job_id]').val('')
                 $('#interview-modal').find('[name=mcu]').val('')
+            })
+
+            $('.cancel-interview-online').on('click', function() {
+                $('#interview-modal-online').modal('hide')
+                $('#interview-modal-online').find('h4').text('')
+                $('#interview-modal-online').find('.candidate-name').text('')
+                $('#interview-modal-online').find('[name=candidate_id]').val('')
+                $('#interview-modal-online').find('[name=job_id]').val('')
+                $('#interview-modal-online').find('[name=mcu]').val('')
             })
 
             $('.copy').click(function(e) {

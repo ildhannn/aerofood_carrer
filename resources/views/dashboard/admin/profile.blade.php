@@ -36,10 +36,10 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class='col-sm-2 control-label ta-left'>Divisi</label>
+								<label class='col-sm-2 control-label ta-left'>Posisi</label>
 								<div class="col-sm-10">
 									<select class='form-control' id='divition' name='divition_id' >
-										<option value=''>Pilih Divisi</option>
+										<option value=''>Pilih Posisi</option>
 										@foreach($divitions as $divition)
 											<option value='{{$divition->id}}' {{$divition->id == $user->admin->divition_id ? "selected" : ""}}>{{$divition->divition}}</option>
 										@endforeach

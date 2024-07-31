@@ -21,8 +21,9 @@
 		background: #053050;
 		width: 100%;"></div>
             <p style="line-height: 28px;">
-                Follow up your application for the position of <b>{{ $job->title }}</b>, herewith we sent to you our
-                application form. Please fill it completely and bring it in our interview session as this schedule:
+                Follow up your application for PT. Aerofood Indonesia as <b>{{ $job->title }}</b>, here with we sent
+                to you our application form. Please fill it completely and bring the hardcopy to our scheduled interview session with the details
+                below :
             </p>
             <table>
                 <tr>
@@ -36,26 +37,72 @@
                     <td> : <b>{{ $info['time_interview'] }}</b></td>
                     <td><b><span class='time'></span></b></td>
                 </tr>
-                <tr>
-                    <td>Place</td>
-                    <td> : <b>{{ $info['place_interview'] }}</b></td>
-                    <td><b><span class="place"></span></b></td>
-                </tr>
-                <tr>
+                @if ($jenis_interview == 'offline')
+                    <tr>
+                        <td>Place</td>
+                        <td> : <b>{{ $info['place_interview'] }}</b></td>
+                        <td><b><span class="place"></span></b></td>
+                    </tr>
+                @else
+                    <tr>
+                        <td>Platform</td>
+                        <td> : <b>{{ $platform }}</b></td>
+                        <td><b><span class="platform"></span></b></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td> : <b>{{ $info['place_interview'] }}</b></td>
+                        <td><b><span class="place"></span></b></td>
+                    </tr>
+                @endif
+                {{-- <tr>
                     <td>Interviewer</td>
                     <td> : <b>{{ $info['interviewer'] }}</b></td>
                     <td><b><span class="interviewer"></span></b></td>
-                </tr>
-                {{-- <tr>
-                    <td>Position offered</td>
-                    <td> : </td>
-                    <td><b><span class="job-applied"></span></b></td>
                 </tr> --}}
+                <tr>
+                    <td>Interviewer</td>
+                    {{-- <td> : <b>{{ $info['interviewer'] }}</b></td> --}}
+                    <td> : <b>{{ $interviewer }}</b></td>
+                    <td><b><span class="interviewer"></span></b></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    {{-- <td> : <b>{{ $info['interviewer'] }}</b></td> --}}
+                    <td> : <b>{{ $backupinterviewer }}</b></td>
+                    <td><b><span class="backupinterviewer"></span></b></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td>Document :</td>
+                </tr>
+                <tr>
+                    <td>1. Resume</td>
+                </tr>
+                <tr>
+                    <td>2. Educational certification</td>
+                </tr>
+                <tr>
+                    <td>3. latest payslip</td>
+                </tr>
+                <tr>
+                    <td>4. NPWP</td>
+                </tr>
+                <tr>
+                    <td>5. KTP</td>
+                </tr>
+                <tr>
+                    <td>6. Reference letter from the previous company</td>
+                </tr>
+                <tr>
+                    <td>7. Employee Application Form</td>
+                </tr>
             </table>
             <p style="line-height: 28px;">
-                Kindly confirm if you are available with this schedule as soon as possible. Then bring along your full
-                resume with your latest educational certification, latest payslip, NPWP, KTP, reference letter from the
-                previous company and the completed application form.
+                <b>Kindly confirm if you are available with this schedule as soon as possible</b>.Dont forget to bring
+                along the documents you
+                required to bring to the offline interview
             </p>
             {{-- <p style="line-height: 28px;">
                 Please be informed that we are in the midst of
@@ -63,12 +110,11 @@
                 and shall get in touch with you again if you are
                 shortlisted for an interview.
             </p> --}}
-            <div class="divider" style="height: 1px;
-		background: #053050;
-		width: 100%;"></div>
+            <div class="divider" style="height: 1px; background: #053050; width: 100%;"></div>
             <p style="line-height: 28px;">
-                Yours sincerely, <br>
-                Talent Acquisition Team
+                Thank you in advance.
+                <br>
+                <b>Talent Acquisition Team</b>
             </p>
         </div>
     </div>

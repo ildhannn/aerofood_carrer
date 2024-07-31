@@ -26,6 +26,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 use App\Helpers\Converts;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\Dbases;
+use Illuminate\Support\Facades\Session;
+
 
 
 class CandidateController extends Controller
@@ -128,48 +130,62 @@ class CandidateController extends Controller
     public function summaryUpdate(Request $request)
     {
         $candidate = Auth::user()->candidate;
-        $inputs = $request->all();
+
+        // save update email
         $user = $candidate->user;
         $user->email = $request->email;
         $user->save();
 
+        // update ktp
         $chekKtp = Candidate::where('ktp', $request->ktp)->first();
         if ($chekKtp && $chekKtp->id !== $candidate->id) {
             Alert::error('Opps', 'Nomor KTP sudah digunakan.');
-            return redirect()->back();
+            // return redirect()->back();
+            return redirect()->route('candidate-summary-edit');
         }
 
+        $inputs = $request->all();
+
         if ($request->hasFile('photo')) {
-            if ($request->file('photo')->isValid()) {
-                $size = $request->file('photo')->getSize() / 1024 * 2;
+            $file_foto = $request->file('photo');
+            // if ($request->file('photo')->isValid()) {
+                // cek size
+                $size = $file_foto->getSize() / 1024 * 2;
                 if ($size > 2048) {
                     Alert::error('Opps', 'Ukuran file maks 2MB');
                     return redirect()->route('candidate-summary-edit');
-                } else {
-                    $folder = md5($candidate->candidate_id . 'folder');
-                    $extension = $request->photo->getClientOriginalExtension();
-                    $filename = 'foto_' . Auth::user()->name . '.' . $extension;
-                    $file_path = public_path('/upload/candidates/' . $folder) . '/' . $filename;
-                    // $file_path->resize(200, null, function ($constraint) {
-                    //     $constraint->aspectRatio();
-                    // });
-                    // $file_path->save(public_path('upload/candidates/' . $folder . '/' . $filename));
-                    if (file_exists($file_path)) {
-                        unlink($file_path);
-                    }
-                    $request->photo->move(public_path('upload/candidates/' . $folder) . '/', $filename);
-                    $inputs['photo'] = $filename;
-                    Alert::success('Berhasl', 'Photo Telah di Upload');
                 }
-            }
-        } else {
-            if ($candidate->photo) {
-                $inputs['photo'] = $candidate->photo;
-            }
+
+                // buat dan input photo
+                $folder = md5($candidate->candidate_id . 'folder');
+                $extension = $file_foto->getClientOriginalExtension();
+                $filename = 'foto_' . $candidate->updated_at . '.' . $extension;
+                $file_path = public_path('/upload/candidates/' . $folder) . '/' . $candidate->photo;
+
+                // $file_path->resize(200, null, function ($constraint) {
+                //     $constraint->aspectRatio();
+                // });
+                // $file_path->save(public_path('upload/candidates/' . $folder . '/' . $filename));
+
+                if ($candidate->photo && file_exists($file_path)) {
+                    unlink($file_path);
+                }  
+
+                $request->photo->move(public_path('/upload/candidates/' . $folder) . '/', $filename);
+                $inputs['photo'] = $filename;
+                
+
+                Session::put('photo', $filename);
+
+               
+                Alert::success('Berhasil', 'Photo Telah di Upload');
+
+            // }
         }
+
         $candidate->update($inputs);
         
-        $db = DB::table('candidates')->whereNotNull('birth_date', )->orderBy('id', 'ASC')->get();
+        $db = DB::table('candidates')->whereNotNull('birth_date')->orderBy('id', 'ASC')->get();
         foreach($db as $r) {
             if($r->birth_date != "") {
                 $age = Converts::generateAge($r->birth_date);
@@ -179,8 +195,8 @@ class CandidateController extends Controller
             }
         }
         
-        echo "Done";
         return redirect()->route('candidate-summary');
+        // return view('candidate.summary', compact('candidate'));
     }
 
     public function education()
@@ -477,29 +493,32 @@ class CandidateController extends Controller
         $inputs = $request->all();
 
         if ($request->hasFile('cv')) {
-            if ($request->file('cv')->isValid()) {
+            $file_foto = $request->file('cv');
+
+            // if ($request->file('cv')->isValid()) {
                 $size = $request->file('cv')->getSize() / 1024;
                 if ($size > 2000) {
                     Alert::error('Opps', 'Ukuran file maks 2Mb');
                 } else {
                     $folder = md5($candidate->candidate_id . 'folder');
                     $extension = $request->cv->getClientOriginalExtension();
-                    $filename = 'cv_' . Auth::user()->name . '.' . $extension;
-                    $filePath = public_path('upload/candidates/' . $folder) . '/' . $filename;
-
+                    $filename = 'cv_' . $candidate->updated_at . '.' . $extension;
+                    $filePath = public_path('upload/candidates/' . $folder) . '/' . $candidate->cv;
+                    
                     if ($candidate->cv && file_exists($filePath)) {
                         unlink($filePath);
                     }
 
                     $request->cv->move(public_path('upload/candidates/' . $folder) . '/', $filename);
                     $inputs['cv'] = $filename;
-                    Alert::success('Berhasl', 'CV Telah di Upload');
+                    
+                    Alert::success('Berhasil', 'CV Telah di Upload');
                 }
-            }
-        } else {
-            if ($candidate->cv) {
-                $inputs['cv'] = $candidate->cv;
-            }
+            // }
+        // } else {
+        //     if ($candidate->cv) {
+        //         $inputs['cv'] = $candidate->cv;
+        //     }
         }
 
         $candidate->update($inputs);

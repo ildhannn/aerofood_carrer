@@ -46,6 +46,7 @@
 			<span class="label"><b>No. NPWP</b></span> : {{$candidate->npwp ?: '-'}}<br>
 			<span class="label"><b>No. BPJS</b></span> : {{$candidate->bpjs ?: '-'}}<br>
 			<span class="label"><b>Tanggal Lahir</b></span> : {{Converts::formatUsia($candidate->birth_date)}}<br>
+			<span class="label"><b>Jenis Kelamin</b></span> : {{$candidate->jk == 1 ? 'Laki-laki' : 'Perempuan'}}<br>
 			<span class="label"><b>Gaji yang diharapkan</b></span> : {{Converts::formatRupiah($candidate->expected_salary)}}<br>
 			<span class="label"><b>Kewarganegaraan</b></span> : {{Converts::formatNegara($candidate->nationality)}} <br>
 			<span class="label"><b>Alamat</b></span> : {{$candidate->address ?: '-'}}<br>

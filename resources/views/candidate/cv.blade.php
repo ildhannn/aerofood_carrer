@@ -11,13 +11,13 @@
                     <div class="form-group">
                         <div class="text-muted">CV Sekarang</div>
                         <div class="photo" style="margin-top:10px;">
-                            @if ($candidate->cv)
+                            @if ($candidate->cv != '')
                                 <a href="{{ asset('upload/candidates/' . md5($candidate->candidate_id . 'folder')) . '/' . $candidate->cv }}"
                                     target="_blank" class="btn btn-danger" style="text-transform:uppercase !important;"><i
                                         class="fa fa-file-pdf-o" style="width:auto !important;"></i>&nbsp;&nbsp;Lihat
                                     CV/Resume</a>
                             @else
-                                -
+                                <span id="error" style="display: none">Tidak ada CV!</span>
                             @endif
                         </div>
                         <!--<div class="photo" style="margin-top:10px;"><i class="text-muted fs-12">(Terakhir update CV/Resume: <b>{{ '20-03-2018' }}</b>)</i></div>-->

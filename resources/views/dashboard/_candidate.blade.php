@@ -338,7 +338,7 @@
 		                    <td width="50%">
 								<div class="job-progress">
 									<div class="step width-19 width-auto-m" data-toggle="tooltip" data-placement="top" title="PVI">
-										<a href="{{route('pvi-candidate', [$job->job_id, $candidate->candidate_id])}}" style="text-align: center; color: #fff;width:100%;" class="btn btn-primary pad-l-5-m pad-r-5-m pad-t-0-m pad-t-0-m pad-b-0-m">
+										<a href="{{route('pvi-candidate', ['job_id'=>$job->job_id, 'candidate_id'=>$candidate->candidate_id])}}" style="text-align: center; color: #fff;width:100%;" class="btn btn-primary pad-l-5-m pad-r-5-m pad-t-0-m pad-t-0-m pad-b-0-m">
 											<!-- <span><i class="fa fa-video-camera"></i></span><br> -->
 											<span class="name">PVI</span>
 										</a>

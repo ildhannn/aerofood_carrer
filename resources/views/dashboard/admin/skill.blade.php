@@ -93,7 +93,7 @@
 
         function deleteKeahlian(id, nama) {
             $('#namaKeahlian').html(nama);
-            $('#deleteForm').attr('action', '/admin-dashboard/keahlian/delete/' + id);
+            $('#deleteForm').attr('action', '/public/admin-dashboard/keahlian/delete/' + id);
             $('#konfirmasi').modal('show');
         }
 

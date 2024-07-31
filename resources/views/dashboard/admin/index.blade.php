@@ -303,7 +303,7 @@
                 <div class="form-group">
                     <div class="header-sub" style="background-color: #22262E !important;">
                         <div class="va-table width-100">
-                            <div class="va-middle width-50">KEWARGANEGARAAN KANDIDAT</div>
+                            <div class="va-middle width-50">PENDIDIKAN KANDIDAT</div>
                             <div class="va-middle width-50 ta-right"><i class="fa fa-pie-chart"></i></div>
                         </div>
                     </div>
@@ -316,7 +316,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="form-group">
                     <div class="header-sub" style="background-color: #22262E !important;">
                         <div class="va-table width-100">
@@ -333,11 +333,28 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <div class="header-sub" style="background-color: #22262E !important;">
+                        <div class="va-table width-100">
+                            <div class="va-middle width-50">JENIS KELAMIN</div>
+                            <div class="va-middle width-50 ta-right"><i class="fa fa-bar-chart"></i></div>
+                        </div>
+                    </div>
+                    <div class="lists candidate">
+                        <div class="list-content" style="padding: 1em;">
+                            <div class="chart-container">
+                                <div class="chart has-fixed-height" id="chart_jk"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <div class="header-sub" style="background-color: #22262E !important;">
                         <div class="va-table width-100">
-                            <div class="va-middle width-50">PROPINSI KANDIDAT TERBANYAK</div>
+                            <div class="va-middle width-50">DOMISILI KANDIDAT</div>
                             <div class="va-middle width-50 ta-right"><i class="fa fa-map-marker"></i></div>
                         </div>
                     </div>
@@ -1002,7 +1019,7 @@
                 type: 'pie'
             },
             title: {
-                text: 'Berdasarkan Kewarganegaraan'
+                text: 'Berdasarkan Pendidikan'
             },
             tooltip: {
                 valueSuffix: ''
@@ -1038,11 +1055,23 @@
                 name: 'Jumlah',
                 colorByPoint: true,
                 data: [{
-                        name: 'Indonesia',
+                        name: 'S2',
+                        y: {{ doubleval($arr['arr_nationality'][4]) }}
+                    },
+                    {
+                        name: 'D4 / S1',
+                        y: {{ doubleval($arr['arr_nationality'][3]) }}
+                    },
+                    {
+                        name: 'D3',
+                        y: {{ doubleval($arr['arr_nationality'][2]) }}
+                    },
+                    {
+                        name: 'D1 - D2',
                         y: {{ doubleval($arr['arr_nationality'][1]) }}
                     },
                     {
-                        name: 'Asing',
+                        name: 'TINGKAT SMA / SEDERAJAT',
                         y: {{ doubleval($arr['arr_nationality'][0]) }}
                     }
                 ]
@@ -1091,12 +1120,52 @@
             }, ]
         });
 
+        Highcharts.chart('chart_jk', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Berdasarkan Jenis Kelamin',
+                align: 'center'
+            },
+            subtitle: {
+                text: '',
+                align: 'left'
+            },
+            xAxis: {
+                categories: ['Laki-laki', 'Perempuan'],
+                crosshair: true,
+                accessibility: {
+                    description: ''
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                valueSuffix: ''
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Jumlah',
+                data: [{{ $arr['arr_jk'][0] }}, {{ $arr['arr_jk'][1] }}]
+            }, ]
+        });
+
         Highcharts.chart('chart_propinsi', {
             chart: {
                 type: 'bar'
             },
             title: {
-                text: 'Berdasarkan Propinsi',
+                text: 'Berdasarkan Domisili',
                 align: 'center'
             },
             subtitle: {
@@ -1191,9 +1260,9 @@
                     text: ''
                 }
             },
-            tooltip: {
-                pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
-            },
+            // tooltip: {
+            //     pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br/>warheads in {point.x}'
+            // },
             plotOptions: {
                 area: {
                     pointStart: 1,
@@ -1210,7 +1279,7 @@
                 }
             },
             series: [{
-                name: 'USA',
+                name: 'Kandidat',
                 data: [
                     {{ $arr['arr_salary'][0] }},
                     {{ $arr['arr_salary'][1] }},
