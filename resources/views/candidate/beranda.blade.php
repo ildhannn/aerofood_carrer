@@ -217,19 +217,11 @@
                                                                         <form action='{{ route('offering-candidate') }}'
                                                                             method='POST' enctype="multipart/form-data">
                                                                             {{ csrf_field() }}
+                                                                            
                                                                             <input type="hidden" name="job_id"
-                                                                                value="{{ $candidate_job->offering($job->id)->id }}">
+                                                                                value="{{ $candidate_job->offering($job->id)->job_id }}">
                                                                             <input type="hidden" name="candidate_id"
                                                                                 value="{{ $candidate_job->offering($job->id)->candidate_id }}">
-
-                                                                            <input type="hidden" name="unit"
-                                                                                value="{{ $candidate_job->offering($job->id)->unit }}">
-                                                                            <input type="hidden" name="posisi"
-                                                                                value="{{ $candidate_job->offering($job->id)->position }}">
-                                                                            <input type="hidden" name="offering_date"
-                                                                                value="{{ $candidate_job->offering($job->id)->offering_date }}">
-                                                                            <input type="hidden" name="join_date"
-                                                                                value="{{ $candidate_job->offering($job->id)->join_date }}">
 
                                                                             <input id="offering" type="file"
                                                                                 class="form-control" name="offering"
@@ -333,6 +325,45 @@
                             class="fa fa-close"></i>&nbsp;&nbsp;Batal</a>
                     <a class='btn btn-success delete-job'><i class="fa fa-trash"></i>&nbsp;&nbsp;Hapus Lowongan
                         Tersimpan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Confirm Upload Offering -->
+    <div class="modal fade" id="upload-offering" tabindex="-1" role="dialog"
+        aria-labelledby="modal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"
+                    style="text-align:center;background:{{ Auth::user()->candidate->isProfileComplete() ? '#dcdcdc' : 'red' }};    ">
+                    @if (Auth::user()->candidate->isProfileComplete())
+                        Lamar Pekerjaan ini Sekarang!
+                    @else
+                        <span style="color: white">Tidak Bisa Melamar
+                            Lowongan Ini</span>
+                    @endif
+                    <!--<h4>Pastikan Profil Anda Sudah Lengkap Sebelum Melamar<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></h4>-->
+
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    @if (Auth::user()->candidate->isProfileComplete())
+                        <span style="text-transform: capitalize;">Apakah
+                            Anda yakin untuk melamar lowongan ini?</span>
+                    @else
+                        <span style="text-transform: capitalize;"><b>Profile
+                                Anda Belum Lengkap</b><br> Lengkapi profile
+                            Anda untuk melamar lowongan ini</span>
+                    @endif
+                </div>
+                <div class="modal-footer">
+
+                    <a class='btn btn-danger cancel-upload-offering' href='#' style='width: 100px;'>
+                        <i class="fa fa-close"></i>&nbsp;&nbsp;Batal
+                    </a>
+                    <a class='btn btn-success click-upload-offering'>
+                        <i class="fa fa-envelope"></i>&nbsp;&nbsp;Lamar Lowongan
+                    </a>
                 </div>
             </div>
         </div>

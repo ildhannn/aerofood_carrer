@@ -168,6 +168,7 @@ class AdminDashboardController extends Controller
         $job = Job::findorfail($id);
         $umurMin = Dbases::getFieldById('jobs', 'min_age', 'id', $id);
         $umurMax = Dbases::getFieldById('jobs', 'max_age', 'id', $id);
+
         return view('dashboard/admin/detail-job', compact('job', 'umurMin', 'umurMax'));
     }
     

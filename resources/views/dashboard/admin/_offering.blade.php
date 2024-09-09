@@ -55,23 +55,57 @@
                                 <td width="20%" align="center">
                                     @if ($candidate->offering($job->id))
                                         <div class="va-table">
-                                            <div class="va-middle">
-                                                <div style="margin-right: 5px;"><a
-                                                        href="{{ asset('upload/candidates/' . md5($candidate->candidate_id . 'folder')) . '/' . $candidate->offering($job->id)->offering }}"
-                                                        data-toggle="tooltip"
-                                                        data-original-title="Lihat Offering Letter" target="_blank"
-                                                        class="btn btn-primary" style="width:auto;"><i
-                                                            class="fa fa fa-eye" style="font-size: 14px;"></i></a></div>
-                                            </div>
-                                            <div class="va-middle">
-                                                <div><a href="#offering" class='offering btn btn-warning'
-                                                        data-toggle="tooltip" data-original-title="Ubah Offering Letter"
-                                                        data-candidate='{{ $candidate->id }}'
-                                                        data-job='{{ $job->id }}'
-                                                        data-user='{{ $candidate->user->name }}' style="width:auto;"><i
-                                                            class="fa fa fa-pencil" style="font-size: 14px;"></i></a>
+                                            @if ($candidate->offering($job->id)->offering_can == null)
+                                                <div class="va-middle">
+                                                    <div style="margin-right: 5px;"> 
+                                                        <a href="{{ asset('upload/candidates/' . md5($candidate->candidate_id . 'folder')) . '/' . $candidate->offering($job->id)->offering }}"
+                                                            data-toggle="tooltip"
+                                                            data-original-title="Lihat Offering Letter" target="_blank"
+                                                            class="btn btn-primary" style="width:auto;">
+                                                            <i class="fa fa fa-eye" style="font-size: 14px;"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="va-middle">
+                                                    <div><a href="#offering" class='offering btn btn-warning'
+                                                            data-toggle="tooltip" data-original-title="Ubah Offering Letter"
+                                                            data-candidate='{{ $candidate->id }}'
+                                                            data-job='{{ $job->id }}'
+                                                            data-user='{{ $candidate->user->name }}' style="width:auto;"><i
+                                                                class="fa fa fa-pencil" style="font-size: 14px;"></i></a>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="va-middle">
+                                                    <div style="margin-right: 5px;">
+                                                        <a href="{{ asset('upload/candidates/' . md5($candidate->candidate_id . 'folder')) . '/' . $candidate->offering($job->id)->offering_can }}"
+                                                            data-toggle="tooltip"
+                                                            data-original-title="Lihat Offering Candidate" target="_blank"
+                                                            class="btn btn-primary" style="width:auto;">
+                                                            <i class="fa fa fa-file-pdf-o" style="font-size: 14px;"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="va-middle">
+                                                    <div style="margin-right: 5px;">
+                                                        <a href="{{ asset('upload/candidates/' . md5($candidate->candidate_id . 'folder')) . '/' . $candidate->offering($job->id)->offering }}"
+                                                            data-toggle="tooltip"
+                                                            data-original-title="Lihat Offering Letter" target="_blank"
+                                                            class="btn btn-primary" style="width:auto;">
+                                                            <i class="fa fa fa-eye" style="font-size: 14px;"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="va-middle">
+                                                    <div><a href="#offering" class='offering btn btn-warning'
+                                                            data-toggle="tooltip" data-original-title="Ubah Offering Letter"
+                                                            data-candidate='{{ $candidate->id }}'
+                                                            data-job='{{ $job->id }}'
+                                                            data-user='{{ $candidate->user->name }}' style="width:auto;"><i
+                                                                class="fa fa fa-pencil" style="font-size: 14px;"></i></a>
+                                                    </div>
+                                                </div>
+                                            @endif
                                         </div>
                                     @else
                                         <div><a href="#offering" class='offering' data-toggle="tooltip"

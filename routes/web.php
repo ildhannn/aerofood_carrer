@@ -35,6 +35,7 @@ Route::get('/jobs', 'HomeController@jobs')->name('jobs');
 Route::get('/job-detail/{id}', 'HomeController@jobDetail')->name('job-detail');
 Route::get('/job-search', 'HomeController@searchJob')->name('job-search');
 
+
 Route::get('/admin-dashboard/changeUnit', 'AdminDashboardController@changeUnit')->name('changeUnit');
 Route::get('/admin-dashboard', 'AdminDashboardController@index')->name('admin-dashboard');
 Route::get('/admin-dashboard/jobs', 'AdminDashboardController@jobs')->name('dashboard-jobs');
@@ -116,7 +117,7 @@ Route::get('/admin-dashboard/education', 'AdminDashboardController@education')->
 Route::get('/admin-dashboard/data-candidate-education/{id}', 'AdminDashboardController@getDataCandidateEducation')->name('getDataCandidateEducation');
 
 Route::post('/admin-dashboard/offering/upload', 'OfferingController@upload')->name('upload-offering');
-
+Route::post('/upload-offering-candidate', 'OfferingController@uploadOfferingCandidate')->name('offering-candidate');
 Route::get('/online-test', 'TestController@onlineTest')->name('online-test');
 
 
@@ -180,6 +181,7 @@ Route::post('/fail', 'JobController@fail')->name('fail');
 Route::post('/pass', 'JobController@pass')->name('pass');
 Route::post('/failcadidates', 'JobController@failCandidates')->name('fail-candidates');
 Route::post('/passcandidates', 'JobController@passCandites')->name('pass-candidates');
+Route::post('/roleback', 'JobController@roleBack')->name('roleback');
 
 
 Route::get('/intel-test/{job_id}/take', 'TestController@take_intel')->name('take-intel-test');
@@ -209,6 +211,26 @@ Route::post('/admin-dashboard/soal/deletewb3', 'TestController@deleteSoalwb3')->
 
 
 Route::get('/email-test', 'JobController@testemail')->name('email-test');
+
+Route::get('/test-email', function () {
+    try {
+        Mail::raw('This is a test email.', function ($message) {
+            $message->from('career@aerowisatafood.com', 'Career PT. Aerofood Indonesia')
+                    ->to('ildhan089@gmail.com')
+                    ->subject('Test Email')
+                    ->cc('birulangitnadimpu@gmail.com');
+        });
+        return 'Email sent successfully!';
+    } catch (\Exception $e) {
+        \Log::error('Test email failed: ' . $e->getMessage());
+        return 'Failed to send email: ' . $e->getMessage();
+    }
+});
+
+Route::get('/clear-cache', function() {
+    Artisan::call('cache:clear');
+    return 'Application cache has been cleared';
+});
 
 // Route::get('/email', function () {
 //     Mail::to('agoy@gmail.com')->send(new WelcomeMail());
